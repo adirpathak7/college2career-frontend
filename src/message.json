@@ -1,5 +1,6 @@
 {
     "empty": "Please enter the ",
     "mismatch": "Confirm Password and Password should match!",
-    "invalidCredentials": "Invalid Credentials!"
+    "invalidCredentials": "Invalid Credentials!",
+    "invalidEmail":"Please enter valid email!"
 }

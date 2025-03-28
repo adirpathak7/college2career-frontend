@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import message from '../message.json'
+import message from '../../message.json'
 
 export default function SignIn() {
 
