@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import PasswordInput from './PasswordInput'
 
-export default function SignUp() {
+export default function Register() {
     const navigate = useNavigate()
 
     const emailRef = useRef(null)
@@ -15,7 +17,7 @@ export default function SignUp() {
         email: '',
         password: '',
         confirmPassword: '',
-        role: ''
+        role: 'company'
     })
 
     const [inputError, setInputError] = useState({
@@ -25,13 +27,13 @@ export default function SignUp() {
         role: ''
     })
 
+
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setInputData((prevValue) => ({
             ...prevValue,
             [name]: value
         }))
-
 
         setInputError((prevValue) => ({
             ...prevValue,
@@ -44,6 +46,11 @@ export default function SignUp() {
 
         const errors = {}
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        const formData = new FormData()
+
+        formData.append('email', inputData.email)
+        formData.append('password', inputData.password)
+        formData.append('role', inputData.role)
 
         if (!inputData.email) {
             errors.email = message.empty + 'email'
@@ -59,42 +66,54 @@ export default function SignUp() {
         if (inputData.confirmPassword !== inputData.password) {
             errors.confirmPassword = message.mismatch
         }
-        if (!inputData.role) {
-            errors.role = message.empty + 'role'
-        }
 
         setInputError(errors)
 
         if (Object.keys(errors).length > 0) {
-            if (errors.email) {
+            if (errors.email && emailRef.current) {
                 emailRef.current.focus()
-            } else if (errors.password) {
+            } else if (errors.password && passwordRef.current) {
                 passwordRef.current.focus()
-            } else if (errors.confirmPassword) {
+            } else if (errors.confirmPassword && confirmPasswordRef.current) {
                 confirmPasswordRef.current.focus()
-            } else if (errors.role) {
-                roleRef.current.focus()
             }
             return
         }
 
-        axios.post(`${import.meta.env.VITE_BASE_URL}/signUp`, inputData)
+        axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData)
             .then((response) => {
-                alert('Registration successful')
+                console.log("Register API Response:", response.data)
+                if (response.data.status === false) {
+                    alert("Email already exists!")
+                    setInputData({
+                        email: '',
+                        role: 'company'
+                    })
+                } else {
+                    alert('Registration successful')
+                    setInputData({
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    })
+                    navigate('/login')
+                }
+            })
+            .catch((error) => {
+                console.log('An error occurred: ', error.response?.data || error.message)
+                alert('Please try again later.')
                 setInputData({
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    role: ''
+                    role: 'company'
                 })
-                navigate('/signIn')
             })
-            .catch((error) => {
-                console.log('An error occurred: ' + error)
-                alert('Please try again later.')
-            })
-    }
 
+        const seePassword = (e) => {
+            document.getElementById('password').showPopover()
+        }
+    }
     return (
         <div className="flex justify-center items-center min-h-screen bg-black text-white">
             <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
@@ -112,20 +131,37 @@ export default function SignUp() {
                         />
                         {inputError.email && <span className="text-red-600">{inputError.email}</span>}
                     </div>
-                    <div className="mb-4">
-                        <label className="block mb-1">Password <span className='text-red-600'>*</span></label>
+                    {/* <div className="mb-4 relative"> */}
+                    <PasswordInput
+                        value={inputData.password}
+                        onChange={handleInputChange}
+                        ref={passwordRef}
+                        error={inputError.password}
+                        label="Password"
+                        name="password"
+                    />
+                    {/* <label className="block mb-1">Password <span className='text-red-600'>*</span></label>
                         <input
                             value={inputData.password}
                             onChange={handleInputChange}
                             ref={passwordRef}
-                            type="password"
+                            type={passwordVisible ? 'text' : 'password'}
                             id="password"
                             name="password"
                             className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
                         />
-                        {inputError.password && <span className="text-red-600">{inputError.password}</span>}
-                    </div>
-                    <div className="mb-4">
+                        {inputData.password && (
+
+                            <span
+                                onClick={togglePassword}
+                                className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-white"
+                            >
+                                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        )}
+                        {inputError.password && <span className="text-red-600">{inputError.password}</span>} */}
+                    {/* </div> */}
+                    {/* <div className="mb-4">
                         <label className="block mb-1">Confirm Password <span className='text-red-600'>*</span></label>
                         <input
                             value={inputData.confirmPassword}
@@ -137,9 +173,17 @@ export default function SignUp() {
                             className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
                         />
                         {inputError.confirmPassword && <span className="text-red-600">{inputError.confirmPassword}</span>}
-                    </div>
+                    </div> */}
+                    <PasswordInput
+                        value={inputData.confirmPassword}
+                        onChange={handleInputChange}
+                        ref={confirmPasswordRef}
+                        error={inputError.confirmPassword}
+                        label="Confirm Password"
+                        name="confirmPassword"
+                    />
                     <div className="mb-4">
-                        <label className="block mb-1">Join As<span className='text-red-600'>*</span></label>
+                        <label className="block mb-1">Join As</label>
                         <div className="flex items-center">
                             <div className="mr-4">
                                 <input
@@ -167,19 +211,18 @@ export default function SignUp() {
                                 <label htmlFor="roleStudent" className="text-white">Student</label>
                             </div>
                         </div>
-                        {inputError.role && <span className="text-red-600">{inputError.role}</span>}
                     </div>
                     <button
                         type="submit"
                         className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
                     >
-                        SignUp
+                        Register
                     </button>
 
                     <p className="mt-4 text-center text-gray-400">
-                        Already have an account?&nbsp;
-                        <Link to="/signIn" className="text-white underline">
-                            SignIn
+                        Already have an account? &nbsp;
+                        <Link to="/login" className="text-white underline">
+                            Login
                         </Link>
                     </p>
                 </form>

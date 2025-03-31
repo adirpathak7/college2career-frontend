@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
+import PasswordInput from './PasswordInput'
 
-export default function SignIn() {
+
+export default function Login() {
 
     const navigate = useNavigate()
 
@@ -20,7 +22,7 @@ export default function SignIn() {
         password: ''
     })
 
-    const handelInputChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target
         setInputData((prevValue) => ({
             ...prevValue,
@@ -57,26 +59,37 @@ export default function SignIn() {
             return
         }
 
-        axios.post(`${import.meta.env.VITE_BASE_URL}/signIn`, JSON.stringify(inputData), {
+        axios.post(`${import.meta.env.VITE_BASE_URL}/login`, inputData, {
             headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Content-Type": "multipart/form-data"
             }
         })
             .then((response) => {
-                console.log("API Response:", response.data);
-                alert('Login successful.');
-                setInputData({
-                    email: '',
-                    password: ''
-                });
-                navigate('/signUp');
+                console.log("api response: ", response.data)
+                if (response.data.status === false) {
+                    alert("Invalid email or password!")
+                    setInputData({
+                        password: ''
+                    })
+                } else {
+                    alert('Login successfully.')
+                    sessionStorage.setItem("userToken", response.data.data)
+                    setInputData({
+                        email: '',
+                        password: ''
+                    })
+                    navigate('/user/dashboard');
+                }
             })
 
             .catch((error) => {
                 console.log('Error occurred:', error.response);
                 alert('Please try again later');
-            });
+                setInputData({
+                    email: '',
+                    password: ''
+                })
+            })
 
     }
 
@@ -86,9 +99,9 @@ export default function SignIn() {
                 <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
                     <form onSubmit={handelSubmit}>
                         <div className="mb-4">
-                            <label className="block mb-1">Email</label>
+                            <label className="block mb-1">Email <span className='text-red-600'>*</span></label>
                             <input
-                                onChange={handelInputChange}
+                                onChange={handleInputChange}
                                 value={inputData.email}
                                 ref={emailRef}
                                 type="text"
@@ -99,10 +112,10 @@ export default function SignIn() {
                             {inputError.email && <span id='emailError' className='text-red-600'>{inputError.email}</span>}
                         </div>
 
-                        <div className="mb-4">
-                            <label className="block mb-1">Password</label>
+                        {/* <div className="mb-4">
+                            <label className="block mb-1">Password <span className='text-red-600'>*</span></label>
                             <input
-                                onChange={handelInputChange}
+                                onChange={handleInputChange}
                                 value={inputData.password}
                                 ref={passwordRef}
                                 type="password"
@@ -111,23 +124,32 @@ export default function SignIn() {
                                 className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
                             />
                             {inputError.password && <span id='passwordError' className='text-red-600'>{inputError.password}</span>}
-                        </div>
+                        </div> */}
+
+                        <PasswordInput
+                            value={inputData.password}
+                            onChange={handleInputChange}
+                            ref={passwordRef}
+                            error={inputError.password}
+                            label="Password"
+                            name="password"
+                        />
 
                         <button type="submit" className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300">
-                            SignIn
+                            Login
                         </button>
 
                         <p className="mt-4 text-center text-gray-400">
-                            Forgot your password??&nbsp;
-                            <Link to='/' className="text-white underline">
+                            Forgot your password? &nbsp;
+                            <Link to='/forgotPassword' className="text-white underline">
                                 Forgot Password
                             </Link>
                         </p>
 
                         <p className="mt-4 text-center text-gray-400">
-                            Don't have an account?&nbsp;
-                            <Link to='/signUp' className="text-white underline">
-                                SignUp
+                            Don't have an account? &nbsp;
+                            <Link to='/register' className="text-white underline">
+                                Register
                             </Link>
                         </p>
                     </form>
@@ -135,4 +157,5 @@ export default function SignIn() {
             </div>
         </>
     )
+
 }

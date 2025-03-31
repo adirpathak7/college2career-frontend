@@ -11,7 +11,7 @@ const Navbar = () => {
                     <div className="hidden md:flex space-x-6">
                         <Link to="/" className="hover:text-gray-300">Home</Link>
                         <Link to="/about" className="hover:text-gray-300">About</Link>
-                        <Link to="/signIn" className="hover:text-gray-300">SignIn</Link>
+                        <Link to="/login" className="hover:text-gray-300">Login</Link>
                     </div>
 
                     <button className="md:hidden text-white focus:outline-none" id="menu-button">
@@ -24,7 +24,7 @@ const Navbar = () => {
                 <div className="md:hidden hidden flex flex-col space-y-4 px-4 pb-4" id="mobile-menu">
                     <Link to="/" className="block hover:text-gray-300">Home</Link>
                     <Link to="/about" className="block hover:text-gray-300">About</Link>
-                    <Link to="/signIn" className="block hover:text-gray-300">SignIn</Link>
+                    <Link to="/login" className="block hover:text-gray-300">Login</Link>
                 </div>
             </nav>
         </>
