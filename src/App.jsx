@@ -6,6 +6,7 @@ import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Dashboard from './components/user/Dashboard'
 import Forgot from './components/auth/Forgot'
+import ResetPassword from './components/auth/ResetPassword'
 1
 function App() {
   return (
@@ -33,6 +34,7 @@ function AppContent() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgotPassword' element={<Forgot />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
         <Route
           path='/user/dashboard'
           element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}

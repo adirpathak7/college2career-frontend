@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import PasswordInput from './PasswordInput'
 
 export default function Register() {
@@ -109,10 +108,6 @@ export default function Register() {
                     role: 'company'
                 })
             })
-
-        const seePassword = (e) => {
-            document.getElementById('password').showPopover()
-        }
     }
     return (
         <div className="flex justify-center items-center min-h-screen bg-black text-white">
@@ -140,40 +135,7 @@ export default function Register() {
                         label="Password"
                         name="password"
                     />
-                    {/* <label className="block mb-1">Password <span className='text-red-600'>*</span></label>
-                        <input
-                            value={inputData.password}
-                            onChange={handleInputChange}
-                            ref={passwordRef}
-                            type={passwordVisible ? 'text' : 'password'}
-                            id="password"
-                            name="password"
-                            className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
-                        />
-                        {inputData.password && (
 
-                            <span
-                                onClick={togglePassword}
-                                className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-white"
-                            >
-                                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                            </span>
-                        )}
-                        {inputError.password && <span className="text-red-600">{inputError.password}</span>} */}
-                    {/* </div> */}
-                    {/* <div className="mb-4">
-                        <label className="block mb-1">Confirm Password <span className='text-red-600'>*</span></label>
-                        <input
-                            value={inputData.confirmPassword}
-                            onChange={handleInputChange}
-                            ref={confirmPasswordRef}
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
-                        />
-                        {inputError.confirmPassword && <span className="text-red-600">{inputError.confirmPassword}</span>}
-                    </div> */}
                     <PasswordInput
                         value={inputData.confirmPassword}
                         onChange={handleInputChange}

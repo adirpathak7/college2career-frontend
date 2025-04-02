@@ -8,7 +8,6 @@ export default function Forgot() {
     const navigate = useNavigate()
 
     const emailRef = useRef(null)
-    const passwordRef = useRef(null)
 
     const [inputData, setInputData] = useState({
         email: '',
@@ -49,31 +48,32 @@ export default function Forgot() {
             return
         }
 
-        axios.post(`${import.meta.env.VITE_BASE_URL}/forgot`, inputData, {
+        axios.post(`${import.meta.env.VITE_BASE_URL}/forgotPassword`, inputData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         })
             .then((response) => {
-                console.log("api response: ", response.data)
+                console.log("Forgot API response: ", response.data);
                 if (response.data.status === false) {
-                    alert("Invalid email or password!")
+                    alert("Email does not exist!")
                     setInputData({
-                        email: '',
+                        email: ''
                     })
                 } else {
-                    alert('Login successfully.')
-                    sessionStorage.setItem("userToken", response.data.data)
+                    alert("Mail sent to your registerd email account.")
                     setInputData({
-                        email: '',
+                        email: ''
                     })
-                    navigate('/user/dashboard');
                 }
             })
 
             .catch((error) => {
                 console.log('Error occurred:', error.response);
                 alert('Please try again later');
+                setInputData({
+                    email: '',
+                })
             })
 
     }
