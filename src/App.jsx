@@ -7,7 +7,7 @@ import Login from './components/auth/Login'
 import Dashboard from './components/user/Dashboard'
 import Forgot from './components/auth/Forgot'
 import ResetPassword from './components/auth/ResetPassword'
-1
+
 function App() {
   return (
     <Router>
@@ -26,19 +26,24 @@ function AppContent() {
 
   const isLoggedIn = validAuth()
 
+  const PublicRoute = ({ element }) => {
+    return !isLoggedIn ? element : <Navigate to="/user/dashboard" />
+  }
+
+  const PrivateRoute = ({ element }) => {
+    return isLoggedIn ? element : <Navigate to='/login' />
+  }
+
   return (
     <div className="App">
       {locationPath.pathname !== '/user/dashboard' && !locationPath.pathname.startsWith('/user/dashboard') && <Navbar />}
       <Routes>
-        <Route path='/' />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/forgotPassword' element={<Forgot />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
-        <Route
-          path='/user/dashboard'
-          element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
-        />
+        <Route path='/' element={<PublicRoute />} />
+        <Route path='/register' element={<PublicRoute element={<Register />} />} />
+        <Route path='/login' element={<PublicRoute element={<Login />} />} />
+        <Route path='/forgotPassword' element={<PublicRoute element={<Forgot />} />} />
+        <Route path='/reset-password' element={<PublicRoute element={<ResetPassword />} />} />
+        <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
       </Routes>
     </div >
   )
