@@ -11,10 +11,14 @@ export default function Dashboard() {
     }
 
     return (
-        <div className=''>
+        <div className="flex">
             <SideBar />
-            <h1 className='text-red-500'>User Dashboard</h1>
-            <button onClick={handelLogout} className='bg-gray-900 rounded-sm text-white w-52 h-12 mt-16'>Logout</button>
+
+            <div className="ml-64 p-6 w-full">
+                <h1 className="text-3xl font-semibold">Welcome to your Dashboard</h1>
+                {/* Your dashboard content goes here */}
+                <button onClick={handelLogout} className='bg-gray-900 rounded-sm text-white w-52 h-12 mt-16'>Logout</button>
+            </div>
         </div>
     )
 }
