@@ -3,12 +3,15 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
+import { useLoader } from '../../LoaderContext'
 
 export default function ResetPassword() {
     const navigate = useNavigate()
 
     const passwordRef = useRef(null)
     const confirmPasswordRef = useRef(null)
+
+    const { setLoading } = useLoader()
 
     const [forgotPasswordToken, setForgotPasswordToken] = useState(null)
     const [inputData, setInputData] = useState({
@@ -45,7 +48,7 @@ export default function ResetPassword() {
             navigate('/login');
         }
     }, [navigate]);
-    
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -57,7 +60,7 @@ export default function ResetPassword() {
 
         console.log(forgotPasswordToken);
         console.log(formData);
-        
+
         if (!inputData.forgotPassword) {
             errors.forgotPassword = message.empty + 'password'
         }
@@ -78,6 +81,8 @@ export default function ResetPassword() {
             }
             return
         }
+
+        setLoading(true)
 
         axios.post(`${import.meta.env.VITE_BASE_URL}/resetPassword`, formData)
             .then((response) => {
@@ -105,6 +110,8 @@ export default function ResetPassword() {
                     forgotPassword: '',
                     confirmPassword: '',
                 })
+            }).finally(() => {
+                setLoading(false)
             })
 
     }

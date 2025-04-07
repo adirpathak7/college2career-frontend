@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
+import { useLoader } from '../../LoaderContext'
 
 export default function Register() {
     const navigate = useNavigate()
@@ -11,6 +12,8 @@ export default function Register() {
     const passwordRef = useRef(null)
     const confirmPasswordRef = useRef(null)
     const roleRef = useRef(null)
+
+    const { setLoading } = useLoader()
 
     const [inputData, setInputData] = useState({
         email: '',
@@ -79,15 +82,14 @@ export default function Register() {
             return
         }
 
+        setLoading(true)
+
         axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData)
             .then((response) => {
                 console.log("Register API Response:", response.data)
                 if (response.data.status === false) {
                     alert("Email already exists!")
-                    setInputData({
-                        email: '',
-                        role: 'company'
-                    })
+                    inputData.email = ''
                 } else {
                     alert('Registration successful')
                     setInputData({
@@ -107,6 +109,8 @@ export default function Register() {
                     confirmPassword: '',
                     role: 'company'
                 })
+            }).finally(() => {
+                setLoading(false)
             })
     }
     return (

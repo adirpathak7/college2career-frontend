@@ -2,12 +2,15 @@ import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
+import { useLoader } from '../../LoaderContext'
 
 export default function Forgot() {
 
     const navigate = useNavigate()
 
     const emailRef = useRef(null)
+
+    const { setLoading } = useLoader()
 
     const [inputData, setInputData] = useState({
         email: '',
@@ -48,6 +51,8 @@ export default function Forgot() {
             return
         }
 
+        setLoading(true)
+
         axios.post(`${import.meta.env.VITE_BASE_URL}/forgotPassword`, inputData, {
             headers: {
                 "Content-Type": "multipart/form-data"
@@ -74,6 +79,8 @@ export default function Forgot() {
                 setInputData({
                     email: '',
                 })
+            }).finally(() => {
+                setLoading(false)
             })
 
     }

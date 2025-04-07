@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
+import { useLoader } from '../../LoaderContext'
 
 
 export default function Login() {
@@ -11,6 +12,8 @@ export default function Login() {
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
+
+    const { setLoading } = useLoader()
 
     const [inputData, setInputData] = useState({
         email: '',
@@ -59,6 +62,8 @@ export default function Login() {
             return
         }
 
+        setLoading(true)
+
         axios.post(`${import.meta.env.VITE_BASE_URL}/login`, inputData, {
             headers: {
                 "Content-Type": "multipart/form-data"
@@ -68,9 +73,8 @@ export default function Login() {
                 console.log("api response: ", response.data)
                 if (response.data.status === false) {
                     alert("Invalid email or password!")
-                    setInputData({
-                        password: ''
-                    })
+                    inputData.password = ''
+
                 } else {
                     alert('Login successfully.')
                     sessionStorage.setItem("userToken", response.data.data)
@@ -89,6 +93,8 @@ export default function Login() {
                     email: '',
                     password: ''
                 })
+            }).finally(() => {
+                setLoading(false)
             })
 
     }
@@ -111,20 +117,6 @@ export default function Login() {
                             />
                             {inputError.email && <span id='emailError' className='text-red-600'>{inputError.email}</span>}
                         </div>
-
-                        {/* <div className="mb-4">
-                            <label className="block mb-1">Password <span className='text-red-600'>*</span></label>
-                            <input
-                                onChange={handleInputChange}
-                                value={inputData.password}
-                                ref={passwordRef}
-                                type="password"
-                                id='password'
-                                name='password'
-                                className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
-                            />
-                            {inputError.password && <span id='passwordError' className='text-red-600'>{inputError.password}</span>}
-                        </div> */}
 
                         <PasswordInput
                             value={inputData.password}

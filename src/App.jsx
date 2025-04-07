@@ -7,6 +7,7 @@ import Login from './components/auth/Login'
 import Dashboard from './components/user/Dashboard'
 import Forgot from './components/auth/Forgot'
 import ResetPassword from './components/auth/ResetPassword'
+import Loader from './components/Loader'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function AppContent() {
 
   return (
     <div className="App">
+      <Loader />
       {locationPath.pathname !== '/user/dashboard' && !locationPath.pathname.startsWith('/user/dashboard') && <Navbar />}
       <Routes>
         <Route path='/' element={<PublicRoute />} />
