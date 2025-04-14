@@ -19,7 +19,7 @@ export default function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'company'
+        role: 2
     })
 
     const [inputError, setInputError] = useState({
@@ -62,7 +62,7 @@ export default function Register() {
 
         formData.append('email', inputData.email)
         formData.append('password', inputData.password)
-        formData.append('role', inputData.role)
+        formData.append('roleId', inputData.role)
 
         if (!inputData.email) {
             errors.email = message.empty + 'email'
@@ -96,37 +96,27 @@ export default function Register() {
 
         axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData)
             .then((response) => {
-                // console.log("Register API Response:", response.data)
+                console.log("api response:", response.data)
                 if (response.data.status === false) {
                     setApiResponse({
-                        message: "Email already exists!",
+                        message: response.data.message,
                         type: 'error',
                     })
-                    inputData.email = ''
                 } else {
-                    setApiResponse({
-                        message: "Registration successful.",
-                        type: 'success',
-                    })
-                    setInputData({
-                        email: '',
-                        password: '',
-                        confirmPassword: '',
-                    })
                     navigate('/login')
                 }
             })
             .catch((error) => {
-                console.log('An error occurred: ', error.response?.data || error.message)
+                console.log("Error occurred: ", error)
                 setApiResponse({
-                    message: "Please try again later.",
+                    message: "Something went wrong.",
                     type: 'error',
                 })
                 setInputData({
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    role: 'company'
+                    role: 2
                 })
             }).finally(() => {
                 setLoading(false)
@@ -194,8 +184,8 @@ export default function Register() {
                                     type="radio"
                                     id="roleCompany"
                                     name="role"
-                                    value="company"
-                                    checked={inputData.role === 'company'}
+                                    value={2}
+                                    checked={inputData.role === 2}
                                     onChange={handleInputChange}
                                     ref={roleRef}
                                     className="mr-2"
@@ -207,8 +197,8 @@ export default function Register() {
                                     type="radio"
                                     id="roleStudent"
                                     name="role"
-                                    value="student"
-                                    checked={inputData.role === 'student'}
+                                    value={1}
+                                    checked={inputData.role === 1}
                                     onChange={handleInputChange}
                                     className="mr-2"
                                 />

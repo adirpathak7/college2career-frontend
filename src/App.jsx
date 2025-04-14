@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar'
+import Home from './components/Home'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Dashboard from './components/user/Dashboard'
@@ -20,8 +21,16 @@ function App() {
 function AppContent() {
   const locationPath = useLocation()
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
+    if (parts.length === 2) return parts.pop().split(';').shift()
+    return null
+  }
+
+
   const validAuth = () => {
-    const userToken = sessionStorage.getItem("userToken")
+    const userToken = getCookie("userToken")
     return userToken !== null
   }
 
@@ -40,7 +49,7 @@ function AppContent() {
       <Loader />
       {locationPath.pathname !== '/user/dashboard' && !locationPath.pathname.startsWith('/user/dashboard') && <Navbar />}
       <Routes>
-        <Route path='/' element={<PublicRoute />} />
+        <Route path='/' element={<PublicRoute element={<Home />} />} />
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/login' element={<PublicRoute element={<Login />} />} />
         <Route path='/forgotPassword' element={<PublicRoute element={<Forgot />} />} />

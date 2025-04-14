@@ -81,31 +81,28 @@ export default function Login() {
             }
         })
             .then((response) => {
-                console.log("api response: ", response.data)
+                // console.log("api response: ", response.data)
                 if (response.data.status === false) {
                     setApiResponse({
-                        message: "Invalid email or password!",
+                        message: response.data.message,
                         type: 'error',
                     })
                     inputData.password = ''
                 } else {
-                    setApiResponse({
-                        message: 'Login successful.',
-                        type: 'success',
-                    })
-                    sessionStorage.setItem("userToken", response.data.data)
-                    setInputData({
-                        email: '',
-                        password: ''
-                    })
-                    navigate('/user/dashboard')
+                    document.cookie = `userToken=${response.data.data}; path=/; max-age=${60 * 60 * 24}`
+
+                    setInputData({ email: '', password: '' })
+
+                    setTimeout(() => {
+                        navigate('/user/dashboard')
+                    }, 200)
                 }
             })
 
             .catch((error) => {
-                console.log('Error occurred:', error.response)
+                console.log('Error occurred:', error)
                 setApiResponse({
-                    message: 'Please try again later',
+                    message: "Something went wrong.",
                     type: 'error',
                 })
                 setInputData({
