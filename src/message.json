@@ -2,5 +2,7 @@
     "empty": "Please enter the ",
     "mismatch": "Confirm Password and Password should match!",
     "invalidCredentials": "Invalid Credentials!",
-    "invalidEmail":"Please enter valid email!"
+    "invalidEmail":"Please enter valid email!",
+    "invalidContactNumber": "Please enter valid contact number!",
+    "invalidDate":"Please select valid date"
 }

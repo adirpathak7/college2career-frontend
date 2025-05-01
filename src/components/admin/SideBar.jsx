@@ -1,32 +1,26 @@
 import React from 'react'
-import { AiOutlineProfile } from 'react-icons/ai'
-import { BiLogOut, BiLogOutCircle, BiMessage } from 'react-icons/bi'
-import { CgProfile } from 'react-icons/cg'
-import { GiRamProfile } from 'react-icons/gi'
-import { ImProfile } from 'react-icons/im'
-import { PiCarProfile } from 'react-icons/pi'
-import { RiProfileFill } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
-import Profile from './user/Profile'
+import { BiLogOut, BiMessage } from 'react-icons/bi'
+import { ImProfile } from 'react-icons/im'
 import { BsCardList } from 'react-icons/bs'
-import { GrDashboard } from 'react-icons/gr'
 import { MdDashboard } from 'react-icons/md'
+
 
 export default function SideBar() {
 
     const navigate = useNavigate()
 
-    const getCookie = (name) => {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        if (match) return match[2];
-        return null;
-    }
+    // const getCookie = (name) => {
+    //     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    //     if (match) return match[2];
+    //     return null;
+    // }
 
-    const token = getCookie("userToken");
+    // const token = getCookie("userToken");
     // console.log("Token from cookie:", token);
 
     const handelLogout = () => {
-        document.cookie = `userToken=; path=/; max-age=0`
+        // document.cookie = `userToken=; path=/; max-age=0`
         // sessionStorage.removeItem("userToken")
         navigate("../login")
     }
@@ -43,43 +37,32 @@ export default function SideBar() {
 
                 <div className="flex flex-col justify-start items-center px-6 border-b border-gray-600 w-full ">
                     <div id="companySideBar" className="flex justify-start  flex-col w-full md:w-auto items-start pb-1 mt-16 ">
-                        <Link to="/user/dashboard" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                        <Link to="/admin/dashboard" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <MdDashboard />
                             <p className="text-base leading-4 ">Dashboard</p>
                         </Link>
-                        <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                        <Link to="/admin/dashboard/applications" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BsCardList />
-                            <p className="text-base leading-4 ">Vacancy</p>
+                            <p className="text-base leading-4 ">Applications</p>
+                        </Link>
+                        <Link to="/admin/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                            <BsCardList />
+                            <p className="text-base leading-4 ">Companies</p>
                         </Link>
 
-                        <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                        <Link to="/admin/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BiMessage />
-                            <p className="text-base leading-4">Messages</p>
+                            <p className="text-base leading-4">Students</p>
                         </Link>
 
-                        <Link to="/user/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                        <Link to="/admin/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <ImProfile />
                             <p className="text-base leading-4">Profile</p>
                         </Link>
-                    </div>
-                </div>
-
-                <div className="flex flex-col justify-between items-center h-full pb-6 px-6 w-full mt-[119%]">
-                    <div className=" flex justify-between items-center w-full">
-                        <div className="flex justify-center items-center  space-x-2">
-                            <div className=''>
-                                <img className="rounded-full h-12 mt-2" src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg" alt="avatar" />
-                            </div>
-                            <div className="flex justify-start flex-col items-start">
-                                <p className="cursor-pointer text-sm leading-5 text-white">Aaditya Pathak</p>
-                                <p className="cursor-pointer text-xs leading-3 text-gray-300">adityarpathak7@gmail.com</p>
-                            </div>
-                        </div>
-                        <div>
-                            <button onClick={handelLogout} className=''>
-                                <BiLogOut className='text-white cursor-pointer w-8 h-6' />
-                            </button>
-                        </div>
+                        <button onClick={handelLogout} type='button' className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                            <BiLogOut />
+                            <p className="text-base leading-4">Logout</p>
+                        </button>
                     </div>
                 </div>
             </div >

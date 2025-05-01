@@ -1,9 +1,9 @@
 import React from 'react'
-import SideBar from '../SideBar'
+import SideBar from '../admin/SideBar'
+
 import { Outlet } from 'react-router-dom'
 
-export default function Dashboard() {
-
+export default function AdminDashboard() {
     return (
         <>
             <div className="flex">

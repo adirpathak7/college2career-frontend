@@ -90,7 +90,7 @@ export default function Login() {
                     inputData.password = ''
                 } else {
                     document.cookie = `userToken=${response.data.data}; path=/; max-age=${60 * 60 * 24}`
-
+                    sessionStorage.setItem("userProfilePicture", "https://res.cloudinary.com/druzdz5zn/image/upload/v1744715705/lhi4cgauyc4nqttymcu4.webp")
                     setInputData({ email: '', password: '' })
 
                     setTimeout(() => {

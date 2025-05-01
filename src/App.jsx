@@ -9,6 +9,11 @@ import Dashboard from './components/user/Dashboard'
 import Forgot from './components/auth/Forgot'
 import ResetPassword from './components/auth/ResetPassword'
 import Loader from './components/Loader'
+import Profile from './components/user/Profile'
+import DashboardHome from './components/user/DashboardHome'
+import AdminDashboard from './components/admin/AdminDashboard'
+import AdminDashboardHome from './components/admin/DashboardHome'
+import Applications from './components/admin/Applications'
 
 function App() {
   return (
@@ -47,16 +52,28 @@ function AppContent() {
   return (
     <div className="App">
       <Loader />
-      {locationPath.pathname !== '/user/dashboard' && !locationPath.pathname.startsWith('/user/dashboard') && <Navbar />}
+      {locationPath.pathname !== '/user' && !locationPath.pathname.startsWith('/user') && <Navbar />
+        && locationPath.pathname !== '/admin' && !locationPath.pathname.startsWith('/admin') && <Navbar />}
+
       <Routes>
         <Route path='/' element={<PublicRoute element={<Home />} />} />
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/login' element={<PublicRoute element={<Login />} />} />
         <Route path='/forgotPassword' element={<PublicRoute element={<Forgot />} />} />
         <Route path='/reset-password' element={<PublicRoute element={<ResetPassword />} />} />
-        <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
+        <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />}>
+          <Route index element={<DashboardHome />} />
+          <Route path='profile' element={<Profile />} />
+
+        </Route>
+
+        <Route path='/admin/dashboard' element={<AdminDashboard />}>
+          <Route index element={<AdminDashboardHome />} />
+          <Route path='applications' element={<Applications />} />
+          
+        </Route>
       </Routes>
-    </div >
+    </div>
   )
 }
 
