@@ -91,7 +91,7 @@ export default function Profile() {
                     <div className="sm:items-center">
                         <div className="relative w-full h-48 sm:h-48 rounded-t-2xl overflow-hidden mb-6">
                             <img
-                                src={data.profilePictureURL || userProfilePicture}
+                                src={data.profilePictureURL}
                                 alt="Cover"
                                 className="w-full h-full object-cover"
                             />

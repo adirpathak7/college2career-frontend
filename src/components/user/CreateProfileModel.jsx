@@ -98,6 +98,7 @@ export default function CreateProfileModel() {
         const formData = new FormData()
         const fileInput = document.getElementById("profilePicture")
 
+        // we can do via for loop
         formData.append('companyName', inputData.companyName)
         formData.append('establishedDate', inputData.establishedDate)
         formData.append('contactNumber', inputData.contactNumber)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLoader } from '../../LoaderContext'
 
-export default function Applications() {
+export default function CompaniesApplications() {
     const [applications, setApplications] = useState([])
     const [apiError, setApiError] = useState('')
 
@@ -43,7 +43,7 @@ export default function Applications() {
             setLoading(true)
             const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/companies/updateCompanyStatus/1`, {
                 companyId,
-                status: "activeted",
+                status: "activated",
             })
 
             if (response.data.status) {

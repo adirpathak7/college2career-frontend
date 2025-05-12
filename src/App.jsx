@@ -13,7 +13,8 @@ import Profile from './components/user/Profile'
 import DashboardHome from './components/user/DashboardHome'
 import AdminDashboard from './components/admin/AdminDashboard'
 import AdminDashboardHome from './components/admin/DashboardHome'
-import Applications from './components/admin/Applications'
+import CompaniesApplications from './components/admin/CompaniesApplications'
+import StudentsApplications from './components/admin/StudentsApplications'
 
 function App() {
   return (
@@ -69,7 +70,8 @@ function AppContent() {
 
         <Route path='/admin/dashboard' element={<AdminDashboard />}>
           <Route index element={<AdminDashboardHome />} />
-          <Route path='applications' element={<Applications />} />
+          <Route path='companies/applications' element={<CompaniesApplications />} />
+          <Route path='students/applications' element={<StudentsApplications />} />
           
         </Route>
       </Routes>
