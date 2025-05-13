@@ -8,7 +8,6 @@ export default function StudentsApplications() {
 
     const { setLoading } = useLoader()
 
-
     useEffect(() => {
         setLoading(true)
         const fetchApplications = async () => {

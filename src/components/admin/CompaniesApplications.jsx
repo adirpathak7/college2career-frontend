@@ -41,7 +41,7 @@ export default function CompaniesApplications() {
     const handleApprove = async (companyId) => {
         try {
             setLoading(true)
-            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/companies/updateCompanyStatus/1`, {
+            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/companies/updateCompanyStatus/${companyId}`, {
                 companyId,
                 status: "activated",
             })
@@ -66,7 +66,7 @@ export default function CompaniesApplications() {
 
         try {
             setLoading(true)
-            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/companies/updateCompanyStatus/1`, {
+            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/companies/updateCompanyStatus/${companyId}`, {
                 companyId,
                 status: "rejected",
                 reasonOfStatus: rejectReason
@@ -95,7 +95,6 @@ export default function CompaniesApplications() {
                     {apiError}
                 </div>
             )}
-
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {applications.map(data => (
