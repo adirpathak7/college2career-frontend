@@ -41,24 +41,18 @@ export default function SideBar() {
                             <MdDashboard />
                             <p className="text-base leading-4 ">Dashboard</p>
                         </Link>
-                        <Link to="/admin/dashboard/companies/applications" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <BsCardList />
-                            <p className="text-base leading-4 ">Companies Applications</p>
-                        </Link>
-                        <Link to="/admin/dashboard/students/applications" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <BsCardList />
-                            <p className="text-base leading-4 ">Students Applications</p>
-                        </Link>
                         <Link to="/admin/dashboard/companies" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BsCardList />
                             <p className="text-base leading-4 ">Companies</p>
                         </Link>
-
+                        <Link to="/admin/dashboard/students" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                            <BsCardList />
+                            <p className="text-base leading-4 ">Students</p>
+                        </Link>
                         <Link to="/admin/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BiMessage />
-                            <p className="text-base leading-4">Students</p>
+                            <p className="text-base leading-4">Messages</p>
                         </Link>
-
                         <Link to="/admin/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <ImProfile />
                             <p className="text-base leading-4">Profile</p>

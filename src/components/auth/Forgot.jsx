@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import { useLoader } from '../../LoaderContext'
+import PageTitle from '../../PageTitle'
 
 export default function Forgot() {
 
@@ -42,6 +43,7 @@ export default function Forgot() {
     const handleClose = () => {
         setApiResponse({ message: '', type: '' })
     }
+
     const handelSubmit = (e) => {
         e.preventDefault()
 
@@ -106,6 +108,7 @@ export default function Forgot() {
 
     return (
         <>
+            <PageTitle title="Forgot Password" />
             <div className="flex justify-center items-center min-h-screen bg-black text-white">
                 <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
                     {apiResponse.message && (

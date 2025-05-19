@@ -1,10 +1,12 @@
 import React from 'react'
 import { motion } from 'framer-motion';
 import PlacementImg from '../assets/pacementIcon.png'
+import PageTitle from '../PageTitle'
 
 export default function Home() {
     return (
         <>
+            <PageTitle title="Home" />
             <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8 mt-14">
                 <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
                     {/* Left content */}

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
+import PageTitle from '../../PageTitle'
 
 export default function ResetPassword() {
     const navigate = useNavigate()
@@ -135,54 +136,57 @@ export default function ResetPassword() {
 
     }
     return (
-        <div className="flex justify-center items-center min-h-screen bg-black text-white">
-            <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
-                {apiResponse.message && (
-                    <div
-                        className={`${apiResponse.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'
-                            } px-4 py-3 rounded relative mb-4`}
-                        role="alert"
-                    >
-                        <strong className="font-bold">{apiResponse.type === 'success' ? 'Success: ' : 'Error: '}</strong>
-                        <span className="block sm:inline">{apiResponse.message}</span>
-                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
-                            <strong>
-                                <svg className="fill-current h-6 w-6 text-red-700" role="button" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>Close</title>
-                                    <path d="M18 6L6 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M6 6L18 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </strong>
-                        </span>
-                    </div>
-                )}
-                <form onSubmit={handleSubmit}>
+        <>
+            <PageTitle title="Reset Password" />
+            <div className="flex justify-center items-center min-h-screen bg-black text-white">
+                <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
+                    {apiResponse.message && (
+                        <div
+                            className={`${apiResponse.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'
+                                } px-4 py-3 rounded relative mb-4`}
+                            role="alert"
+                        >
+                            <strong className="font-bold">{apiResponse.type === 'success' ? 'Success: ' : 'Error: '}</strong>
+                            <span className="block sm:inline">{apiResponse.message}</span>
+                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
+                                <strong>
+                                    <svg className="fill-current h-6 w-6 text-red-700" role="button" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <title>Close</title>
+                                        <path d="M18 6L6 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M6 6L18 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </strong>
+                            </span>
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit}>
 
-                    <PasswordInput
-                        value={inputData.forgotPassword}
-                        onChange={handleInputChange}
-                        ref={passwordRef}
-                        error={inputError.forgotPassword}
-                        label="Password"
-                        name="forgotPassword"
-                    />
+                        <PasswordInput
+                            value={inputData.forgotPassword}
+                            onChange={handleInputChange}
+                            ref={passwordRef}
+                            error={inputError.forgotPassword}
+                            label="Password"
+                            name="forgotPassword"
+                        />
 
-                    <PasswordInput
-                        value={inputData.confirmPassword}
-                        onChange={handleInputChange}
-                        ref={confirmPasswordRef}
-                        error={inputError.confirmPassword}
-                        label="Confirm Password"
-                        name="confirmPassword"
-                    />
-                    <button
-                        type="submit"
-                        className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
-                    >
-                        Reset Password
-                    </button>
-                </form>
+                        <PasswordInput
+                            value={inputData.confirmPassword}
+                            onChange={handleInputChange}
+                            ref={confirmPasswordRef}
+                            error={inputError.confirmPassword}
+                            label="Confirm Password"
+                            name="confirmPassword"
+                        />
+                        <button
+                            type="submit"
+                            className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
+                        >
+                            Reset Password
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

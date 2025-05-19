@@ -1,9 +1,10 @@
 import axios from 'axios'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
+import PageTitle from '../../PageTitle'
 
 export default function Register() {
     const navigate = useNavigate()
@@ -38,7 +39,7 @@ export default function Register() {
         const { name, value } = e.target
         setInputData((prevValue) => ({
             ...prevValue,
-            [name]: value
+            [name]: name === 'role' ? Number(value) : value
         }))
 
         setInputError((prevValue) => ({
@@ -49,9 +50,9 @@ export default function Register() {
         setApiResponse({ message: '', type: '' })
     }
 
-    const handleClose = () => {
-        setApiResponse({ message: '', type: '' })
-    }
+    // const handleClose = () => {
+    //     setApiResponse({ message: '', type: '' })
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -122,18 +123,30 @@ export default function Register() {
                 setLoading(false)
             })
     }
+
+    useEffect(() => {
+        if (apiResponse.message) {
+            const timer =
+                setTimeout(() => {
+                    setApiResponse({ message: '', type: '' })
+                }, 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [apiResponse.message])
+
     return (
-        <div className="flex justify-center items-center min-h-screen bg-black text-white">
-            <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
-                {apiResponse.message && (
-                    <div
-                        className={`${apiResponse.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'
-                            } px-4 py-3 rounded relative mb-4`}
-                        role="alert"
-                    >
-                        <strong className="font-bold">{apiResponse.type === 'success' ? 'Success: ' : 'Error: '}</strong>
-                        <span className="block sm:inline">{apiResponse.message}</span>
-                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
+        <>
+            <PageTitle title="Register" />
+            <div className="flex justify-center items-center min-h-screen bg-black text-white">
+                <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
+                    {apiResponse.message && (
+                        <div
+                            className='bg-red-100 border-red-500 text-red-700 px-4 py-3 rounded relative mb-4'
+                            role="alert"
+                        >
+                            <strong className="font-bold">Error: </strong>
+                            <span className="block sm:inline">{apiResponse.message}</span>
+                            {/* <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
                             <strong>
                                 <svg className="fill-current h-6 w-6 text-red-700" role="button" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                     <title>Close</title>
@@ -141,86 +154,87 @@ export default function Register() {
                                     <path d="M6 6L18 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </strong>
-                        </span>
-                    </div>
-                )}
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block mb-1">Email <span className='text-red-600'>*</span></label>
-                        <input
-                            value={inputData.email}
+                        </span> */}
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="block mb-1">Email <span className='text-red-600'>*</span></label>
+                            <input
+                                value={inputData.email}
+                                onChange={handleInputChange}
+                                ref={emailRef}
+                                type="text"
+                                id="email"
+                                name="email"
+                                className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
+                            />
+                            {inputError.email && <span className="text-red-600">{inputError.email}</span>}
+                        </div>
+                        {/* <div className="mb-4 relative"> */}
+                        <PasswordInput
+                            value={inputData.password}
                             onChange={handleInputChange}
-                            ref={emailRef}
-                            type="text"
-                            id="email"
-                            name="email"
-                            className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
+                            ref={passwordRef}
+                            error={inputError.password}
+                            label="Password"
+                            name="password"
                         />
-                        {inputError.email && <span className="text-red-600">{inputError.email}</span>}
-                    </div>
-                    {/* <div className="mb-4 relative"> */}
-                    <PasswordInput
-                        value={inputData.password}
-                        onChange={handleInputChange}
-                        ref={passwordRef}
-                        error={inputError.password}
-                        label="Password"
-                        name="password"
-                    />
 
-                    <PasswordInput
-                        value={inputData.confirmPassword}
-                        onChange={handleInputChange}
-                        ref={confirmPasswordRef}
-                        error={inputError.confirmPassword}
-                        label="Confirm Password"
-                        name="confirmPassword"
-                    />
-                    <div className="mb-4">
-                        <label className="block mb-1">Join As</label>
-                        <div className="flex items-center">
-                            <div className="mr-4">
-                                <input
-                                    type="radio"
-                                    id="roleCompany"
-                                    name="role"
-                                    value={2}
-                                    checked={inputData.role === 2}
-                                    onChange={handleInputChange}
-                                    ref={roleRef}
-                                    className="mr-2"
-                                />
-                                <label htmlFor="roleCompany" className="text-white">Company</label>
-                            </div>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="roleStudent"
-                                    name="role"
-                                    value={1}
-                                    checked={inputData.role === 1}
-                                    onChange={handleInputChange}
-                                    className="mr-2"
-                                />
-                                <label htmlFor="roleStudent" className="text-white">Student</label>
+                        <PasswordInput
+                            value={inputData.confirmPassword}
+                            onChange={handleInputChange}
+                            ref={confirmPasswordRef}
+                            error={inputError.confirmPassword}
+                            label="Confirm Password"
+                            name="confirmPassword"
+                        />
+                        <div className="mb-4">
+                            <label className="block mb-1">Join As</label>
+                            <div className="flex items-center">
+                                <div className="mr-4">
+                                    <input
+                                        type="radio"
+                                        id="roleCompany"
+                                        name="role"
+                                        value={2}
+                                        checked={inputData.role === 2}
+                                        onChange={handleInputChange}
+                                        ref={roleRef}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor="roleCompany" className="text-white cursor-pointer">Company</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="roleStudent"
+                                        name="role"
+                                        value={1}
+                                        checked={inputData.role === 1}
+                                        onChange={handleInputChange}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor="roleStudent" className="text-white cursor-pointer">Student</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
-                    >
-                        Register
-                    </button>
+                        <button
+                            type="submit"
+                            className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
+                        >
+                            Register
+                        </button>
 
-                    <p className="mt-4 text-center text-gray-400">
-                        Already have an account? &nbsp;
-                        <Link to="/login" className="text-white underline">
-                            Login
-                        </Link>
-                    </p>
-                </form>
+                        <p className="mt-4 text-center text-gray-400">
+                            Already have an account? &nbsp;
+                            <Link to="/login" className="text-white underline">
+                                Login
+                            </Link>
+                        </p>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

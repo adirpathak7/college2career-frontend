@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
+import PageTitle from '../../PageTitle'
 
 
 export default function Login() {
@@ -117,6 +118,7 @@ export default function Login() {
 
     return (
         <>
+            <PageTitle title="Login" />
             <div className="flex justify-center items-center min-h-screen bg-black text-white">
                 <div className="w-full max-w-md bg-gray-900 p-6 rounded-lg shadow-lg">
                     {apiResponse.message && (

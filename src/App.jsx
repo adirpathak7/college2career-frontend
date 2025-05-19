@@ -14,8 +14,9 @@ import DashboardHome from './components/user/DashboardHome'
 import AdminDashboard from './components/admin/AdminDashboard'
 import AdminDashboardHome from './components/admin/DashboardHome'
 import CompaniesApplications from './components/admin/CompaniesApplications'
-import StudentsApplications from './components/admin/StudentsApplications'
+import StudentsApplications from './components/admin/Students'
 import Companies from './components/admin/Companies'
+import AdminProfile from './components/admin/Profile'
 
 function App() {
   return (
@@ -71,10 +72,10 @@ function AppContent() {
 
         <Route path='/admin/dashboard' element={<AdminDashboard />}>
           <Route index element={<AdminDashboardHome />} />
-          <Route path='companies/applications' element={<CompaniesApplications />} />
-          <Route path='students/applications' element={<StudentsApplications />} />
-          <Route path='companies/' element={<Companies />} />
-          
+          <Route path='companies' element={<Companies />} />
+          <Route path='students' element={<StudentsApplications />} />
+          <Route path='profile' element={<AdminProfile />} />
+
         </Route>
       </Routes>
     </div>

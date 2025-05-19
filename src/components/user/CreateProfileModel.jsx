@@ -98,7 +98,7 @@ export default function CreateProfileModel() {
         const formData = new FormData()
         const fileInput = document.getElementById("profilePicture")
 
-        // we can do via for loop
+        // we can do via loop
         formData.append('companyName', inputData.companyName)
         formData.append('establishedDate', inputData.establishedDate)
         formData.append('contactNumber', inputData.contactNumber)
@@ -124,7 +124,7 @@ export default function CreateProfileModel() {
         if (!inputData.profilePicture) {
             errors.profilePicture = message.empty + 'profile picture'
         }
-        if (!inputData.industry) {
+        if (!inputData.industry || inputData.industry === "default") {
             errors.industry = message.empty + 'industry'
         }
         if (!inputData.area) {
@@ -263,7 +263,7 @@ export default function CreateProfileModel() {
                         </div>
                     )}
 
-                    <h2 className="text-3xl font-bold mb-6 text-center">Company Profile - Edit</h2>
+                    <h2 className="text-3xl font-bold mb-6 text-center">Edit Profile</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -273,6 +273,7 @@ export default function CreateProfileModel() {
                                     value={inputData.companyName}
                                     onChange={handleInputChange}
                                     ref={companyNameRef}
+                                    placeholder='Enter the company name'
                                     type="text"
                                     id='companyName'
                                     name="companyName"
@@ -303,6 +304,7 @@ export default function CreateProfileModel() {
                                     type="number"
                                     id='contactNumber'
                                     name="contactNumber"
+                                    placeholder='0264-1234567'
                                     className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                                 {inputError.contactNumber && <span className="text-red-600">{inputError.contactNumber}</span>}
                             </div>
@@ -322,27 +324,54 @@ export default function CreateProfileModel() {
 
                             <div>
                                 <label className="block mb-1">Industry</label>
-                                <input
+                                <select
+                                    name="industry"
+                                    id="industry"
                                     value={inputData.industry}
                                     onChange={handleInputChange}
                                     ref={industryRef}
+                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                >
+                                    <option value="default">Select the Industry</option>
+                                    <option value="Information Technology (IT)">Information Technology (IT)</option>
+                                    <option value="Cybersecurity">Cybersecurity</option>
+                                    <option value="Cloud Computing">Cloud Computing</option>
+                                    <option value="Software Development">Software Development</option>
+                                    <option value="Artificial Intelligence / Machine Learning">Artificial Intelligence / Machine Learning</option>
+                                    <option value="IT Services & Consulting">IT Services & Consulting</option>
+                                    <option value="Web & App Development">Web & App Development</option>
+                                    <option value="Investment & Asset Management">Investment & Asset Management</option>
+                                    <option value="Data Science / Analytics">Data Science / Analytics</option>
+                                </select>
+                                {/* <input
+
                                     type="text"
                                     id='industry'
                                     name="industry"
-                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" /> */}
                                 {inputError.industry && <span className="text-red-600">{inputError.industry}</span>}
                             </div>
 
                             <div>
-                                <label className="block mb-1">Area</label>
-                                <input
+                                <label className="block mb-1">Address</label>
+                                <textarea
+                                    name="area"
+                                    id="area"
+                                    placeholder='Enter the address'
+                                    value={inputData.area}
+                                    onChange={handleInputChange}
+                                    ref={areaRef}
+                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                >
+                                </textarea>
+                                {/* <input
                                     value={inputData.area}
                                     onChange={handleInputChange}
                                     ref={areaRef}
                                     type="text"
                                     id='area'
                                     name="area"
-                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" /> */}
                                 {inputError.area && <span className="text-red-600">{inputError.area}</span>}
                             </div>
 
@@ -352,6 +381,7 @@ export default function CreateProfileModel() {
                                     value={inputData.city}
                                     onChange={handleInputChange}
                                     ref={cityRef}
+                                    placeholder='Enter the city'
                                     type="text"
                                     id='city'
                                     name="city"
@@ -365,6 +395,7 @@ export default function CreateProfileModel() {
                                     value={inputData.state}
                                     onChange={handleInputChange}
                                     ref={stateRef}
+                                    placeholder='Enter the state'
                                     type="text"
                                     id='state'
                                     name="state"
@@ -373,11 +404,12 @@ export default function CreateProfileModel() {
                             </div>
 
                             <div>
-                                <label className="block mb-1">Employee Size</label>
+                                <label className="block mb-1">No. of Employee's</label>
                                 <input
                                     value={inputData.employeeSize}
                                     onChange={handleInputChange}
                                     ref={employeeSizeRef}
+                                    placeholder="Enter number of employee's"
                                     type="number"
                                     id='employeeSize'
                                     name="employeeSize"
