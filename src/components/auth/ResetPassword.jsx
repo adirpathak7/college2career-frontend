@@ -69,8 +69,8 @@ export default function ResetPassword() {
         formData.append('forgotPasswordToken', forgotPasswordToken)
         formData.append('forgotPassword', inputData.forgotPassword)
 
-        console.log(forgotPasswordToken);
-        console.log(formData);
+        // console.log(forgotPasswordToken);
+        // console.log(formData);
 
         if (!inputData.forgotPassword) {
             errors.forgotPassword = message.empty + 'password'

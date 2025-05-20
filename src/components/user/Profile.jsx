@@ -14,15 +14,15 @@ export default function Profile() {
     const defaultProfile = {
         companyName: "N/A",
         establishedDate: "N/A",
-        contactNumber: "0000000000",
+        contactNumber: "0264-1234567",
         profilePictureURL: null,
-        industry: "IT",
+        industry: "N/A",
         area: "N/A",
         city: "N/A",
         state: "N/A",
-        employeeSize: "1-10",
+        employeeSize: "N/A",
         reasonOfStatus: null,
-        status: "Active",
+        status: "N/A",
     }
 
     const getCookie = (name) => {
@@ -39,7 +39,7 @@ export default function Profile() {
                 const token = getCookie("userToken")
 
                 const response = await axios.get(
-                    `${import.meta.env.VITE_BASE_URL}/users/companies/getCompaniesProfileByUsersId`,
+                    `${import.meta.env.VITE_BASE_URL}/users/companies/getCompanyProfileByUsersId`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

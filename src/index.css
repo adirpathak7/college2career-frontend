@@ -3,14 +3,19 @@
 @tailwind utilities;
 
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  0% {
+    opacity: 0;
   }
-  
-  .animate__fadeIn {
-    animation: fadeIn 1.5s ease-in-out;
+
+  100% {
+    opacity: 1;
   }
-  
+}
+
+.animate__fadeIn {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -21,4 +26,9 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.input-field,
+.form-input {
+  @apply w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition;
 }

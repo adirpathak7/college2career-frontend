@@ -181,7 +181,7 @@ export default function CreateProfileModel() {
             },
         })
             .then((response) => {
-                console.log("api response:", response.data)
+                // console.log("api response:", response.data)
                 if (response.data.status === false) {
                     setApiResponse({
                         message: response.data.message,

@@ -47,7 +47,7 @@ export default function SideBar() {
                             <MdDashboard />
                             <p className="text-base leading-4 ">Dashboard</p>
                         </Link>
-                        <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                        <Link to="/user/dashboard/vacancies" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BsCardList />
                             <p className="text-base leading-4 ">Vacancy</p>
                         </Link>

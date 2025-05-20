@@ -8,10 +8,10 @@ import PageTitle from '../../PageTitle'
 
 const TABS = [
     { label: 'All', api: '/users/companies/getAllCompanies' },
-    { label: 'Pending', api: '/users/companies/getCompanyByPendingStatus' },
-    { label: 'Activated', api: '/users/companies/getCompanyByActivatedStatus' },
-    { label: 'Rejected', api: '/users/companies/getCompanyByRejectedStatus' },
-    { label: 'Deactivated', api: '/users/companies/getCompanyByDeactivatedStatus' },
+    { label: 'Pending', api: '/users/companies/getCompaniesByPendingStatus' },
+    { label: 'Activated', api: '/users/companies/getCompaniesByActivatedStatus' },
+    { label: 'Rejected', api: '/users/companies/getCompaniesByRejectedStatus' },
+    { label: 'Deactivated', api: '/users/companies/getCompaniesByDeactivatedStatus' },
 ];
 
 export default function Companies() {
@@ -99,18 +99,15 @@ export default function Companies() {
     return (
         <>
             <PageTitle title="Companies" />
-            <div className="min-h-screen bg-gray-900 text-white py-8 px-4 md:px-12">
+            <div className="text-gray-800 py-8 px-4 md:px-12">
                 <h1 className="text-3xl font-bold mb-6 text-center">Companies List</h1>
 
-                <div className="flex gap-4 mb-8 border-b border-gray-700">
-                    {TABS.map(tab => (
+                <div className="flex gap-4 border-b mb-4 overflow-x-auto">
+                    {TABS.map((tab) => (
                         <button
                             key={tab.label}
                             onClick={() => setActiveTab(tab.label)}
-                            className={`pb-2 text-lg font-medium ${activeTab === tab.label
-                                ? 'border-b-2 border-purple-500 text-purple-400'
-                                : 'text-gray-400 hover:text-purple-300'
-                                }`}
+                            className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === tab.label ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-500'}`}
                         >
                             {tab.label}
                         </button>
@@ -118,7 +115,7 @@ export default function Companies() {
                 </div>
 
                 {apiError && (
-                    <div className="mb-4 px-4 py-2 bg-red-600/20 border border-red-500 text-red-400 rounded text-center font-bold">
+                    <div className="mb-4 px-4 py-2 bg-red-100 border border-red-400 text-red-600 rounded text-center font-bold">
                         {apiError}
                     </div>
                 )}
@@ -127,50 +124,50 @@ export default function Companies() {
                     {companies.map(company => (
                         <div
                             key={company.companyId}
-                            className={`bg-gray-800 rounded-xl p-5 shadow-md transition-all duration-300 ${showReasonInput === company.companyId ? 'min-h-[420px]' : 'min-h-[340px]'}`}
+                            className={`bg-white rounded-xl p-5 shadow-md transition-all duration-300 border border-gray-200 ${showReasonInput === company.companyId ? 'min-h-[420px]' : 'min-h-[340px]'}`}
                         >
                             {cardErrors[company.companyId] && (
-                                <div className="mb-3 px-3 py-1 bg-red-600/20 border border-red-500 text-red-400 text-sm rounded">
+                                <div className="mb-3 px-3 py-1 bg-red-100 border border-red-400 text-red-600 text-sm rounded">
                                     {cardErrors[company.companyId]}
                                 </div>
                             )}
 
-                            <div className="flex justify-between items-center mb-3">
+                            <div className="flex justify-between items-start mb-3">
                                 <div className="flex items-center space-x-4">
                                     <img
                                         src={company.profilePictureURL || '/default.jpg'}
                                         alt="Company"
-                                        className="w-16 h-16 rounded-full object-cover border-2 border-purple-500"
+                                        className="w-16 h-16 rounded-full object-cover border-2 border-blue-400"
                                     />
                                     <div>
-                                        <h3 className="text-lg font-bold">{company.companyName}</h3>
-                                        <h4 className="text-lg font-bold">{company.email}</h4>
-                                        <p className="text-sm text-purple-400">
+                                        <h3 className="text-lg font-bold text-gray-800">{company.companyName}</h3>
+                                        <h4 className="text-sm font-medium text-gray-600">{company.email}</h4>
+                                        <p className="text-sm text-blue-500">
                                             {company.city}, {company.state}
                                         </p>
                                     </div>
                                 </div>
-                                <div className="text-right">
+                                <div className="mt-1">
                                     {company.status === 'pending' ? (
-                                        <div className="bg-gray-700 rounded-full p-1.5 shadow-md">
-                                            <BiBlock className="text-red-500 w-6 h-6 hover:scale-110 transition" title="pending" />
+                                        <div className="bg-gray-200 rounded-full p-1.5 shadow">
+                                            <BiBlock className="text-red-500 w-6 h-6" title="pending" />
                                         </div>
                                     ) : company.status === 'activated' ? (
-                                        <div className="bg-gray-700 rounded-full p-2 shadow-md">
-                                            <FcApproval className="w-6 h-6 hover:scale-110 transition" title="activated" />
+                                        <div className="bg-green-100 rounded-full p-1.5 shadow">
+                                            <FcApproval className="w-6 h-6" title="activated" />
                                         </div>
                                     ) : null}
                                 </div>
                             </div>
 
                             <div className="text-sm space-y-1">
-                                <p><span className="font-semibold text-gray-300">Address:</span> {company.area}</p>
-                                <p><span className="font-semibold text-gray-300">Contact:</span> {company.contactNumber}</p>
-                                <p><span className="font-semibold text-gray-300">Established:</span> {company.establishedDate}</p>
-                                <p><span className="font-semibold text-gray-300">Employees:</span> {company.employeeSize}</p>
-                                <p><span className="font-semibold text-gray-300">Status:</span> <span className={getStatusColor(company.status)}>{company.status}</span></p>
+                                <p><span className="font-semibold text-gray-600">Address:</span> {company.area}</p>
+                                <p><span className="font-semibold text-gray-600">Contact:</span> {company.contactNumber}</p>
+                                <p><span className="font-semibold text-gray-600">Established:</span> {company.establishedDate}</p>
+                                <p><span className="font-semibold text-gray-600">Employees:</span> {company.employeeSize}</p>
+                                <p><span className="font-semibold text-gray-600">Status:</span> <span className={getStatusColor(company.status)}>{company.status}</span></p>
                                 {company.reasonOfStatus && (
-                                    <p><span className="text-red-400 font-semibold">Reason:</span> {company.reasonOfStatus}</p>
+                                    <p><span className="text-red-500 font-semibold">Reason:</span> {company.reasonOfStatus}</p>
                                 )}
                             </div>
 
@@ -178,7 +175,7 @@ export default function Companies() {
                                 {(company.status === 'pending' || company.status === 'rejected' || company.status === 'deactivated') && (
                                     <button
                                         onClick={() => updateCompanyStatus(company.companyId, 'activated')}
-                                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-sm rounded"
+                                        className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm rounded"
                                     >
                                         Approve
                                     </button>
@@ -189,7 +186,7 @@ export default function Companies() {
                                             setShowReasonInput(company.companyId);
                                             setStatusReason('');
                                         }}
-                                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-sm rounded"
+                                        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm rounded"
                                     >
                                         Reject
                                     </button>
@@ -200,7 +197,7 @@ export default function Companies() {
                                             setShowReasonInput(company.companyId);
                                             setStatusReason('');
                                         }}
-                                        className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-sm rounded"
+                                        className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm rounded"
                                     >
                                         Deactivate
                                     </button>
@@ -211,7 +208,7 @@ export default function Companies() {
                                 <div className="mt-3 space-y-2">
                                     <textarea
                                         placeholder="Enter reason..."
-                                        className="w-full bg-gray-700 border border-gray-600 text-white rounded p-2 resize-none"
+                                        className="w-full bg-gray-100 border border-gray-300 text-gray-800 rounded p-2 resize-none"
                                         rows={3}
                                         value={statusReason}
                                         onChange={(e) => setStatusReason(e.target.value)}
@@ -224,7 +221,7 @@ export default function Companies() {
                                                 updateCompanyStatus(company.companyId, newStatus, statusReason);
                                                 setShowReasonInput(null);
                                             }}
-                                            className="px-4 py-2 bg-red-700 hover:bg-red-800 rounded text-sm"
+                                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm"
                                         >
                                             Confirm
                                         </button>
@@ -233,7 +230,7 @@ export default function Companies() {
                                                 setShowReasonInput(null);
                                                 setStatusReason('');
                                             }}
-                                            className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded text-sm"
+                                            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-sm"
                                         >
                                             Cancel
                                         </button>

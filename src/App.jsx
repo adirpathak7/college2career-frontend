@@ -17,6 +17,8 @@ import CompaniesApplications from './components/admin/CompaniesApplications'
 import StudentsApplications from './components/admin/Students'
 import Companies from './components/admin/Companies'
 import AdminProfile from './components/admin/Profile'
+import Vacancies from './components/user/Vacancies'
+
 
 function App() {
   return (
@@ -67,6 +69,7 @@ function AppContent() {
         <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />}>
           <Route index element={<DashboardHome />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='vacancies' element={<Vacancies />} />
 
         </Route>
 
