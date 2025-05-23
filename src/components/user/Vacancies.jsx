@@ -3,6 +3,7 @@ import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import message from '../../message.json'
 import { useLoader } from '../../LoaderContext';
+import PageTitle from '../../PageTitle';
 
 const Vacancies = () => {
 
@@ -45,7 +46,48 @@ const Vacancies = () => {
         locationType: '',
     });
 
+    const fetchVacancies = async () => {
+        setLoading(true);
+        setApiError('');
+
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        };
+
+        try {
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/users/companies/getVacanciesByCompanyId`,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + getCookie("userToken")
+                    }
+                }
+            );
+
+            if (res.data?.status && Array.isArray(res.data.data)) {
+                setVacancies(res.data.data);
+            } else {
+                setVacancies([]);
+                setApiError("No vacancies found.");
+            }
+        } catch (err) {
+            setVacancies([]);
+            setApiError(err.response?.data?.message || err.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
+        // setLoading(true)
+        fetchVacancies()
+    }, [])
+
+    useEffect(() => {
+        // setLoading(true)
         if (apiError) {
             const timer = setTimeout(() => {
                 setApiError('');
@@ -113,7 +155,7 @@ const Vacancies = () => {
             errors.timing = message.empty + 'timing!'
         }
         if (!inputData.package) {
-            errors.package = message.empty + 'package!'
+            errors.package = message.empty + 'annual package!'
         }
         if (!inputData.type) {
             errors.type = message.defaultOption + 'job type!'
@@ -218,6 +260,7 @@ const Vacancies = () => {
 
     return (
         <>
+            <PageTitle title="Companies" />
             {apiError && (
                 <div
                     className={`mb-4 px-4 py-2 rounded text-center font-semibold ${apiMessageType === 'error'
@@ -254,8 +297,8 @@ const Vacancies = () => {
                                 <p className="text-sm text-gray-600 mt-1">{v.description}</p>
                                 <p className="mt-2 text-sm"><strong>Type:</strong> {v.type}</p>
                                 <p className="text-sm"><strong>Location:</strong> {v.locationType}</p>
-                                <p className="text-sm"><strong>Package:</strong> {v.package}</p>
-                                <p className="text-sm"><strong>Timing:</strong> {v.timing}</p>
+                                <p className="text-sm"><strong>Annual Package:</strong> {v.package}</p>
+                                {/* <p className="text-sm"><strong>Timing:</strong> {v.timing}</p> */}
                             </div>
                         ))
                     )}
@@ -263,7 +306,7 @@ const Vacancies = () => {
 
 
                 <Dialog open={isOpen} onClose={handleCloseModal} className="relative z-50">
-                    <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                    <div className="fixed inset-0 bg-black/90" aria-hidden="true" />
                     <div className="fixed inset-0 flex items-center justify-center p-4">
                         <Dialog.Panel className="mx-auto w-full max-w-2xl rounded-xl bg-white p-6 shadow-lg">
                             <Dialog.Title className="text-xl font-bold mb-4">Add New Vacancy</Dialog.Title>
@@ -295,7 +338,7 @@ const Vacancies = () => {
                                         {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                         <input
                                             type="text"
                                             name="timing"
@@ -306,7 +349,7 @@ const Vacancies = () => {
                                             className={`input-field`}
                                         />
                                         {inputError.timing && <p className="text-sm text-red-600 mt-1">{inputError.timing}</p>}
-                                    </div>
+                                    </div> */}
 
                                     <div>
                                         <input
@@ -315,7 +358,7 @@ const Vacancies = () => {
                                             ref={packageRef}
                                             value={inputData.package}
                                             onChange={handleChange}
-                                            placeholder="Package"
+                                            placeholder="Annual Package"
                                             className={`input-field`}
                                         />
                                         {inputError.package && <p className="text-sm text-red-600 mt-1">{inputError.package}</p>}

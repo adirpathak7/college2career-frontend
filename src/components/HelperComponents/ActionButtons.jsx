@@ -1,50 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const ActionButtons = ({
     student,
-    showReasonInput,
-    setShowReasonInput,
-    statusReason,
-    setStatusReason,
-    cardErrors,
-    updateStudentStatus,
+    updateStudentStatus
 }) => {
     const status = student.status?.toLowerCase();
-    const showReason = student.studentId === showReasonInput;
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [nextStatus, setNextStatus] = useState('');
+    const [reason, setReason] = useState('');
+    const [error, setError] = useState('');
 
-    const renderReasonInput = (nextStatus) => (
-        <div className="mt-2">
-            <textarea
-                rows={2}
-                className="w-full border border-gray-300 rounded-md p-2 text-sm"
-                placeholder="Enter reason..."
-                value={statusReason}
-                onChange={(e) => setStatusReason(e.target.value)}
-            />
-            {cardErrors[student.studentId] && (
-                <p className="text-red-500 text-xs mt-1">{cardErrors[student.studentId]}</p>
+    const openDialog = (statusType) => {
+        setNextStatus(statusType);
+        setDialogVisible(true);
+    };
+
+    const handleConfirm = () => {
+        if ((nextStatus === 'rejected' || nextStatus === 'deactivated') && !reason.trim()) {
+            setError('Reason is required');
+            return;
+        }
+        updateStudentStatus(student.studentId, nextStatus, reason);
+        setDialogVisible(false);
+        setReason('');
+        setError('');
+    };
+
+    const getActionMessage = (status) => {
+        switch (status) {
+            case 'activated': return 'activate';
+            case 'rejected': return 'reject';
+            case 'deactivated': return 'deactivate';
+            default: return 'update';
+        }
+    };
+
+
+    const handleCancel = () => {
+        setDialogVisible(false);
+        setReason('');
+        setError('');
+    };
+
+    const renderDialog = () => (
+        <Dialog
+            header={`Provide reason to ${getActionMessage(nextStatus)}`}
+            visible={dialogVisible}
+            style={{ width: '400px' }}
+            modal
+            onHide={handleCancel}
+            footer={
+                <div className="flex justify-end gap-2">
+                    <Button label="Cancel" onClick={handleCancel} icon="pi pi-times" className="bg-gray-400 px-3 py-1 rounded text-white" />
+                    <Button label="Confirm" onClick={handleConfirm} icon="pi pi-check" className="bg-blue-600 px-3 py-1 rounded text-white" />
+                </div>
+            }
+        >
+            <p>
+                Are you sure you want to <b>{getActionMessage(nextStatus)}</b> <b>{student.studentName}</b>?
+            </p>
+
+            {(nextStatus === 'rejected' || nextStatus === 'deactivated') && (
+                <>
+                    <textarea
+                        rows={4}
+                        className="w-full border border-gray-300 rounded-md p-2 text-sm mt-3"
+                        placeholder="Enter reason..."
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
+                    />
+                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                </>
             )}
-            <div className="flex gap-2 mt-1">
-                <button
-                    className="px-3 py-1 text-white bg-green-600 rounded text-sm"
-                    onClick={() => { updateStudentStatus(student.studentId, nextStatus, statusReason)
-                    }}
-                >
-                    Confirm
-                    
-                </button>
-                <button
-                    className="px-3 py-1 text-white bg-gray-500 rounded text-sm"
-                    onClick={() => {
-                        setShowReasonInput(null);
-                        setStatusReason('');
-                    }}
-                >
-                    Cancel
-                </button>
-            </div>
-        </div>
+        </Dialog>
     );
+
 
     switch (status) {
         case 'pending':
@@ -57,12 +92,12 @@ const ActionButtons = ({
                         Approve
                     </button>
                     <button
-                        onClick={() => setShowReasonInput(student.studentId)}
+                        onClick={() => openDialog('rejected')}
                         className="bg-red-600 text-white px-3 py-1 text-sm rounded"
                     >
                         Reject
                     </button>
-                    {showReason && renderReasonInput('rejected')}
+                    {renderDialog()}
                 </div>
             );
 
@@ -70,12 +105,12 @@ const ActionButtons = ({
             return (
                 <div>
                     <button
-                        onClick={() => setShowReasonInput(student.studentId)}
+                        onClick={() => openDialog('deactivated')}
                         className="bg-red-600 text-white px-3 py-1 text-sm rounded"
                     >
                         Deactivate
                     </button>
-                    {showReason && renderReasonInput('deactivated')}
+                    {renderDialog()}
                 </div>
             );
 
@@ -89,12 +124,12 @@ const ActionButtons = ({
                         Activate
                     </button>
                     <button
-                        onClick={() => setShowReasonInput(student.studentId)}
+                        onClick={() => openDialog('deactivated')}
                         className="bg-red-600 text-white px-3 py-1 text-sm rounded"
                     >
                         Deactivate
                     </button>
-                    {showReason && renderReasonInput('deactivated')}
+                    {renderDialog()}
                 </div>
             );
 

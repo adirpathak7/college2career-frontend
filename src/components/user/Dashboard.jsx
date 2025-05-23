@@ -11,7 +11,7 @@ export default function Dashboard() {
             <PageTitle title="Dashboard" />
             <div className="flex">
                 <SideBar />
-                <div className="flex-1 p-6">
+                <div className="flex-1">
                     <Outlet />
                 </div>
             </div>

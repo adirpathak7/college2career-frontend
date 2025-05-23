@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import './App.css'
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import Navbar from './components/Navbar'
 import Home from './components/Home'
 import Register from './components/auth/Register'

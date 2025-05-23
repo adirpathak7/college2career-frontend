@@ -13,6 +13,8 @@
     "@headlessui/react": "^2.2.3",
     "axios": "^1.8.4",
     "framer-motion": "^12.6.3",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",

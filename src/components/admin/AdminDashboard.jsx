@@ -9,7 +9,7 @@ export default function AdminDashboard() {
             <PageTitle title="Admin Dashboard" />
             <div className="flex">
                 <SideBar />
-                <div className="flex-1 p-6">
+                <div className="p-4 h-full">
                     <Outlet />
                 </div>
             </div>

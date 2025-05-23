@@ -3,6 +3,8 @@ import PageTitle from '../../PageTitle';
 import ActionButtons from '../HelperComponents/ActionButtons';
 import { useLoader } from '../../LoaderContext';
 import axios from 'axios'
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 
 const TABS = [
@@ -14,15 +16,16 @@ const TABS = [
 ];
 
 const Students = () => {
+
     const [students, setStudents] = useState([]);
     const [apiError, setApiError] = useState(null);
     const [showReasonInput, setShowReasonInput] = useState(null);
     const [statusReason, setStatusReason] = useState('');
     const [activeTab, setActiveTab] = useState('All');
     const [currentPage, setCurrentPage] = useState(1);
+    const [studentsPerPage, setStudentsPerPage] = useState(5);
     const [cardErrors, setCardErrors] = useState({});
     const { setLoading } = useLoader();
-    const studentsPerPage = 10;
 
     const fetchStudents = async () => {
         setLoading(true);
@@ -108,6 +111,7 @@ const Students = () => {
         fetchStudents();
     }, [activeTab]);
 
+
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
@@ -115,63 +119,103 @@ const Students = () => {
     };
 
     return (
-        <div className="py-8 px-4 md:px-12">
-            <PageTitle title="Students" />
-            <h1 className="text-3xl font-bold mb-6 text-center">Students List</h1>
+        <>
+            <PageTitle title="Companies" />
+            <div className="py-8 px-4 md:px-12">
+                <h1 className="text-3xl font-bold mb-6 text-center">Students List</h1>
 
-            <div className="flex gap-4 border-b mb-4 overflow-x-auto">
-                {TABS.map((tab) => (
-                    <button
-                        key={tab.label}
-                        onClick={() => setActiveTab(tab.label)}
-                        className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === tab.label ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-500'}`}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
-
-            {apiError && (
-                <div className="mb-4 px-4 py-2 bg-red-100 border border-red-500 text-red-600 rounded text-center">
-                    {apiError}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b mb-6 pb-2">
+                    <div className="flex gap-4 overflow-x-auto">
+                        {TABS.map((tab) => (
+                            <button
+                                key={tab.label}
+                                onClick={() => setActiveTab(tab.label)}
+                                className={`px-4 py-2 border-b-2 font-medium whitespace-nowrap ${activeTab === tab.label ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'}`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="flex justify-center my-4">
+                        <div className="relative inline-block text-left">
+                            <select
+                                id="studentsPerPage"
+                                value={studentsPerPage}
+                                onChange={(e) => setStudentsPerPage(Number(e.target.value))}
+                                className="block w-full text-sm px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out duration-150 bg-white text-gray-700"
+                            >
+                                <option value={5}>Show 5</option>
+                                <option value={10}>Show 10</option>
+                                <option value={20}>Show 20</option>
+                                <option value={50}>Show 50</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            )}
 
-            <div className="overflow-x-auto border rounded shadow-sm">
-                <table className="min-w-full text-sm text-left">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="p-2">Name</th>
-                            <th className="p-2">Email</th>
-                            <th className="p-2">Roll No</th>
-                            <th className="p-2">Course</th>
-                            <th className="p-2">Graduation Year</th>
-                            <th className="p-2">Resume</th>
-                            <th className="p-2">Status</th>
-                            {activeTab.toLowerCase() !== 'pending' && activeTab.toLowerCase() !== 'activated' && <th className="p-2">Reason</th>}
-                            <th className="p-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {paginatedStudents.length > 0 ? paginatedStudents.map((student) => (
-                            <tr key={student.studentId} className="border-t hover:bg-gray-50">
-                                <td className="p-2">{student.studentName}</td>
-                                <td className="p-2">{student.email}</td>
-                                <td className="p-2">{student.rollNumber}</td>
-                                <td className="p-2">{student.course}</td>
-                                <td className="p-2">{student.graduationYear}</td>
-                                <td className="p-2">
-                                    <a href={student.resumeURL} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">View</a>
-                                </td>
-                                <td className={`p-2 font-semibold ${getStatusColor(student.status)}`}>
-                                    {student.status}
-                                </td>
-                                {activeTab.toLowerCase() !== 'pending' && activeTab.toLowerCase() !== 'activated' && (
-                                    <td className="p-2">{student.statusReason || '-'}</td>
+                {apiError && (
+                    <div className="mb-4 px-4 py-2 bg-red-100 border border-red-500 text-red-600 rounded text-center">
+                        {apiError}
+                    </div>
+                )}
+
+                {/* Table */}
+                <div className="overflow-x-auto border rounded shadow-md">
+                    <div className="card">
+                        <DataTable
+                            value={paginatedStudents}
+                            rows={studentsPerPage}
+                            onPage={(e) => {
+                                setStudentsPerPage(e.rows);
+                                setCurrentPage(Math.floor(e.first / e.rows) + 1);
+                            }}
+                            first={(currentPage - 1) * studentsPerPage}
+                            tableStyle={{ minWidth: '50rem' }}
+                            responsiveLayout="scroll"
+                            emptyMessage="No students found for this tab."
+                        >
+                            <Column field="rollNumber" header="Roll Number" />
+                            <Column field="studentName" header="Name" />
+                            <Column field="email" header="Email" />
+                            <Column field="course" header="Course" />
+                            <Column field="graduationYear" header="Graduation Year" />
+
+                            <Column
+                                header="Resume"
+                                body={(rowData) => (
+                                    <a
+                                        href={rowData.resumeURL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 underline"
+                                    >
+                                        View
+                                    </a>
                                 )}
-                                <td className="p-2">
+                            />
+
+                            <Column
+                                field="status"
+                                header="Status"
+                                body={(rowData) => (
+                                    <span className={`font-semibold ${getStatusColor(rowData.status)}`}>
+                                        {rowData.status}
+                                    </span>
+                                )}
+                            />
+
+                            {(activeTab.toLowerCase() !== 'pending' && activeTab.toLowerCase() !== 'activated') && (
+                                <Column
+                                    header="Reason"
+                                    body={(rowData) => rowData.statusReason || '-'}
+                                />
+                            )}
+
+                            <Column
+                                header="Action"
+                                body={(rowData) => (
                                     <ActionButtons
-                                        student={student}
+                                        student={rowData}
                                         showReasonInput={showReasonInput}
                                         setShowReasonInput={setShowReasonInput}
                                         statusReason={statusReason}
@@ -179,46 +223,39 @@ const Students = () => {
                                         cardErrors={cardErrors}
                                         updateStudentStatus={updateStudentStatus}
                                     />
-
-                                </td>
-                            </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan={activeTab.toLowerCase() === 'pending' ? 8 : 9} className="p-4 text-center text-gray-500">
-                                    No students found for this tab.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-
-            <div className="flex justify-center mt-6 gap-2 flex-wrap">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => (
+                                )}
+                            />
+                        </DataTable>
+                    </div>
+                </div>
+                <div className="flex justify-center mt-6 gap-2 flex-wrap mb-10">
                     <button
-                        key={i}
-                        onClick={() => handlePageChange(i + 1)}
-                        className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white'}`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                        disabled={currentPage === 1}
                     >
-                        {i + 1}
+                        Previous
                     </button>
-                ))}
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => handlePageChange(i + 1)}
+                            className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white'}`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
