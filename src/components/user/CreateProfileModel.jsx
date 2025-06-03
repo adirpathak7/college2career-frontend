@@ -73,7 +73,6 @@ export default function CreateProfileModel() {
         setApiResponse({ message: '', type: '' })
     }
 
-
     const handleClose = () => {
         setApiResponse({ message: '', type: '' })
     }

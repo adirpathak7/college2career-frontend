@@ -46,7 +46,7 @@ export default function CompaniesApplications() {
             })
 
             if (response.data.status) {
-                alert("Company approved successfully.")
+                // alert("Company approved successfully.")
                 setApplications(prev => prev.filter(c => c.companyId !== companyId))
             } else {
                 alert("Approval failed!")
