@@ -1,16 +1,11 @@
 import React from 'react'
-import { AiOutlineProfile } from 'react-icons/ai'
-import { BiLogOut, BiLogOutCircle, BiMessage } from 'react-icons/bi'
-import { CgProfile } from 'react-icons/cg'
-import { GiRamProfile } from 'react-icons/gi'
+import { BiLogOut, BiMessage } from 'react-icons/bi'
 import { ImProfile } from 'react-icons/im'
-import { PiCarProfile } from 'react-icons/pi'
-import { RiProfileFill } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import Profile from './user/Profile'
 import { BsCardList } from 'react-icons/bs'
-import { GrDashboard } from 'react-icons/gr'
 import { MdDashboard } from 'react-icons/md'
+import { RiPagesLine } from "react-icons/ri";
 
 export default function SideBar() {
 
@@ -51,12 +46,14 @@ export default function SideBar() {
                             <BsCardList />
                             <p className="text-base leading-4 ">Vacancy</p>
                         </Link>
-
+                        <Link to="/user/dashboard/applications" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                            <RiPagesLine />
+                            <p className="text-base leading-4 ">Applications</p>
+                        </Link>
                         <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <BiMessage />
                             <p className="text-base leading-4">Messages</p>
                         </Link>
-
                         <Link to="/user/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
                             <ImProfile />
                             <p className="text-base leading-4">Profile</p>
@@ -64,7 +61,7 @@ export default function SideBar() {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-between items-center h-full pb-6 px-6 w-full mt-[119%]">
+                <div className="flex flex-col justify-between items-center h-full pb-6 px-6 w-full mt-[98%]">
                     <div className=" flex justify-between items-center w-full">
                         <div className="flex justify-center items-center  space-x-2">
                             <div className=''>

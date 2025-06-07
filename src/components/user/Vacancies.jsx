@@ -539,9 +539,9 @@ const Vacancies = () => {
                 </Dialog>
                 {editingVacancy &&
                     (
-                        <Dialog open={isEditDialogOpen} onClose={handleEditCloseModal} className="relative z-50">
-                            <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
-                            <div className="fixed inset-0 flex items-center justify-center p-4 overflow-y-auto">
+                        <Dialog open={isEditDialogOpen} onClose={handleEditCloseModal} className="relative z-50 ">
+                            <div className="fixed inset-0 bg-black/75 " aria-hidden="true" />
+                            <div className="fixed inset-0 top-10 w-full h-[100vh] hide-scrollbar  flex items-center justify-center p-4 overflow-y-auto">
                                 <Dialog.Panel className="relative w-full max-w-2xl bg-white rounded-xl p-6 shadow-lg my-10">
                                     <Dialog.Title className="text-xl font-bold mb-4 text-center">Edit Vacancy</Dialog.Title>
                                     <form onSubmit={handleEditVacancy} className="space-y-6">
