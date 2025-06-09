@@ -11,7 +11,7 @@ const Vacancies = () => {
     const eligibility_criteriaRef = useRef(null);
     const totalVacancyRef = useRef(null);
     const timingRef = useRef(null);
-    const packageRef = useRef(null);
+    const annualPackageRef = useRef(null);
     const typeRef = useRef(null);
     const locationTypeRef = useRef(null);
     const { setLoading } = useLoader();
@@ -27,7 +27,7 @@ const Vacancies = () => {
         eligibility_criteria: '',
         totalVacancy: '',
         timing: '',
-        package: '',
+        annualPackage: '',
         type: '',
         locationType: '',
     });
@@ -37,7 +37,7 @@ const Vacancies = () => {
         eligibility_criteria: '',
         totalVacancy: '',
         timing: '',
-        package: '',
+        annualPackage: '',
         type: '',
         locationType: '',
     });
@@ -123,7 +123,7 @@ const Vacancies = () => {
             eligibility_criteria: '',
             totalVacancy: '',
             timing: '',
-            package: '',
+            annualPackage: '',
             type: '',
             locationType: '',
         });
@@ -151,7 +151,7 @@ const Vacancies = () => {
         formData.append('title', inputData.title)
         formData.append('totalVacancy', inputData.totalVacancy)
         formData.append('timing', inputData.timing)
-        formData.append('package', inputData.package)
+        formData.append('annualPackage', inputData.annualPackage)
         formData.append('type', inputData.type)
         formData.append('locationType', inputData.locationType)
         formData.append('eligibility_criteria', inputData.eligibility_criteria)
@@ -162,8 +162,8 @@ const Vacancies = () => {
         if (!inputData.totalVacancy) {
             errors.totalVacancy = message.empty + 'total vacancy!'
         }
-        if (!inputData.package) {
-            errors.package = message.empty + 'annual package!'
+        if (!inputData.annualPackage) {
+            errors.annualPackage = message.empty + 'annual annualPackage!'
         }
         if (!inputData.type) {
             errors.type = message.defaultOption + 'job type!'
@@ -187,8 +187,8 @@ const Vacancies = () => {
                 totalVacancyRef.current.focus()
             } else if (errors.timing && timingRef.current) {
                 timingRef.current.focus()
-            } else if (errors.package && packageRef.current) {
-                packageRef.current.focus()
+            } else if (errors.annualPackage && annualPackageRef.current) {
+                annualPackageRef.current.focus()
             } else if (errors.type && typeRef.current) {
                 typeRef.current.focus()
             } else if (errors.locationType && locationTypeRef.current) {
@@ -219,7 +219,7 @@ const Vacancies = () => {
                         eligibility_criteria: '',
                         totalVacancy: '',
                         timing: '',
-                        package: '',
+                        annualPackage: '',
                         type: '',
                         locationType: '',
                     });
@@ -233,7 +233,7 @@ const Vacancies = () => {
                         eligibility_criteria: '',
                         totalVacancy: '',
                         timing: '',
-                        package: '',
+                        annualPackage: '',
                         type: '',
                         locationType: '',
                     });
@@ -266,8 +266,8 @@ const Vacancies = () => {
         if (!editingVacancy.totalVacancy) {
             errors.totalVacancy = message.empty + 'total vacancy!'
         }
-        if (!editingVacancy.package) {
-            errors.package = message.empty + 'annual package!'
+        if (!editingVacancy.annualPackage) {
+            errors.annualPackage = message.empty + 'annual annualPackage!'
         }
         if (!editingVacancy.type) {
             errors.type = message.defaultOption + 'job type!'
@@ -291,8 +291,8 @@ const Vacancies = () => {
                 totalVacancyRef.current.focus()
             } else if (errors.timing && timingRef.current) {
                 timingRef.current.focus()
-            } else if (errors.package && packageRef.current) {
-                packageRef.current.focus()
+            } else if (errors.annualPackage && annualPackageRef.current) {
+                annualPackageRef.current.focus()
             } else if (errors.type && typeRef.current) {
                 typeRef.current.focus()
             } else if (errors.locationType && locationTypeRef.current) {
@@ -383,7 +383,7 @@ const Vacancies = () => {
                                 <div className="mt-4 space-y-1 text-sm text-gray-700">
                                     <p><strong>Type:</strong> {v.type}</p>
                                     <p><strong>Location:</strong> {v.locationType}</p>
-                                    <p><strong>Annual Package:</strong> {v.package}</p>
+                                    <p><strong>Annual Package:</strong> {v.annualPackage}</p>
                                 </div>
                             </div>
                         ))
@@ -429,20 +429,20 @@ const Vacancies = () => {
                                         {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
                                     </div>
 
-                                    {/* Package */}
+                                    {/* annualPackage */}
                                     <div>
-                                        <label htmlFor="package" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
+                                        <label htmlFor="annualPackage" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
                                         <input
                                             type="text"
-                                            name="package"
-                                            id="package"
-                                            ref={packageRef}
-                                            value={inputData.package}
+                                            name="annualPackage"
+                                            id="annualPackage"
+                                            ref={annualPackageRef}
+                                            value={inputData.annualPackage}
                                             onChange={handleChange}
                                             placeholder="e.g. 7 LPA"
                                             className="input-field"
                                         />
-                                        {inputError.package && <p className="text-sm text-red-600 mt-1">{inputError.package}</p>}
+                                        {inputError.annualPackage && <p className="text-sm text-red-600 mt-1">{inputError.annualPackage}</p>}
                                     </div>
 
                                     {/* Job Type */}
@@ -572,18 +572,18 @@ const Vacancies = () => {
                                                 />
                                                 {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
                                             </div>
-                                            {/* Package */}
+                                            {/* annualPackage */}
                                             <div>
-                                                <label htmlFor="package" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
+                                                <label htmlFor="annualPackage" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
                                                 <input
                                                     type="text"
-                                                    name="package"
-                                                    value={editingVacancy.package}
+                                                    name="annualPackage"
+                                                    value={editingVacancy.annualPackage}
                                                     onChange={handleEditInputChange}
-                                                    ref={packageRef}
+                                                    ref={annualPackageRef}
                                                     className="input-field"
                                                 />
-                                                {inputError.package && <p className="text-sm text-red-600 mt-1">{inputError.package}</p>}
+                                                {inputError.annualPackage && <p className="text-sm text-red-600 mt-1">{inputError.annualPackage}</p>}
                                             </div>
                                             {/* Job Type */}
                                             <div>
