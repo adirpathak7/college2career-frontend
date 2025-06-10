@@ -14,6 +14,22 @@ export default function Applications() {
     const [apiError, setApiError] = useState('');
     const [apiMessageType, setApiMessageType] = useState('');
     const [rejectError, setRejectError] = useState('');
+    const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+    const [interviewDateError, setInterviewDateError] = useState('');
+    const [interviewTimeError, setInterviewTimeError] = useState('');
+    const [interviewDetails, setInterviewDetails] = useState({
+        interviewDate: '',
+        interviewTime: ''
+    })
+
+    const openScheduleDialog = (applicationId) => {
+        setSelectedApplicationId(applicationId);
+        setInterviewDetails({
+            interviewDate: '',
+            interviewTime: ''
+        });
+        setShowScheduleDialog(true);
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -106,6 +122,69 @@ export default function Applications() {
                 return 'bg-red-100 text-red-800 border-red-400 capitalize';
             default:
                 return 'bg-gray-100 text-gray-800 border-gray-400 capitalize';
+        }
+    };
+
+    const formatTimeTo12Hour = (time24) => {
+        const [hours, minutes] = time24.split(":");
+        const hour = parseInt(hours, 10);
+        const suffix = hour >= 12 ? "PM" : "AM";
+        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+        return `${hour12}:${minutes} ${suffix}`;
+    };
+
+    const formattedTime = formatTimeTo12Hour(interviewDetails.interviewTime);
+
+    const handleSchedule = async () => {
+        let hasError = false;
+
+        if (!interviewDetails.interviewDate) {
+            setInterviewDateError("Please select interview date.");
+            hasError = true;
+        } else {
+            setInterviewDateError('');
+        }
+
+        if (!interviewDetails.interviewTime) {
+            setInterviewTimeError("Please select interview time.");
+            hasError = true;
+        } else {
+            setInterviewTimeError('');
+        }
+
+        if (hasError) return;
+
+        setLoading(true);
+
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/interviews/interviewSchedule`, {
+                applicationId: selectedApplicationId,
+                interviewDate: interviewDetails.interviewDate,
+                interviewTime: formattedTime
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + getCookie("userToken")
+                }
+            });
+
+            if (response.data.status === true) {
+
+                await updateApplicationStatus(selectedApplicationId, 'interviewScheduled');
+
+                setApiError("Interview scheduled successfully.");
+                setApiMessageType("success");
+                setShowScheduleDialog(false);
+            } else {
+                setApiError(response.data.message)
+                setApiMessageType('error')
+                setShowScheduleDialog(false)
+            }
+        } catch (error) {
+            setApiError("Failed to schedule interview.");
+            setApiMessageType("error");
+            console.error("Interview scheduling error:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -209,7 +288,7 @@ export default function Applications() {
 
                                     {app.applicationStatus === 'shortlisted' && (
                                         <button
-                                            onClick={() => updateApplicationStatus(app.applicationId, 'interviewScheduled')}
+                                            onClick={() => openScheduleDialog(app.applicationId)}
                                             className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
                                         >
                                             Schedule Interview
@@ -261,6 +340,50 @@ export default function Applications() {
                 </div>
             </Dialog>
 
+            <Dialog open={showScheduleDialog} onClose={() => setShowScheduleDialog(false)} className="relative z-50">
+                <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
+                <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <Dialog.Panel className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md space-y-4">
+                        <Dialog.Title className="text-xl font-semibold text-gray-800">Schedule Interview</Dialog.Title>
+
+                        <div>
+                            <label className="block text-sm text-gray-600">Interview Date</label>
+                            <input
+                                type="date"
+                                className="w-full border rounded px-3 py-2"
+                                value={interviewDetails.interviewDate}
+                                min={new Date().toISOString().split("T")[0]}
+                                max={new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]}
+                                onChange={(e) => {
+                                    setInterviewDetails(prev => ({ ...prev, interviewDate: e.target.value }));
+                                    setInterviewDateError('');
+                                }}
+                            />
+                            {interviewDateError && <p className="text-sm text-red-600">{interviewDateError}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm text-gray-600 mt-4">Interview Time</label>
+                            <input
+                                type="time"
+                                className="w-full border rounded px-3 py-2"
+                                value={interviewDetails.interviewTime}
+                                onChange={(e) => {
+                                    setInterviewDetails(prev => ({ ...prev, interviewTime: e.target.value }));
+                                    setInterviewTimeError('');
+                                }}
+                            />
+                            {interviewTimeError && <p className="text-sm text-red-600">{interviewTimeError}</p>}
+
+                        </div>
+
+                        <div className="flex justify-end gap-3 pt-4">
+                            <button onClick={() => setShowScheduleDialog(false)} className="text-gray-600">Cancel</button>
+                            <button onClick={handleSchedule} className="bg-indigo-600 text-white px-4 py-2 rounded">Schedule</button>
+                        </div>
+                    </Dialog.Panel>
+                </div>
+            </Dialog>
         </div>
     );
 }
