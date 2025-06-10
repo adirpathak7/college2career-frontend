@@ -5,6 +5,8 @@ import message from '../../message.json'
 import { useLoader } from '../../LoaderContext';
 import PageTitle from '../../PageTitle';
 import { BiEdit } from 'react-icons/bi';
+
+
 const Vacancies = () => {
     const titleRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -429,7 +431,7 @@ const Vacancies = () => {
                                         {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
                                     </div>
 
-                                    {/* annualPackage */}
+                                    {/* Annual Package */}
                                     <div>
                                         <label htmlFor="annualPackage" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
                                         <input
@@ -572,7 +574,7 @@ const Vacancies = () => {
                                                 />
                                                 {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
                                             </div>
-                                            {/* annualPackage */}
+                                            {/* Annual Package */}
                                             <div>
                                                 <label htmlFor="annualPackage" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
                                                 <input
