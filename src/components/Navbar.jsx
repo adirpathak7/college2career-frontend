@@ -1,34 +1,63 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+
     return (
-        <>
-            <nav className="bg-black text-white fixed top-0 left-0 w-full shadow-md z-50">
-                <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-                    <Link to="/" className="text-2xl font-bold">College2Career</Link>
+        <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#005acd] via-[#0093cb] to-[#6dd7fd] text-white shadow-md z-50 backdrop-blur-md">
+            <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+                {/* Logo */}
+                <Link to="/" className="text-2xl font-bold tracking-wide">
+                    College<span className="text-[#bef0ff]">2</span>Career
+                </Link>
 
-                    <div className="hidden md:flex space-x-6">
-                        <Link to="/" className="hover:text-gray-300">Home</Link>
-                        <Link to="/about" className="hover:text-gray-300">About</Link>
-                        <Link to="/login" className="hover:text-gray-300">Login</Link>
-                    </div>
-
-                    <button className="md:hidden text-white focus:outline-none" id="menu-button">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
+                {/* Desktop Menu */}
+                <div className="hidden md:flex space-x-6 font-medium">
+                    <Link to="/" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
+                        Home
+                    </Link>
+                    <Link to="/aboutUs" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
+                        About
+                    </Link>
+                    <Link to="/contactUs" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
+                        Contact Us
+                    </Link>
+                    <Link to="/login" className="hover:bg-white hover:text-[#005acd] px-4 py-1 border border-white rounded transition duration-300">
+                        Login
+                    </Link>
                 </div>
 
-                <div className="md:hidden hidden flex flex-col space-y-4 px-4 pb-4" id="mobile-menu">
-                    <Link to="/" className="block hover:text-gray-300">Home</Link>
-                    <Link to="/about" className="block hover:text-gray-300">About</Link>
-                    <Link to="/login" className="block hover:text-gray-300">Login</Link>
-                </div>
-            </nav>
-        </>
-    )
-}
+                {/* Mobile Menu Button */}
+                <button
+                    className="md:hidden text-white focus:outline-none"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Toggle Menu"
+                >
+                    {menuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
+                </button>
+            </div>
 
-export default Navbar
+            {/* Mobile Menu Dropdown */}
+            {menuOpen && (
+                <div className="md:hidden flex flex-col items-start space-y-4 px-6 pb-4 bg-[#0093cb] text-white font-medium">
+                    <Link to="/" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
+                        Home
+                    </Link>
+                    <Link to="/aboutUs" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
+                        About
+                    </Link>
+                    <Link to="/contactUs" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
+                        Contact Us
+                    </Link>
+                    <Link to="/login" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
+                        Login
+                    </Link>
+                </div>
+            )}
+        </nav>
+    );
+};
+
+export default Navbar;

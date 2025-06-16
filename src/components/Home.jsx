@@ -1,90 +1,106 @@
 import React from 'react'
-import { motion } from 'framer-motion';
-import PlacementImg from '../assets/pacementIcon.png'
+import { motion } from 'framer-motion'
+import { FaUserCheck, FaBuilding, FaClipboardCheck } from 'react-icons/fa'
 import PageTitle from '../PageTitle'
 
 export default function Home() {
     return (
         <>
             <PageTitle title="Home" />
-            <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8 mt-14">
-                <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
-                    {/* Left content */}
-                    <motion.div
-                        initial={{ x: -100, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.8 }}
-                        className="md:w-1/2 space-y-6"
-                    >
-                        <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-                            Welcome to <span className="text-blue-500">College2Career</span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300">
-                            Bridging the gap between students and top companies with smart placement management.
-                        </p>
-                        <button className="bg-blue-600 hover:bg-blue-700 transition-all px-6 py-3 text-lg rounded-2xl shadow-lg">
-                            Get Started
-                        </button>
-                    </motion.div>
+            <div className="bg-[#f5ffff] min-h-screen w-full font-sans overflow-hidden">
 
-                    {/* Right image */}
+                {/* Hero Section */}
+                <section className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20 bg-gradient-to-br from-[#005acd] via-[#0093cb] to-[#6dd7fd] text-white overflow-hidden">
+                    {/* Background circles */}
+                    <div className="absolute w-72 h-72 bg-[#bef0ff] rounded-full opacity-20 blur-3xl top-[-50px] left-[-50px] z-0"></div>
+                    <div className="absolute w-96 h-96 bg-white rounded-full opacity-10 blur-3xl bottom-[-80px] right-[-60px] z-0"></div>
+
+                    <div className="md:w-1/2 text-center md:text-left z-10">
+                        <motion.h1
+                            initial={{ opacity: 0, y: -40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-4xl md:text-5xl font-bold leading-tight"
+                        >
+                            Welcome to <span className="text-[#bef0ff]">College2Career</span>
+                        </motion.h1>
+                        <p className="mt-4 text-lg">
+                            Connecting talented students with top companies — streamlining the campus placement process for everyone.
+                        </p>
+                        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                            <button className="bg-white text-[#005acd] hover:bg-[#bef0ff] font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300">
+                                Get Started
+                            </button>
+                            <button className="border border-white text-white hover:bg-[#0093cb] px-6 py-3 rounded-full transition duration-300">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* 3D Illustration */}
                     <motion.div
-                        initial={{ x: 100, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.8 }}
-                        className="md:w-1/2"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="md:w-1/2 mt-10 md:mt-0 z-10"
                     >
                         <img
-                            src={PlacementImg}
-                            alt="Placement Illustration"
-                            className="w-full h-auto object-contain"
+                            src="https://cdni.iconscout.com/illustration/premium/thumb/online-job-placement-8324255-6622269.png"
+                            alt="3D placement"
+                            className="w-full max-w-md mx-auto"
                         />
                     </motion.div>
-                </div>
+                </section>
 
-                {/* Extra section */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
-                    viewport={{ once: true }}
-                    className="mt-20 text-center"
-                >
-                    <h2 className="text-3xl md:text-4xl font-semibold mb-4">What We Offer</h2>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                        A powerful platform where colleges manage placement, companies find talent, and students get their dream jobs.
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                {/* Features Section */}
+                <section className="py-20 px-6 md:px-20 bg-white text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#005acd] mb-12">
+                        What Makes Us Special?
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                         {[
                             {
-                                title: "For Students",
-                                desc: "View job postings, apply, attend interviews, and track your placement journey.",
-                                icon: "🎓",
+                                title: "Verified Students",
+                                desc: "Every student is verified by the college before applying.",
+                                icon: <FaUserCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />,
                             },
                             {
-                                title: "For Companies",
-                                desc: "Post vacancies, review applications, and hire the best students.",
-                                icon: "🏢",
+                                title: "Company Approval Flow",
+                                desc: "Admin validates and approves companies before they can post jobs.",
+                                icon: <FaBuilding className="text-4xl text-[#0093cb] mx-auto mb-4" />,
                             },
                             {
-                                title: "For Admin",
-                                desc: "Manage students and companies, verify data, and maintain placement records.",
-                                icon: "🛠️",
+                                title: "Smooth Application Process",
+                                desc: "Students apply to verified jobs, get alerts, and track offers easily.",
+                                icon: <FaClipboardCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />,
                             },
-                        ].map((item, idx) => (
+                        ].map((item, index) => (
                             <motion.div
-                                key={idx}
+                                key={index}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-gray-800 p-6 rounded-2xl shadow-md"
+                                whileTap={{ scale: 0.97 }}
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="bg-[#f9fcff] p-8 rounded-2xl shadow-lg border border-[#bef0ff]"
                             >
-                                <div className="text-5xl mb-4">{item.icon}</div>
-                                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                                <p className="text-gray-400">{item.desc}</p>
+                                {item.icon}
+                                <h3 className="text-xl font-semibold text-[#005acd] mb-2">
+                                    {item.title}
+                                </h3>
+                                <p className="text-gray-600">
+                                    {item.desc}
+                                </p>
                             </motion.div>
                         ))}
                     </div>
-                </motion.div>
+                </section>
+
+                {/* Footer */}
+                <footer className="bg-[#005acd] text-white text-center py-6">
+                    <p className="text-sm">© {new Date().getFullYear()} College2Career. All rights reserved.</p>
+                </footer>
             </div>
         </>
     )

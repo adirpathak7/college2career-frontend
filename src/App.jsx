@@ -20,6 +20,8 @@ import Companies from './components/admin/Companies'
 import AdminProfile from './components/admin/Profile'
 import Vacancies from './components/user/Vacancies'
 import Applications from './components/user/Applications'
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
 
 
 function App() {
@@ -66,6 +68,8 @@ function AppContent() {
         <Route path='/' element={<PublicRoute element={<Home />} />} />
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/login' element={<PublicRoute element={<Login />} />} />
+        <Route path='/aboutUs' element={<PublicRoute element={<AboutUs />} />} />
+        <Route path='/contactUs' element={<PublicRoute element={<ContactUs />} />} />
         <Route path='/forgotPassword' element={<PublicRoute element={<Forgot />} />} />
         <Route path='/reset-password' element={<PublicRoute element={<ResetPassword />} />} />
         <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />}>
