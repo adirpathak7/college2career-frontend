@@ -29,7 +29,7 @@ input[type=number] {
 }
 
 .input-field {
-  @apply w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-600 bg-gray-700 text-white;
+  @apply w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-600 bg-white;
 }
 
 .input-field:hover {
@@ -37,15 +37,18 @@ input[type=number] {
   /* Tailwind's blue-400 */
 }
 
-/* Hide scrollbar but allow scrolling */
-.hide-scrollbar {
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
+::-webkit-scrollbar {
+  display: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera */
+/* For Firefox */
+html {
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Prevent overflow if needed */
+body,
+html {
+  overflow: hidden;
 }

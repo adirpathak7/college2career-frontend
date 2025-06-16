@@ -7,6 +7,7 @@ import PageTitle from '../PageTitle'
 import homeImg from '../assets/homePage.jpg'
 import { Link } from 'react-router-dom'
 import Footer from './Footer'
+import C2CLogo from '../assets/C2CLogo.png'
 
 export default function Home() {
     return (

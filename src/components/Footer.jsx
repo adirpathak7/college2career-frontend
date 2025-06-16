@@ -5,7 +5,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope } from 'react-icons/
 
 const Footer = () => {
     return (
-        <footer className="bg-blue-900 text-white py-10 px-6">
+        <footer className="bg-gradient-to-r from-[#005acd] via-[#0093cb] to-[#6dd7fd] shadow-md z-50 backdrop-blur-md text-white py-10 px-6">
             <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 text-sm">
 
                 {/* Company Description */}
@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
 
             {/* Bottom Bar */}
-            <div className="mt-10 text-center text-xs text-gray-300 border-t border-gray-700 pt-4">
+            <div className="mt-10 text-center text-xs text-gray-100 pt-4">
                 © {new Date().getFullYear()} College2Career. All rights reserved.
             </div>
         </footer>

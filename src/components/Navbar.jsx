@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
-
+import C2CLogo from '../assets/C2CLogo.png'
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -9,10 +9,15 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#005acd] via-[#0093cb] to-[#6dd7fd] text-white shadow-md z-50 backdrop-blur-md">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 {/* Logo */}
-                <Link to="/" className="text-2xl font-bold tracking-wide">
-                    College<span className="text-[#bef0ff]">2</span>Career
+                <Link to="/" className="flex items-center space-x-2">
+                    <img
+                        src={C2CLogo}
+                        alt="C2C Logo"
+                        className="h-12 w-12 object-cover rounded-full shadow-md"
+                    />
+                    {/* Optional: Text next to logo */}
+                    <span className="text-xl font-bold tracking-wide">College2Career</span>
                 </Link>
-
                 {/* Desktop Menu */}
                 <div className="hidden md:flex space-x-6 font-medium">
                     <Link to="/" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
