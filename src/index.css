@@ -37,18 +37,17 @@ input[type=number] {
   /* Tailwind's blue-400 */
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-/* For Firefox */
-html {
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-/* Prevent overflow if needed */
+/* Only hide scrollbar but allow scrolling */
 body,
 html {
-  overflow: hidden;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+html {
+  scrollbar-width: none;
 }

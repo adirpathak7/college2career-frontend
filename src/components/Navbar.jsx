@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import C2CLogo from '../assets/C2CLogo.png'
+
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -12,7 +13,7 @@ const Navbar = () => {
                 <Link to="/" className="flex items-center space-x-2">
                     <img
                         src={C2CLogo}
-                        alt="C2C Logo"
+                        alt="College2Career-Logo"
                         className="h-12 w-12 object-cover rounded-full shadow-md"
                     />
                     {/* Optional: Text next to logo */}

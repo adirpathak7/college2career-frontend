@@ -34,10 +34,10 @@ export default function SideBar() {
         <div id="mainSideBar" className="xl:rounded-r h-screen w-full sm:w-64 bg-[#005acd] shadow-lg flex flex-col justify-start">
             {/* Logo section */}
             <div className="flex justify-start p-6 items-center space-x-3 border-b border-[#6dd7fd]">
-                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* (Keep SVG as is or color fill to #6dd7fd if needed) */}
-                    <path d="..." fill="#6dd7fd" />
-                </svg>
+                <img src={C2CLogo}
+                    alt="College2Career-Logo"
+                    className="h-11 w-11 object-cover rounded-full shadow-md"
+                />
                 <p className="text-2xl font-bold text-[#f5ffff]">College2Career</p>
             </div>
 

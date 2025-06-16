@@ -1,8 +1,7 @@
-// src/pages/ContactUs.jsx
-
 import React from 'react';
 import Footer from './Footer';
 import PageTitle from '../PageTitle'
+import { motion } from 'framer-motion';
 
 const ContactUs = () => {
     return (
@@ -21,7 +20,13 @@ const ContactUs = () => {
                 ></iframe>
                 {/* <iframe  width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                 {/* Contact Form Overlay at bottom-left */}
-                <div className="absolute bottom-16 left-6 z-10 max-w-md w-full bg-white bg-opacity-95 p-6 rounded-lg shadow-lg">
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="absolute bottom-16 left-6 z-10 max-w-md w-full bg-white bg-opacity-95 p-6 rounded-lg shadow-lg"
+                >
                     <h2 className="text-xl font-bold text-blue-800 mb-2">Contact Us</h2>
                     <p className="text-gray-600 mb-4">We’re based in Surat, Gujarat. Let’s connect!</p>
                     <div className="mb-4 text-sm text-gray-700 space-y-1">
@@ -64,7 +69,7 @@ const ContactUs = () => {
                             Send
                         </button>
                     </form>
-                </div>
+                </motion.div>
             </div>
             <Footer />
         </>

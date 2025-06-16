@@ -3,6 +3,7 @@ import campusImg from '../assets/campusImg.jpeg';
 import { FaUserGraduate, FaBuilding, FaChalkboardTeacher, FaUsers, FaBriefcase, FaCheckCircle } from 'react-icons/fa';
 import Footer from './Footer';
 import PageTitle from '../PageTitle'
+import { motion } from 'framer-motion';
 
 const AboutUs = () => {
     return (
@@ -49,22 +50,38 @@ const AboutUs = () => {
 
                 {/* Platform Highlights */}
                 <section className="py-12 px-6 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
-                    <div className="bg-white shadow-md p-6 rounded-lg border border-blue-100">
-                        <FaUserGraduate className="text-blue-600 text-3xl mb-2 mx-auto" />
-                        <h3 className="text-xl font-bold text-blue-700 mb-2">Student Management</h3>
-                        <p className="text-gray-600">Track, verify, and empower student journeys with full transparency.</p>
-                    </div>
-
-                    <div className="bg-white shadow-md p-6 rounded-lg border border-blue-100">
-                        <FaBuilding className="text-blue-600 text-3xl mb-2 mx-auto" />
-                        <h3 className="text-xl font-bold text-blue-700 mb-2">Company Interface</h3>
-                        <p className="text-gray-600">Powerful tools for job posting, shortlisting, and offer generation.</p>
-                    </div>
-                    <div className="bg-white shadow-md p-6 rounded-lg border border-blue-100">
-                        <FaChalkboardTeacher className="text-blue-600 text-3xl mb-2 mx-auto" />
-                        <h3 className="text-xl font-bold text-blue-700 mb-2">College Admin Dashboard</h3>
-                        <p className="text-gray-600">Control panel for colleges to view insights, verify data, and maintain trust.</p>
-                    </div>
+                    {[
+                        {
+                            icon: <FaUserGraduate className="text-blue-600 text-3xl mb-2 mx-auto" />,
+                            title: 'Student Management',
+                            desc: 'Track, verify, and empower student journeys with full transparency.',
+                        },
+                        {
+                            icon: <FaBuilding className="text-blue-600 text-3xl mb-2 mx-auto" />,
+                            title: 'Company Interface',
+                            desc: 'Powerful tools for job posting, shortlisting, and offer generation.',
+                        },
+                        {
+                            icon: <FaChalkboardTeacher className="text-blue-600 text-3xl mb-2 mx-auto" />,
+                            title: 'College Admin Dashboard',
+                            desc: 'Control panel for colleges to view insights, verify data, and maintain trust.',
+                        },
+                    ].map((item, index) => (
+                        <motion.div
+                            key={index}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.97 }}
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.2 }}
+                            viewport={{ once: true }}
+                            className="bg-white shadow-md p-6 rounded-lg border border-blue-100"
+                        >
+                            {item.icon}
+                            <h3 className="text-xl font-bold text-blue-700 mb-2">{item.title}</h3>
+                            <p className="text-gray-600">{item.desc}</p>
+                        </motion.div>
+                    ))}
                 </section>
 
                 {/* Impact Metrics */}
