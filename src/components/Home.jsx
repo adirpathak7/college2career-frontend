@@ -1,7 +1,12 @@
+// src/pages/Home.jsx
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import { FaUserCheck, FaBuilding, FaClipboardCheck } from 'react-icons/fa'
 import PageTitle from '../PageTitle'
+import homeImg from '../assets/homePage.jpg'
+import { Link } from 'react-router-dom'
+import Footer from './Footer'
 
 export default function Home() {
     return (
@@ -11,7 +16,6 @@ export default function Home() {
 
                 {/* Hero Section */}
                 <section className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20 bg-gradient-to-br from-[#005acd] via-[#0093cb] to-[#6dd7fd] text-white overflow-hidden">
-                    {/* Background circles */}
                     <div className="absolute w-72 h-72 bg-[#bef0ff] rounded-full opacity-20 blur-3xl top-[-50px] left-[-50px] z-0"></div>
                     <div className="absolute w-96 h-96 bg-white rounded-full opacity-10 blur-3xl bottom-[-80px] right-[-60px] z-0"></div>
 
@@ -28,16 +32,16 @@ export default function Home() {
                             Connecting talented students with top companies — streamlining the campus placement process for everyone.
                         </p>
                         <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                            <button className="bg-white text-[#005acd] hover:bg-[#bef0ff] font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300">
+                            <Link to="/login" className="bg-white text-[#005acd] hover:bg-[#bef0ff] font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300">
                                 Get Started
-                            </button>
+                            </Link>
                             <button className="border border-white text-white hover:bg-[#0093cb] px-6 py-3 rounded-full transition duration-300">
                                 Learn More
                             </button>
                         </div>
                     </div>
 
-                    {/* 3D Illustration */}
+                    {/* Illustration */}
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
@@ -45,11 +49,27 @@ export default function Home() {
                         className="md:w-1/2 mt-10 md:mt-0 z-10"
                     >
                         <img
-                            src="https://cdni.iconscout.com/illustration/premium/thumb/online-job-placement-8324255-6622269.png"
+                            src={homeImg}
                             alt="3D placement"
-                            className="w-full max-w-md mx-auto"
+                            className="w-full max-w-md mx-auto mr-0"
                         />
                     </motion.div>
+                </section>
+
+                {/* 🔥 Motivational Quote Section */}
+                <section className="bg-white py-12 px-6 md:px-20 text-center">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-3xl md:text-4xl font-bold text-[#005acd] mb-4"
+                    >
+                        Let's Get Placed!
+                    </motion.h2>
+                    <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                        Unlock your career journey with College2Career — where ambition meets opportunity.
+                    </p>
                 </section>
 
                 {/* Features Section */}
@@ -58,23 +78,21 @@ export default function Home() {
                         What Makes Us Special?
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                        {[
-                            {
-                                title: "Verified Students",
-                                desc: "Every student is verified by the college before applying.",
-                                icon: <FaUserCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />,
-                            },
-                            {
-                                title: "Company Approval Flow",
-                                desc: "Admin validates and approves companies before they can post jobs.",
-                                icon: <FaBuilding className="text-4xl text-[#0093cb] mx-auto mb-4" />,
-                            },
-                            {
-                                title: "Smooth Application Process",
-                                desc: "Students apply to verified jobs, get alerts, and track offers easily.",
-                                icon: <FaClipboardCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />,
-                            },
-                        ].map((item, index) => (
+                        {[{
+                            title: "Verified Students",
+                            desc: "Every student is verified by the college before applying.",
+                            icon: <FaUserCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />
+                        },
+                        {
+                            title: "Company Approval Flow",
+                            desc: "Admin validates and approves companies before they can post jobs.",
+                            icon: <FaBuilding className="text-4xl text-[#0093cb] mx-auto mb-4" />
+                        },
+                        {
+                            title: "Smooth Application Process",
+                            desc: "Students apply to verified jobs, get alerts, and track offers easily.",
+                            icon: <FaClipboardCheck className="text-4xl text-[#0093cb] mx-auto mb-4" />
+                        }].map((item, index) => (
                             <motion.div
                                 key={index}
                                 whileHover={{ scale: 1.05 }}
@@ -89,19 +107,15 @@ export default function Home() {
                                 <h3 className="text-xl font-semibold text-[#005acd] mb-2">
                                     {item.title}
                                 </h3>
-                                <p className="text-gray-600">
-                                    {item.desc}
-                                </p>
+                                <p className="text-gray-600">{item.desc}</p>
                             </motion.div>
                         ))}
                     </div>
                 </section>
-
-                {/* Footer */}
-                <footer className="bg-[#005acd] text-white text-center py-6">
-                    <p className="text-sm">© {new Date().getFullYear()} College2Career. All rights reserved.</p>
-                </footer>
             </div>
+
+            {/* Footer */}
+            <Footer />
         </>
     )
 }

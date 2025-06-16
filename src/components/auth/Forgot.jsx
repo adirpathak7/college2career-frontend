@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import message from '../../message.json'
 import { useLoader } from '../../LoaderContext'
 import PageTitle from '../../PageTitle'
+import Footer from '../Footer'
 
 export default function Forgot() {
 
@@ -109,58 +110,89 @@ export default function Forgot() {
     return (
         <>
             <PageTitle title="Forgot Password" />
-            <div className="flex justify-center items-center min-h-screen bg-black text-white">
-                <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
+            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4">
+                <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-blue-100">
                     {apiResponse.message && (
                         <div
-                            className={`${apiResponse.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'
-                                } px-4 py-3 rounded relative mb-4`}
+                            className={`px-4 py-3 rounded mb-4 text-sm ${apiResponse.type === 'success'
+                                ? 'bg-green-100 border border-green-400 text-green-700'
+                                : 'bg-red-100 border border-red-400 text-red-700'
+                                }`}
                             role="alert"
                         >
-                            <strong className="font-bold">{apiResponse.type === 'success' ? 'Success: ' : 'Error: '}</strong>
+                            <strong className="font-bold">
+                                {apiResponse.type === 'success' ? 'Success: ' : 'Error: '}
+                            </strong>
                             <span className="block sm:inline">{apiResponse.message}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
-                                <strong>
-                                    <svg className="fill-current h-6 w-6 text-red-700" role="button" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <title>Close</title>
-                                        <path d="M18 6L6 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M6 6L18 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </strong>
+                            <span
+                                className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer"
+                                onClick={handleClose}
+                            >
+                                <svg
+                                    className="fill-current h-6 w-6 text-red-700"
+                                    role="button"
+                                    width="24"
+                                    height="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <title>Close</title>
+                                    <path
+                                        d="M18 6L6 18"
+                                        stroke="black"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                    <path
+                                        d="M6 6L18 18"
+                                        stroke="black"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
                             </span>
                         </div>
                     )}
+                    <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">Forgot Password</h2>
                     <form onSubmit={handelSubmit}>
-                        <div className="mb-4">
-                            <label className="block mb-1">Email <span className='text-red-600'>*</span></label>
+                        <div className="mb-5">
+                            <label className="block text-sm font-medium text-blue-700 mb-1">
+                                Email <span className="text-red-600">*</span>
+                            </label>
                             <input
                                 onChange={handelInputChange}
                                 value={inputData.email}
                                 ref={emailRef}
                                 type="text"
-                                id='email'
-                                name='email'
-                                className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
+                                id="email"
+                                name="email"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
-                            {inputError.email && <span id='emailError' className='text-red-600'>{inputError.email}</span>}
+                            {inputError.email && (
+                                <span id="emailError" className="text-red-600 text-sm">
+                                    {inputError.email}
+                                </span>
+                            )}
                         </div>
 
-
-                        <button type="submit" className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300">
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-700 hover:bg-blue-800 text-white py-2 rounded-md font-semibold transition duration-300"
+                        >
                             Forgot Password
                         </button>
 
-                        <p className="mt-4 text-center text-gray-400">
-                            Do you want to login? &nbsp;
-                            <Link to='/login' className="text-white underline">
+                        <p className="mt-4 text-center text-sm text-gray-600">
+                            Want to login instead?{' '}
+                            <Link to="/login" className="text-blue-700 hover:underline font-medium">
                                 Login
                             </Link>
                         </p>
-
                     </form>
                 </div>
             </div>
+            <Footer />
         </>
     )
-
 }

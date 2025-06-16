@@ -5,6 +5,7 @@ import message from '../../message.json'
 import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
 import PageTitle from '../../PageTitle'
+import Footer from '../Footer'
 
 export default function Register() {
     const navigate = useNavigate()
@@ -137,29 +138,19 @@ export default function Register() {
     return (
         <>
             <PageTitle title="Register" />
-            <div className="flex justify-center items-center min-h-screen bg-black text-white">
-                <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-lg">
+            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4">
+                <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-blue-100">
                     {apiResponse.message && (
-                        <div
-                            className='bg-red-100 border-red-500 text-red-700 px-4 py-3 rounded relative mb-4'
-                            role="alert"
-                        >
-                            <strong className="font-bold">Error: </strong>
-                            <span className="block sm:inline">{apiResponse.message}</span>
-                            {/* <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>
-                            <strong>
-                                <svg className="fill-current h-6 w-6 text-red-700" role="button" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>Close</title>
-                                    <path d="M18 6L6 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M6 6L18 18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </strong>
-                        </span> */}
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+                            <strong className="font-semibold">Error:</strong> {apiResponse.message}
                         </div>
                     )}
+                    <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">Register</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label className="block mb-1">Email <span className='text-red-600'>*</span></label>
+                            <label className="block text-sm font-medium text-blue-700 mb-1">
+                                Email <span className="text-red-600">*</span>
+                            </label>
                             <input
                                 value={inputData.email}
                                 onChange={handleInputChange}
@@ -167,11 +158,13 @@ export default function Register() {
                                 type="text"
                                 id="email"
                                 name="email"
-                                className="w-full p-2 border border-gray-700 bg-gray-800 rounded focus:outline-none focus:border-white"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
-                            {inputError.email && <span className="text-red-600">{inputError.email}</span>}
+                            {inputError.email && (
+                                <span className="text-red-600 text-sm">{inputError.email}</span>
+                            )}
                         </div>
-                        {/* <div className="mb-4 relative"> */}
+
                         <PasswordInput
                             value={inputData.password}
                             onChange={handleInputChange}
@@ -189,52 +182,55 @@ export default function Register() {
                             label="Confirm Password"
                             name="confirmPassword"
                         />
-                        <div className="mb-4">
-                            <label className="block mb-1">Join As</label>
-                            <div className="flex items-center">
-                                <div className="mr-4">
+
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-blue-700 mb-2">
+                                Join As
+                            </label>
+                            <div className="flex items-center space-x-6 text-sm">
+                                <label className="flex items-center">
                                     <input
                                         type="radio"
-                                        id="roleCompany"
                                         name="role"
                                         value={2}
                                         checked={inputData.role === 2}
                                         onChange={handleInputChange}
                                         ref={roleRef}
-                                        className="mr-2"
+                                        className="mr-2 accent-blue-600"
                                     />
-                                    <label htmlFor="roleCompany" className="text-white cursor-pointer">Company</label>
-                                </div>
-                                <div>
+                                    Company
+                                </label>
+                                <label className="flex items-center">
                                     <input
                                         type="radio"
-                                        id="roleStudent"
                                         name="role"
                                         value={1}
                                         checked={inputData.role === 1}
                                         onChange={handleInputChange}
-                                        className="mr-2"
+                                        className="mr-2 accent-blue-600"
                                     />
-                                    <label htmlFor="roleStudent" className="text-white cursor-pointer">Student</label>
-                                </div>
+                                    Student
+                                </label>
                             </div>
                         </div>
+
                         <button
                             type="submit"
-                            className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-300 font-bold transition duration-300"
+                            className="w-full bg-blue-700 hover:bg-blue-800 text-white py-2 rounded-md font-semibold transition duration-300"
                         >
                             Register
                         </button>
 
-                        <p className="mt-4 text-center text-gray-400">
-                            Already have an account? &nbsp;
-                            <Link to="/login" className="text-white underline">
+                        <p className="mt-4 text-center text-sm text-gray-600">
+                            Already have an account?{' '}
+                            <Link to="/login" className="text-blue-700 hover:underline font-medium">
                                 Login
                             </Link>
                         </p>
                     </form>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
