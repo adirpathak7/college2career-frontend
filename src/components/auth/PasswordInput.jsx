@@ -24,7 +24,7 @@ const PasswordInput = ({ value, onChange, error, label, name, ref }) => {
             {value && (
                 <span
                     onClick={togglePassword}
-                    className="absolute right-3 top-[55%] transform -translate-y-1/2 cursor-pointer text-blue-600"
+                    className="absolute right-3 mt-[5.5%] transform -translate-y-1/2 cursor-pointer text-blue-600"
                 >
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </span>

@@ -657,7 +657,6 @@ const Vacancies = () => {
                                                 onChange={handleEditInputChange}
                                                 className="input-field"
                                             >
-                                                <option value="pending">Pending</option>
                                                 <option value="hiring">Hiring</option>
                                                 <option value="hired">Hired</option>
                                             </select>

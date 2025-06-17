@@ -224,7 +224,7 @@ export default function Applications() {
                     {filteredApplications.map((app, index) => (
                         <div
                             key={index}
-                            className="overflow-hidden rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-md"
+                            className="bg-white overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl hover:bg-gray-300 p-[4] transition-shadow duration-300"
                         >
                             <div className="rounded-2xl bg-white p-6 flex flex-col justify-between h-full">
                                 {/* Header */}

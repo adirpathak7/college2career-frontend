@@ -4,9 +4,10 @@ import { ImProfile } from 'react-icons/im'
 import { Link, useNavigate } from 'react-router-dom'
 import Profile from './user/Profile'
 import { BsCardList } from 'react-icons/bs'
-import { MdDashboard } from 'react-icons/md'
+import { MdDashboard, MdMarkUnreadChatAlt } from 'react-icons/md'
 import { RiPagesLine } from "react-icons/ri";
 import C2CLogo from '../assets/C2CLogo.png'
+import { GiTalk } from 'react-icons/gi'
 
 export default function SideBar() {
 
@@ -19,11 +20,9 @@ export default function SideBar() {
     }
 
     const token = getCookie("userToken");
-    // console.log("Token from cookie:", token);
 
     const handelLogout = () => {
         document.cookie = `userToken=; path=/; max-age=0`
-        // sessionStorage.removeItem("userToken")
         navigate("../login")
     }
     return (
@@ -52,8 +51,12 @@ export default function SideBar() {
                             <RiPagesLine />
                             <p className="text-base leading-4 ">Applications</p>
                         </Link>
+                        <Link to="/user/dashboard/interviews" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
+                            <GiTalk />
+                            <p className="text-base leading-4 ">Interviews</p>
+                        </Link>
                         <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <BiMessage />
+                            <MdMarkUnreadChatAlt />
                             <p className="text-base leading-4">Messages</p>
                         </Link>
                         <Link to="/user/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
@@ -63,7 +66,7 @@ export default function SideBar() {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-between items-center h-full pb-6 px-6 w-full mt-[98%]">
+                <div className="flex flex-col justify-between items-center mt-[77%]">
                     <div className=" flex justify-between items-center w-full">
                         <div className="flex justify-center items-center  space-x-2">
                             <div className=''>
@@ -75,8 +78,8 @@ export default function SideBar() {
                             </div>
                         </div>
                         <div>
-                            <button onClick={handelLogout} className=''>
-                                <BiLogOut className='text-white cursor-pointer w-8 h-6' />
+                            <button title='Logout' onClick={handelLogout} className=''>
+                                <BiLogOut className='text-white cursor-pointer w-8 h-6 ml-8 mt-2' />
                             </button>
                         </div>
                     </div>

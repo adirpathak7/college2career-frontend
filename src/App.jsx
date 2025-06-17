@@ -22,6 +22,7 @@ import Vacancies from './components/user/Vacancies'
 import Applications from './components/user/Applications'
 import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
+import Interviews from './components/user/Interviews';
 
 
 function App() {
@@ -77,6 +78,7 @@ function AppContent() {
           <Route path='profile' element={<Profile />} />
           <Route path='vacancies' element={<Vacancies />} />
           <Route path='applications' element={<Applications />} />
+          <Route path='interviews' element={<Interviews />} />
 
         </Route>
 
