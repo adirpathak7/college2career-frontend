@@ -1,90 +1,119 @@
-import React from 'react'
-import { BiLogOut, BiMessage } from 'react-icons/bi'
-import { ImProfile } from 'react-icons/im'
-import { Link, useNavigate } from 'react-router-dom'
-import Profile from './user/Profile'
-import { BsCardList } from 'react-icons/bs'
-import { MdDashboard, MdMarkUnreadChatAlt } from 'react-icons/md'
-import { RiPagesLine } from "react-icons/ri";
-import C2CLogo from '../assets/C2CLogo.png'
-import { GiTalk } from 'react-icons/gi'
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {
+    LuLayoutDashboard, LuListChecks, LuFileText, LuMic,
+    LuBadgeCheck, LuMessageSquareText, LuUser
+} from 'react-icons/lu';
+import { BiLogOut } from 'react-icons/bi';
+import C2CLogo from '../assets/C2CLogo.png';
+
+const baseClass = "flex items-center space-x-4 py-3 px-4 rounded-md font-medium text-sm transition-colors duration-200 w-full";
+const menuItems = [
+    { label: "Dashboard", path: "/user/dashboard", icon: <LuLayoutDashboard /> },
+    { label: "Vacancy", path: "/user/dashboard/vacancies", icon: <LuListChecks /> },
+    { label: "Applications", path: "/user/dashboard/applications", icon: <LuFileText /> },
+    { label: "Interviews", path: "/user/dashboard/interviews", icon: <LuMic /> },
+    { label: "Offers", path: "/user/dashboard/offers", icon: <LuBadgeCheck /> },
+    { label: "Messages", path: "/user/dashboard/messages", icon: <LuMessageSquareText /> },
+    { label: "Profile", path: "/user/dashboard/profile", icon: <LuUser /> },
+];
 
 export default function SideBar() {
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const navigate = useNavigate()
+    const toggleSidebar = () => setIsOpen(!isOpen);
+
+    const isActive = (path) => location.pathname === path;
 
     const getCookie = (name) => {
         const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        if (match) return match[2];
-        return null;
-    }
+        return match ? match[2] : null;
+    };
 
-    const token = getCookie("userToken");
+    const handleLogout = () => {
+        document.cookie = `userToken=; path=/; max-age=0`;
+        navigate("/login");
+    };
 
-    const handelLogout = () => {
-        document.cookie = `userToken=; path=/; max-age=0`
-        navigate("../login")
-    }
+    useEffect(() => {
+        // Set default route if needed
+        if (location.pathname === "/user/dashboard/") {
+            navigate("/user/dashboard");
+        }
+    }, [location.pathname, navigate]);
+
     return (
         <>
-            <div id="mainSideBar" className="xl:rounded-r transform  xl:translate-x-0  ease-in-out transition duration-500 flex justify-start items-start h-screen  w-full sm:w-64 bg-gray-900 flex-col">
-
-                <div className="flex justify-start p-6 items-center space-x-3 border-gray-600 border-b">
-                    <img src={C2CLogo}
-                        alt="College2Career-Logo"
-                        className="h-11 w-11 object-cover rounded-full shadow-md"
-                    />
-                    <p className="text-2xl leading-6 text-white">College2Career</p>
+            {/* Mobile toggle button */}
+            <div className="text-white p-4 md:hidden flex justify-between items-center">
+                <div className="flex items-center space-x-2">
+                    <img src={C2CLogo} alt="Logo" className="h-10 w-10 rounded-full" />
+                    <span className="text-lg font-semibold">College2Career</span>
                 </div>
+                <button onClick={toggleSidebar} className="text-xl focus:outline-none">
+                    ☰
+                </button>
+            </div>
 
-                <div className="flex flex-col justify-start items-center px-6 border-b border-gray-600 w-full ">
-                    <div id="companySideBar" className="flex justify-start  flex-col w-full md:w-auto items-start pb-1 mt-16 ">
-                        <Link to="/user/dashboard" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <MdDashboard />
-                            <p className="text-base leading-4 ">Dashboard</p>
-                        </Link>
-                        <Link to="/user/dashboard/vacancies" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <BsCardList />
-                            <p className="text-base leading-4 ">Vacancy</p>
-                        </Link>
-                        <Link to="/user/dashboard/applications" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <RiPagesLine />
-                            <p className="text-base leading-4 ">Applications</p>
-                        </Link>
-                        <Link to="/user/dashboard/interviews" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <GiTalk />
-                            <p className="text-base leading-4 ">Interviews</p>
-                        </Link>
-                        <Link to="/user/dashboard/" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <MdMarkUnreadChatAlt />
-                            <p className="text-base leading-4">Messages</p>
-                        </Link>
-                        <Link to="/user/dashboard/profile" className="flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-3  w-full md:w-52">
-                            <ImProfile />
-                            <p className="text-base leading-4">Profile</p>
-                        </Link>
+            {/* Sidebar */}
+            <div className={`fixed md:static z-50 top-0 left-0 h-full bg-gray-900 text-white transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out w-64 flex flex-col`}>
+                {/* Logo and optional close button */}
+                <div className="flex items-center justify-between p-6 border-b border-gray-700">
+                    <div className="flex items-center space-x-3">
+                        <img src={C2CLogo} alt="Logo" className="h-11 w-11 rounded-full" />
+                        <p className="text-2xl font-semibold">College2Career</p>
                     </div>
+                    {/* Close button on mobile */}
+                    <button onClick={toggleSidebar} className="md:hidden text-xl">
+                        ✕
+                    </button>
                 </div>
 
-                <div className="flex flex-col justify-between items-center mt-[77%]">
-                    <div className=" flex justify-between items-center w-full">
-                        <div className="flex justify-center items-center  space-x-2">
-                            <div className=''>
-                                <img className="rounded-full h-12 mt-2" src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg" alt="avatar" />
-                            </div>
-                            <div className="flex justify-start flex-col items-start">
-                                <p className="cursor-pointer text-sm leading-5 text-white">Aaditya Pathak</p>
-                                <p className="cursor-pointer text-xs leading-3 text-gray-300">adityarpathak7@gmail.com</p>
-                            </div>
-                        </div>
+                {/* Navigation menu */}
+                <nav className="flex-1  justify-center px-4 space-y-3 mt-8">
+                    {menuItems.map((item) => (
+                        <Link
+                            key={item.label}
+                            to={item.path}
+                            className={`${baseClass} ${isActive(item.path)
+                                ? "bg-gray-700 text-white"
+                                : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                                }`}
+                            onClick={() => setIsOpen(false)}
+                        >
+                            {item.icon}
+                            <span>{item.label}</span>
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* User Info + Logout */}
+                <div className="p-4 border-t border-gray-700 flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                        <img
+                            src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg"
+                            alt="avatar"
+                            className="h-10 w-10 rounded-full"
+                        />
                         <div>
-                            <button title='Logout' onClick={handelLogout} className=''>
-                                <BiLogOut className='text-white cursor-pointer w-8 h-6 ml-8 mt-2' />
-                            </button>
+                            <p className="text-sm font-medium">Aaditya Pathak</p>
+                            <p className="text-xs text-gray-400">adityarpathak7@gmail.com</p>
                         </div>
                     </div>
+                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer text-white" />
                 </div>
-            </div >
+            </div>
+
+            {/* Overlay for mobile */}
+            {isOpen && (
+                <div
+                    onClick={toggleSidebar}
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                ></div>
+            )}
         </>
-    )
+    );
+
 }

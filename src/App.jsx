@@ -23,7 +23,7 @@ import Applications from './components/user/Applications'
 import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Interviews from './components/user/Interviews';
-
+import Offers from './components/user/Offers'
 
 function App() {
   return (
@@ -79,6 +79,7 @@ function AppContent() {
           <Route path='vacancies' element={<Vacancies />} />
           <Route path='applications' element={<Applications />} />
           <Route path='interviews' element={<Interviews />} />
+          <Route path='offers' element={<Offers />} />
 
         </Route>
 

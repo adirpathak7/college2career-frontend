@@ -7,7 +7,7 @@ export default function Dashboard() {
     return (
         <div className="max-h-screen flex" style={{ height: '100vh' }}>
             {/* Sidebar */}
-            <div className="w-64 bg-gray-800 text-white">
+            <div className="w-64 bg-gray-900 text-white">
                 <SideBar />
             </div>
 
