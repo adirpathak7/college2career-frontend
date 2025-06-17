@@ -14,6 +14,7 @@
     "axios": "^1.8.4",
     "framer-motion": "^12.6.3",
     "js-cookie": "^3.0.5",
+    "jspdf": "^3.0.1",
     "lucide-react": "^0.515.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.5",

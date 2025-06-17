@@ -217,13 +217,13 @@ export default function Interviews() {
                                 <>
                                     <ActionBtn text="Reschedule" color="yellow" onClick={() => openActionDialog(interview.interviewId, 'reschedule')} />
                                     <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={() => openActionDialog(interview.interviewId, 'complete')} />
+                                    <ActionBtn text="Completed" color="green" onClick={handleDirectComplete(interview.interviewId)} />
                                 </>
                             )}
                             {interview.interviewStatus === 'rescheduled' && (
                                 <>
                                     <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
+                                    <ActionBtn text="Completed" color="green" onClick={handleDirectComplete(interview.interviewId)} />
                                 </>
                             )}
                         </div>
@@ -292,12 +292,12 @@ export default function Interviews() {
 
                         )}
 
-                        <div className="flex justify-end gap-3 pt-4">
+                        {/* <div className="flex justify-end gap-3 pt-4">
                             <button onClick={closeDialog} className="text-gray-600">Cancel</button>
                             <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">
                                 Submit
                             </button>
-                        </div>
+                        </div> */}
                     </Dialog.Panel>
                 </div>
             </Dialog>
