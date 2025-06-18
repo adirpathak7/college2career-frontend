@@ -27,8 +27,8 @@ const Navbar = () => {
                     <Link to="/aboutUs" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
                         About
                     </Link>
-                    <Link to="/contactUs" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
-                        Contact Us
+                    <Link to="/help" className="hover:bg-[#bef0ff] hover:text-[#005acd] px-3 py-1 rounded transition duration-300">
+                        Help
                     </Link>
                     <Link to="/login" className="hover:bg-white hover:text-[#005acd] px-4 py-1 border border-white rounded transition duration-300">
                         Login
@@ -54,7 +54,7 @@ const Navbar = () => {
                     <Link to="/aboutUs" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
                         About
                     </Link>
-                    <Link to="/contactUs" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
+                    <Link to="/help" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">
                         Contact Us
                     </Link>
                     <Link to="/login" onClick={() => setMenuOpen(false)} className="hover:text-[#bef0ff]">

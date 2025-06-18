@@ -70,7 +70,7 @@ function AppContent() {
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/login' element={<PublicRoute element={<Login />} />} />
         <Route path='/aboutUs' element={<PublicRoute element={<AboutUs />} />} />
-        <Route path='/contactUs' element={<PublicRoute element={<ContactUs />} />} />
+        <Route path='/help' element={<PublicRoute element={<ContactUs />} />} />
         <Route path='/forgotPassword' element={<PublicRoute element={<Forgot />} />} />
         <Route path='/reset-password' element={<PublicRoute element={<ResetPassword />} />} />
         <Route path='/user/dashboard' element={<PrivateRoute element={<Dashboard />} />}>

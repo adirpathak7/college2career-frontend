@@ -188,13 +188,14 @@ export default function Applications() {
         }
     };
 
-    const filteredApplications =
-        selectedStatus === "All"
+    const filteredApplications = Array.isArray(applications)
+        ? (selectedStatus === "All"
             ? applications
             : applications.filter(
                 (app) =>
-                    app.applicationStatus.toLowerCase() === selectedStatus.toLowerCase()
-            );
+                    app.applicationStatus?.toLowerCase() === selectedStatus.toLowerCase()
+            ))
+        : [];
 
     return (
         <div className="p-4 md:p-8 bg-gray-50 min-h-screen">

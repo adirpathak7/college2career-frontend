@@ -168,12 +168,12 @@ export default function Offers() {
                 },
             });
 
-            await axios.post(`${import.meta.env.VITE_BASE_URL}/users/interviews/offeredInterview/${selectedOffer.interviewId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            // await axios.post(`${import.meta.env.VITE_BASE_URL}/users/interviews/offeredInterview/${selectedOffer.interviewId}`, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`,
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
 
             setApiError("Offer Letter is sent to the student")
             setOpenDialog(false);

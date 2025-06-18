@@ -14,7 +14,7 @@ const menuItems = [
     { label: "Applications", path: "/user/dashboard/applications", icon: <LuFileText /> },
     { label: "Interviews", path: "/user/dashboard/interviews", icon: <LuMic /> },
     { label: "Offers", path: "/user/dashboard/offers", icon: <LuBadgeCheck /> },
-    { label: "Messages", path: "/user/dashboard/messages", icon: <LuMessageSquareText /> },
+    // { label: "Messages", path: "/user/dashboard/messages", icon: <LuMessageSquareText /> },
     { label: "Profile", path: "/user/dashboard/profile", icon: <LuUser /> },
 ];
 
@@ -27,18 +27,12 @@ export default function SideBar() {
 
     const isActive = (path) => location.pathname === path;
 
-    const getCookie = (name) => {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        return match ? match[2] : null;
-    };
-
     const handleLogout = () => {
         document.cookie = `userToken=; path=/; max-age=0`;
         navigate("/login");
     };
 
     useEffect(() => {
-        // Set default route if needed
         if (location.pathname === "/user/dashboard/") {
             navigate("/user/dashboard");
         }
@@ -47,39 +41,38 @@ export default function SideBar() {
     return (
         <>
             {/* Mobile toggle button */}
-            <div className="text-white p-4 md:hidden flex justify-between items-center">
+            <div className="text-white p-4 md:hidden flex justify-between items-center bg-[#005acd]">
                 <div className="flex items-center space-x-2">
                     <img src={C2CLogo} alt="Logo" className="h-10 w-10 rounded-full" />
-                    <span className="text-lg font-semibold">College2Career</span>
+                    <span className="text-lg font-semibold text-white">College2Career</span>
                 </div>
-                <button onClick={toggleSidebar} className="text-xl focus:outline-none">
+                <button onClick={toggleSidebar} className="text-xl focus:outline-none text-white">
                     ☰
                 </button>
             </div>
 
             {/* Sidebar */}
-            <div className={`fixed md:static z-50 top-0 left-0 h-full bg-gray-900 text-white transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out w-64 flex flex-col`}>
-                {/* Logo and optional close button */}
-                <div className="flex items-center justify-between p-6 border-b border-gray-700">
+            <div className={`fixed md:static z-50 top-0 left-0 h-full bg-[#005acd] text-white transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out w-64 flex flex-col`}>
+                {/* Logo and close button */}
+                <div className="flex items-center justify-between p-6 border-b border-[#6dd7fd]">
                     <div className="flex items-center space-x-3">
                         <img src={C2CLogo} alt="Logo" className="h-11 w-11 rounded-full" />
-                        <p className="text-2xl font-semibold">College2Career</p>
+                        <p className="text-2xl font-semibold text-white">College2Career</p>
                     </div>
-                    {/* Close button on mobile */}
-                    <button onClick={toggleSidebar} className="md:hidden text-xl">
+                    <button onClick={toggleSidebar} className="md:hidden text-xl text-white">
                         ✕
                     </button>
                 </div>
 
-                {/* Navigation menu */}
-                <nav className="flex-1  justify-center px-4 space-y-3 mt-8">
+                {/* Navigation */}
+                <nav className="flex-1 justify-center px-4 space-y-2 mt-8">
                     {menuItems.map((item) => (
                         <Link
                             key={item.label}
                             to={item.path}
                             className={`${baseClass} ${isActive(item.path)
-                                ? "bg-gray-700 text-white"
-                                : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                                ? "bg-[#0093cb] text-[#f5ffff]"
+                                : "text-[#f5ffff] hover:bg-[#bef0ff] hover:text-[#005acd]"
                                 }`}
                             onClick={() => setIsOpen(false)}
                         >
@@ -90,19 +83,19 @@ export default function SideBar() {
                 </nav>
 
                 {/* User Info + Logout */}
-                <div className="p-4 border-t border-gray-700 flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <img
+                <div className="p-4 border-t border-[#6dd7fd] flex items-center justify-between">
+                    <div className="flex items-center space-x-2 text-xl">
+                        {/* <img
                             src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg"
                             alt="avatar"
                             className="h-10 w-10 rounded-full"
-                        />
+                        /> */}
                         <div>
-                            <p className="text-sm font-medium">Aaditya Pathak</p>
-                            <p className="text-xs text-gray-400">adityarpathak7@gmail.com</p>
+                            <p className="text-sm font-medium text-[#f5ffff]">Logout</p>
+                            <p className="text-xs text-[#bef0ff]"></p>
                         </div>
                     </div>
-                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer text-white" />
+                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer text-red-300 hover:text-red-500" />
                 </div>
             </div>
 
@@ -115,5 +108,4 @@ export default function SideBar() {
             )}
         </>
     );
-
 }

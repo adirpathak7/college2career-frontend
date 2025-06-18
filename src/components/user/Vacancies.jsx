@@ -241,6 +241,8 @@ const Vacancies = () => {
                     });
                     setApiMessageType('success');
                     setIsOpen(false);
+                    fetchVacancies();
+
                 }
             })
         } catch (err) {

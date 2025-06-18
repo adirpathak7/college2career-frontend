@@ -122,7 +122,7 @@ const Students = () => {
         <>
             <PageTitle title="Companies" />
             <div className="py-8 px-4 md:px-12">
-                <h1 className="text-3xl font-bold mb-6 text-center">Students List</h1>
+                <h1 className="text-3xl font-bold text-[#005acd] mb-8">Students List</h1>
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b mb-6 pb-2">
                     <div className="flex gap-4 overflow-x-auto">

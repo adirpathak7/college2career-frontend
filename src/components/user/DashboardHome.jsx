@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
     Briefcase,
     Users,
@@ -19,62 +20,102 @@ import {
     ResponsiveContainer,
     Legend,
 } from "recharts";
-
-const dashboardStats = [
-    {
-        title: "Total Job Posts",
-        count: 10,
-        icon: <Briefcase className="w-6 h-6 text-white" />,
-        color: "bg-blue-500",
-    },
-    {
-        title: "Active Vacancies",
-        count: 5,
-        icon: <FileText className="w-6 h-6 text-white" />,
-        color: "bg-green-500",
-    },
-    {
-        title: "Applications Received",
-        count: 123,
-        icon: <Users className="w-6 h-6 text-white" />,
-        color: "bg-indigo-500",
-    },
-    {
-        title: "Interviews Scheduled",
-        count: 15,
-        icon: <CalendarCheck className="w-6 h-6 text-white" />,
-        color: "bg-yellow-500",
-    },
-    {
-        title: "Offers Issued",
-        count: 4,
-        icon: <FileSignature className="w-6 h-6 text-white" />,
-        color: "bg-purple-500",
-    },
-    {
-        title: "Students Hired",
-        count: 2,
-        icon: <UserCheck className="w-6 h-6 text-white" />,
-        color: "bg-emerald-500",
-    },
-];
-
-const pieData = [
-    { name: "Pending", value: 40 },
-    { name: "Shortlisted", value: 30 },
-    { name: "Rejected", value: 20 },
-    { name: "Hired", value: 10 },
-];
+import Cookies from 'js-cookie';
 
 const pieColors = ["#fbbf24", "#34d399", "#f87171", "#6366f1"];
 
-const barData = [
-    { name: "React Dev", vacancies: 2, applications: 50 },
-    { name: "Backend Dev", vacancies: 3, applications: 30 },
-    { name: "QA Tester", vacancies: 1, applications: 20 },
-];
-
 const DashboardHome = () => {
+    const [stats, setStats] = useState({
+        totalVacancies: 0,
+        activeVacancies: 0,
+        totalApplications: 0,
+        interviewsScheduled: 0,
+        offersIssued: 0,
+        studentsHired: 0,
+    });
+
+    const [pieData, setPieData] = useState([]);
+    const [barData, setBarData] = useState([]);
+
+    useEffect(() => {
+        const fetchDashboardStats = async () => {
+            try {
+                const token = Cookies.get("userToken");
+                const response = await axios.get(
+                    "http://localhost:7072/api/college2career/users/companies/getCompanyDashboardStats",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const data = response.data;
+
+                setStats({
+                    totalVacancies: data.totalVacancies || 0,
+                    activeVacancies: data.hiringVacancies || 0,
+                    totalApplications: data.totalApplications || 0,
+                    interviewsScheduled: data.interviewScheduledApplications || 0,
+                    offersIssued: data.offeredApplications || 0,
+                    studentsHired: data.offerAcceptedApplications || 0,
+                });
+
+                setPieData([
+                    { name: "Pending", value: data.pendingApplications || 0 },
+                    { name: "Shortlisted", value: data.shortlistedApplications || 0 },
+                    { name: "Rejected", value: data.rejectedApplications || 0 },
+                    { name: "Hired", value: data.offerAcceptedApplications || 0 },
+                ]);
+
+                setBarData(data.vacancyWiseStats || []);
+            } catch (error) {
+                console.error("Error fetching dashboard stats:", error);
+            }
+        };
+
+        fetchDashboardStats();
+    }, []);
+
+    const dashboardStats = [
+        {
+            title: "Total Job Posts",
+            count: stats.totalVacancies,
+            icon: <Briefcase className="w-6 h-6 text-white" />,
+            color: "bg-blue-500",
+        },
+        {
+            title: "Active Vacancies",
+            count: stats.activeVacancies,
+            icon: <FileText className="w-6 h-6 text-white" />,
+            color: "bg-green-500",
+        },
+        {
+            title: "Applications Received",
+            count: stats.totalApplications,
+            icon: <Users className="w-6 h-6 text-white" />,
+            color: "bg-indigo-500",
+        },
+        {
+            title: "Interviews Scheduled",
+            count: stats.interviewsScheduled,
+            icon: <CalendarCheck className="w-6 h-6 text-white" />,
+            color: "bg-yellow-500",
+        },
+        {
+            title: "Offers Issued",
+            count: stats.offersIssued,
+            icon: <FileSignature className="w-6 h-6 text-white" />,
+            color: "bg-purple-500",
+        },
+        {
+            title: "Students Hired",
+            count: stats.studentsHired,
+            icon: <UserCheck className="w-6 h-6 text-white" />,
+            color: "bg-emerald-500",
+        },
+    ];
+
     return (
         <div className="p-4 md:p-8">
             <h2 className="text-2xl font-bold mb-6">Company Dashboard</h2>
@@ -128,12 +169,12 @@ const DashboardHome = () => {
                     <h3 className="text-lg font-semibold mb-4">Vacancies vs Applications</h3>
                     <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={barData}>
-                            <XAxis dataKey="name" />
+                            <XAxis dataKey="vacancyTitle" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="vacancies" fill="#3b82f6" />
-                            <Bar dataKey="applications" fill="#10b981" />
+                            <Bar dataKey="vacancyCount" fill="#3b82f6" name="Vacancies" />
+                            <Bar dataKey="applicationCount" fill="#10b981" name="Applications" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>

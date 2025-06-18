@@ -217,13 +217,13 @@ export default function Interviews() {
                                 <>
                                     <ActionBtn text="Reschedule" color="yellow" onClick={() => openActionDialog(interview.interviewId, 'reschedule')} />
                                     <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={handleDirectComplete(interview.interviewId)} />
+                                    <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
                                 </>
                             )}
                             {interview.interviewStatus === 'rescheduled' && (
                                 <>
                                     <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={handleDirectComplete(interview.interviewId)} />
+                                    <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
                                 </>
                             )}
                         </div>
@@ -279,25 +279,31 @@ export default function Interviews() {
                                 <label className="text-sm text-gray-700 block mb-1">Reason</label>
                                 <textarea
                                     className="w-full border px-3 py-2 rounded"
-                                    rows="3"
-                                    placeholder="Enter reason..."
+                                    rows={3}
                                     value={formData.reason}
                                     onChange={(e) => {
                                         setFormData({ ...formData, reason: e.target.value });
                                         setFormErrors({ ...formErrors, reason: '' });
                                     }}
-                                />
+                                ></textarea>
                                 {formErrors.reason && <span className="text-red-500 text-sm">{formErrors.reason}</span>}
                             </div>
-
                         )}
 
-                        {/* <div className="flex justify-end gap-3 pt-4">
-                            <button onClick={closeDialog} className="text-gray-600">Cancel</button>
-                            <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">
+                        <div className="flex justify-end gap-3 pt-4">
+                            <button
+                                onClick={closeDialog}
+                                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                            >
                                 Submit
                             </button>
-                        </div> */}
+                        </div>
                     </Dialog.Panel>
                 </div>
             </Dialog>
@@ -305,28 +311,36 @@ export default function Interviews() {
     );
 }
 
-function ActionBtn({ text, color, onClick }) {
-    const colorMap = {
-        red: 'bg-red-500 hover:bg-red-600',
+// Helper: Action Button component
+const ActionBtn = ({ text, color, onClick }) => {
+    const colorClasses = {
+        red: 'bg-red-600 hover:bg-red-700',
+        green: 'bg-green-600 hover:bg-green-700',
         yellow: 'bg-yellow-500 hover:bg-yellow-600',
-        green: 'bg-green-500 hover:bg-green-600'
     };
+
     return (
         <button
             onClick={onClick}
-            className={`px-3 py-1 text-sm text-white rounded ${colorMap[color]} transition-all`}
+            className={`text-white px-4 py-1 rounded-full text-sm transition ${colorClasses[color] || 'bg-gray-600'}`}
         >
             {text}
         </button>
     );
-}
+};
 
-function getStatusColor(status) {
+// Helper: Get status badge color
+const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-        case 'scheduled': return 'bg-green-100 text-green-700';
-        case 'rescheduled': return 'bg-yellow-100 text-yellow-700';
-        case 'cancelled': return 'bg-red-100 text-red-700';
-        case 'completed': return 'bg-blue-100 text-blue-700';
-        default: return 'bg-gray-200 text-gray-800';
+        case 'scheduled':
+            return 'bg-blue-100 text-blue-800';
+        case 'rescheduled':
+            return 'bg-yellow-100 text-yellow-800';
+        case 'completed':
+            return 'bg-green-100 text-green-800';
+        case 'cancelled':
+            return 'bg-red-100 text-red-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
     }
-}
+};

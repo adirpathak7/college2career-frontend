@@ -143,8 +143,8 @@ export default function Companies() {
 
             </Dialog>
 
-            <div className="text-gray-800 py-8 px-4 md:px-12">
-                <h1 className="text-3xl font-bold mb-6 text-center">Companies List</h1>
+            <div className="py-8 px-4 md:px-12 text-blue-600">
+                <h1 className="text-3xl font-bold text-[#005acd] mb-8">Companies List</h1>
 
                 <div className="flex gap-4 border-b mb-4 overflow-x-auto">
                     {TABS.map((tab) => (
