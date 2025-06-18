@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { BsCardList } from 'react-icons/bs'
 import { MdDashboard } from 'react-icons/md'
 import { RiPagesLine } from "react-icons/ri";
+import C2CLogo from '../../assets/C2CLogo.png'
 
 export default function SideBar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);

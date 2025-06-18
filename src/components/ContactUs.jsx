@@ -70,6 +70,17 @@ const ContactUs = () => {
                         </button>
                     </form>
                 </motion.div>
+                <div className="fixed bottom-6 right-6 z-50 w-80 h-[500px] shadow-xl rounded-lg overflow-hidden border border-gray-300">
+                    <iframe
+                        src="https://www.chatbase.co/chatbot-iframe/rs95E0QIHQsun3-eowl1J"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 'none' }}
+                        frameBorder="0"
+                        allow="clipboard-write"
+                    />
+                </div>
+
             </div>
             <Footer />
         </>
