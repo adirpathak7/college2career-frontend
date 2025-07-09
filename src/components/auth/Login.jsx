@@ -35,6 +35,11 @@ export default function Login() {
         e.preventDefault()
 
         const errors = {}
+
+        // Static Data for Login Check
+        const staticEmail = "adi@gmail.com"
+        const staticPassword = "2147"
+
         if (!inputData.email) {
             errors.email = message.empty + 'email'
             emailRef.current.focus()
@@ -51,6 +56,15 @@ export default function Login() {
             return
         }
 
+        // Static Data Check (Before API call)
+        if (inputData.email === staticEmail && inputData.password === staticPassword) {
+            alert('Login successful (Static Data)');
+            setInputData({ email: '', password: '' })
+            setTimeout(() => navigate('/user/dashboard'), 200)
+            return
+        }
+
+        // If static data does not match, make API call
         setLoading(true)
 
         axios.post(`${import.meta.env.VITE_BASE_URL}/login`, inputData, {
@@ -74,6 +88,7 @@ export default function Login() {
             })
             .finally(() => setLoading(false))
     }
+
 
     return (
         <>
