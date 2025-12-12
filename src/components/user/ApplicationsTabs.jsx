@@ -10,8 +10,8 @@ const ApplicationTabs = ({ selectedStatus, setSelectedStatus }) => {
                     key={status}
                     onClick={() => setSelectedStatus(status)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedStatus === status
-                            ? "bg-indigo-600 text-white"
-                            : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-white border border-gray-300 text-gray-700 hover:bg-indigo-100"
                         }`}
                 >
                     {status}

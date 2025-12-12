@@ -1,63 +1,87 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
-import './App.css'
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import './App.css';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import Register from './components/auth/Register'
-import Login from './components/auth/Login'
-import Dashboard from './components/user/Dashboard'
-import Forgot from './components/auth/Forgot'
-import ResetPassword from './components/auth/ResetPassword'
-import Loader from './components/Loader'
-import Profile from './components/user/Profile'
-import DashboardHome from './components/user/DashboardHome'
-import AdminDashboard from './components/admin/AdminDashboard'
-import AdminDashboardHome from './components/admin/DashboardHome'
-import CompaniesApplications from './components/admin/CompaniesApplications'
-import StudentsApplications from './components/admin/Students'
-import Companies from './components/admin/Companies'
-import AdminProfile from './components/admin/Profile'
-import Vacancies from './components/user/Vacancies'
-import Applications from './components/user/Applications'
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Dashboard from './components/user/Dashboard';
+import Forgot from './components/auth/Forgot';
+import ResetPassword from './components/auth/ResetPassword';
+import Loader from './components/Loader';
+import Profile from './components/user/Profile';
+import DashboardHome from './components/user/DashboardHome';
+import AdminDashboard from './components/admin/AdminDashboard';
+import AdminDashboardHome from './components/admin/DashboardHome';
+import CompaniesApplications from './components/admin/CompaniesApplications';
+import StudentsApplications from './components/admin/Students';
+import Companies from './components/admin/Companies';
+import AdminProfile from './components/admin/Profile';
+import Vacancies from './components/user/Vacancies';
+import Applications from './components/user/Applications';
 import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Interviews from './components/user/Interviews';
-import Offers from './components/user/Offers'
+import Offers from './components/user/Offers';
+import Cookies from 'js-cookie';
 
 function App() {
   return (
     <Router>
       <AppContent />
     </Router>
-  )
+  );
 }
 
 function AppContent() {
-  const locationPath = useLocation()
+  const locationPath = useLocation();
 
   const getCookie = (name) => {
-    const value = `; ${document.cookie}`
-    const parts = value.split(`; ${name}=`)
-    if (parts.length === 2) return parts.pop().split(';').shift()
-    return null
-  }
+    return Cookies.get(name);
+  };
 
+  const isTokenExpired = () => {
+    const token = getCookie('userToken');
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000;
+      return expiry < Date.now();
+    } catch (e) {
+      return true;
+    }
+  };
 
   const validAuth = () => {
-    const userToken = getCookie("userToken")
-    return userToken !== null
-  }
+    return !isTokenExpired();
+  };
 
-  const isLoggedIn = validAuth()
+  const isLoggedIn = validAuth();
+
+  useEffect(() => {
+    const token = Cookies.get("userToken");
+
+    if (!token) return;
+
+    const publicPaths = ["/login", "/register", "/forgotPassword", "/reset-password", "/help", "aboutUs"];
+    if (publicPaths.includes(window.location.pathname)) return;
+
+    if (isTokenExpired()) {
+      alert("Your session has expired. Please log in again.");
+      Cookies.remove("userToken");
+      window.location.href = "/login";
+    }
+  }, []);
 
   const PublicRoute = ({ element }) => {
-    return !isLoggedIn ? element : <Navigate to="/user/dashboard" />
-  }
+    return !isLoggedIn ? element : <Navigate to="/user/dashboard" />;
+  };
 
   const PrivateRoute = ({ element }) => {
-    return isLoggedIn ? element : <Navigate to='/login' />
-  }
+    return isLoggedIn ? element : <Navigate to='/login' />;
+  };
 
   return (
     <div className="App">
@@ -80,7 +104,6 @@ function AppContent() {
           <Route path='applications' element={<Applications />} />
           <Route path='interviews' element={<Interviews />} />
           <Route path='offers' element={<Offers />} />
-
         </Route>
 
         <Route path='/admin/dashboard' element={<AdminDashboard />}>
@@ -88,11 +111,10 @@ function AppContent() {
           <Route path='companies' element={<Companies />} />
           <Route path='students' element={<StudentsApplications />} />
           <Route path='profile' element={<AdminProfile />} />
-
         </Route>
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

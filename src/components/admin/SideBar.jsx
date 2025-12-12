@@ -70,7 +70,7 @@ export default function SideBar() {
                         {/* </div> */}
                     </div>
                     <button onClick={handelLogout}>
-                        <BiLogOut className='text-red-300 cursor-pointer w-8 h-6 mt-6 hover:text-red-500' />
+                        <BiLogOut className='text-white cursor-pointer w-8 h-6 mt-6' title='Logout' />
                     </button>
                 </div>
             </div>

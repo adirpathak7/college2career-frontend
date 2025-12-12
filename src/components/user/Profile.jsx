@@ -76,7 +76,7 @@ export default function Profile() {
             <div className="w-full min-h-screen bg-white text-gray-900 py-10 px-4 md:px-10">
                 {apiError && (
                     <div className="mb-6 bg-red-100 text-red-600 border border-red-400 px-4 py-3 rounded-lg text-sm font-medium">
-                        ⚠️ {apiError}
+                        {apiError}
                     </div>
                 )}
 

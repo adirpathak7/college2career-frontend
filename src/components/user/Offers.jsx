@@ -202,7 +202,7 @@ export default function Offers() {
 
     return (
         <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
-            <h1 className="text-3xl font-bold text-center text-indigo-700 mb-8">🎁 Job Offers</h1>
+            <h1 className="text-3xl font-bold text-center text-indigo-700 mb-8">Job Offers</h1>
             <PageTitle title="Offers" />
 
             {/* Tabs */}
@@ -228,57 +228,63 @@ export default function Offers() {
                 </div>
             )}
 
-            {/* Offers Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredOffers.map((offer) => (
-                    <div
-                        key={offer.interviewId}
-                        className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
-                    >
-                        <div className="flex justify-between items-center mb-3">
-                            <h2 className="text-xl font-semibold text-gray-800">{offer.vacancyTitle}</h2>
-                            <span
-                                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                                    offer.interviewStatus
-                                )}`}
+            {filteredOffers.length === 0 ? (
+                <p className="text-center text-gray-500">No Offers found.</p>
+            ) : (
+                <>
+                    {/* Offers Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredOffers.map((offer) => (
+                            <div
+                                key={offer.interviewId}
+                                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
                             >
-                                {offer.interviewStatus.toUpperCase()}
-                            </span>
-                        </div>
+                                <div className="flex justify-between items-center mb-3">
+                                    <h2 className="text-xl font-semibold text-gray-800">{offer.vacancyTitle}</h2>
+                                    <span
+                                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                                            offer.interviewStatus
+                                        )}`}
+                                    >
+                                        {offer.interviewStatus.toUpperCase()}
+                                    </span>
+                                </div>
 
-                        <p className="text-gray-600">
-                            <span className="font-medium">Student:</span> {offer.studentName}
-                        </p>
-                        <p className="text-gray-600">
-                            <span className="font-medium">Email:</span> {offer.email}
-                        </p>
-                        <p className="text-gray-600">
-                            <span className="font-medium">Date:</span> {offer.interviewDate}
-                        </p>
-                        <p className="text-gray-600">
-                            <span className="font-medium">Time:</span> {offer.interviewTime}
-                        </p>
-                        <p className="text-gray-600">
-                            <span className="font-medium">Company:</span> {offer.companyName}
-                        </p>
-                        <p className="text-gray-600">
-                            <span className="font-medium">Package:</span> {offer.annualPackage}
-                        </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Student:</span> {offer.studentName}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Email:</span> {offer.email}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Date:</span> {offer.interviewDate}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Time:</span> {offer.interviewTime}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Company:</span> {offer.companyName}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Package:</span> {offer.annualPackage}
+                                </p>
 
-                        {offer.reason && (
-                            <p className="mt-2 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
-                                <span className="font-semibold">Reason:</span> {offer.reason}
-                            </p>
-                        )}
-                        <button
-                            onClick={() => openOfferDialog(offer)}
-                            className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded transition-all"
-                        >
-                            Send Offer
-                        </button>
+                                {offer.reason && (
+                                    <p className="mt-2 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+                                        <span className="font-semibold">Reason:</span> {offer.reason}
+                                    </p>
+                                )}
+                                <button
+                                    onClick={() => openOfferDialog(offer)}
+                                    className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded transition-all"
+                                >
+                                    Send Offer
+                                </button>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            )}
 
             {/* Offer Letter Dialog */}
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -430,7 +436,7 @@ export default function Offers() {
                     </Dialog.Panel>
                 </div>
             </Dialog>
-        </div>
+        </div >
     );
 }
 

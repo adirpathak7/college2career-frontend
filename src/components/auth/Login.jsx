@@ -6,15 +6,15 @@ import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
 import PageTitle from '../../PageTitle'
 import Footer from '../Footer'
+import { loginUser } from '../../api/authApi.js'
 
 export default function Login() {
 
     const navigate = useNavigate()
+    const { setLoading } = useLoader()
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
-
-    const { setLoading } = useLoader()
 
     const [inputData, setInputData] = useState({ email: '', password: '' })
     const [inputError, setInputError] = useState({ email: '', password: '' })
@@ -31,7 +31,7 @@ export default function Login() {
         setApiResponse({ message: '', type: '' })
     }
 
-    const handelSubmit = (e) => {
+    const handelSubmit = async (e) => {
         e.preventDefault()
 
         const errors = {}
@@ -51,28 +51,29 @@ export default function Login() {
             return
         }
 
-        setLoading(true)
+        try {
+            setLoading(true)
+            const response = await loginUser(inputData)
 
-        axios.post(`${import.meta.env.VITE_BASE_URL}/login`, inputData, {
-            headers: { "Content-Type": "multipart/form-data" }
-        })
-            .then((response) => {
-                if (response.data.status === false) {
-                    setApiResponse({ message: response.data.message, type: 'error' })
-                    inputData.password = ''
-                } else {
-                    document.cookie = `userToken=${response.data.data}; path=/; max-age=${60 * 60 * 24}`
-                    sessionStorage.setItem("userProfilePicture", "https://res.cloudinary.com/druzdz5zn/image/upload/v1744715705/lhi4cgauyc4nqttymcu4.webp")
-                    setInputData({ email: '', password: '' })
-
-                    setTimeout(() => navigate('/user/dashboard'), 200)
-                }
+            if (response.data.status === false) {
+                setApiResponse({ message: response.data.message, type: "error" })
+            } else {
+                setApiResponse({ message: response.data.message, type: "success" })
+                document.cookie = `userToken=${response.data.data}; path=/; max-age=${60 * 60 * 24 * 7}; Secure; SameSite=Strict`;
+                setTimeout(() => navigate('/user/Dashboard'), 150)
+            }
+        } catch (err) {
+            console.log("Error occurred: ", err)
+            setApiResponse({ message: "Something went wrong.", type: 'error', })
+            setInputData({
+                email: '',
+                password: '',
+                confirmPassword: '',
+                roleId: 2
             })
-            .catch(() => {
-                setApiResponse({ message: "Something went wrong.", type: 'error' })
-                setInputData({ email: '', password: '' })
-            })
-            .finally(() => setLoading(false))
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (

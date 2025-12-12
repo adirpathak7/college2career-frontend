@@ -161,7 +161,7 @@ export default function Interviews() {
 
     return (
         <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
-            <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">📋 Scheduled Interviews</h1>
+            <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Scheduled Interviews</h1>
 
             <PageTitle title="Interviews" />
 
@@ -187,50 +187,53 @@ export default function Interviews() {
                     {apiError}
                 </div>
             )}
+            
+            {filteredInterviews.length === 0 ? (
+                <p className="text-center text-gray-500">No Interviews found.</p>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredInterviews.map((interview) => (
+                        <div key={interview.interviewId} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                            <div className="flex justify-between items-center mb-3">
+                                <h2 className="text-xl font-semibold text-gray-800">{interview.vacancyTitle}</h2>
+                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(interview.interviewStatus)}`}>
+                                    {interview.interviewStatus.toUpperCase()}
+                                </span>
+                            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredInterviews.map((interview) => (
-                    <div key={interview.interviewId} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div className="flex justify-between items-center mb-3">
-                            <h2 className="text-xl font-semibold text-gray-800">{interview.vacancyTitle}</h2>
-                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(interview.interviewStatus)}`}>
-                                {interview.interviewStatus.toUpperCase()}
-                            </span>
-                        </div>
+                            <p className="text-gray-600"><span className="font-medium">Student:</span> {interview.studentName}</p>
+                            <p className="text-gray-600"><span className="font-medium">Email:</span> {interview.email}</p>
+                            <p className="text-gray-600"><span className="font-medium">Date:</span> {interview.interviewDate}</p>
+                            <p className="text-gray-600"><span className="font-medium">Time:</span> {interview.interviewTime}</p>
+                            <p className="text-gray-600"><span className="font-medium">Company:</span> {interview.companyName}</p>
+                            <p className="text-gray-600"><span className="font-medium">Package:</span> {interview.annualPackage}</p>
 
-                        <p className="text-gray-600"><span className="font-medium">Student:</span> {interview.studentName}</p>
-                        <p className="text-gray-600"><span className="font-medium">Email:</span> {interview.email}</p>
-                        <p className="text-gray-600"><span className="font-medium">Date:</span> {interview.interviewDate}</p>
-                        <p className="text-gray-600"><span className="font-medium">Time:</span> {interview.interviewTime}</p>
-                        <p className="text-gray-600"><span className="font-medium">Company:</span> {interview.companyName}</p>
-                        <p className="text-gray-600"><span className="font-medium">Package:</span> {interview.annualPackage}</p>
-
-                        {interview.reason && (
-                            <p className="mt-2 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
-                                <span className="font-semibold">Reason:</span> {interview.reason}
-                            </p>
-                        )}
-
-                        {/* Action Buttons */}
-                        <div className="mt-4 flex gap-2 flex-wrap">
-                            {interview.interviewStatus === 'scheduled' && (
-                                <>
-                                    <ActionBtn text="Reschedule" color="yellow" onClick={() => openActionDialog(interview.interviewId, 'reschedule')} />
-                                    <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
-                                </>
+                            {interview.reason && (
+                                <p className="mt-2 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+                                    <span className="font-semibold">Reason:</span> {interview.reason}
+                                </p>
                             )}
-                            {interview.interviewStatus === 'rescheduled' && (
-                                <>
-                                    <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
-                                    <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
-                                </>
-                            )}
-                        </div>
-                    </div>
-                ))}
-            </div>
 
+                            {/* Action Buttons */}
+                            <div className="mt-4 flex gap-2 flex-wrap">
+                                {interview.interviewStatus === 'scheduled' && (
+                                    <>
+                                        <ActionBtn text="Reschedule" color="yellow" onClick={() => openActionDialog(interview.interviewId, 'reschedule')} />
+                                        <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
+                                        <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
+                                    </>
+                                )}
+                                {interview.interviewStatus === 'rescheduled' && (
+                                    <>
+                                        <ActionBtn text="Cancel" color="red" onClick={() => openActionDialog(interview.interviewId, 'cancel')} />
+                                        <ActionBtn text="Completed" color="green" onClick={() => handleDirectComplete(interview.interviewId)} />
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
             {/* Dialog */}
             <Dialog open={!!openDialog} onClose={closeDialog} className="relative z-50">
                 <div className="fixed inset-0 bg-black/70" aria-hidden="true" />

@@ -353,7 +353,7 @@ const Vacancies = () => {
             )}
             <div className="min-h-screen bg-gray-100 py-6 px-4 md:px-10 text-gray-800">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">Posted Vacancies</h2>
+                    <h2 className="text-xl font-bold"></h2>
                     <button
                         title='Add New Vacancy'
                         onClick={() => setIsOpen(true)}

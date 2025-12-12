@@ -49,7 +49,7 @@ export default function DashboardHome() {
 
     return (
         <div className="p-6 md:p-10 bg-[#f5ffff] min-h-screen">
-            <h1 className="text-3xl font-bold text-[#005acd] mb-8">Admin Dashboard</h1>
+            {/* <h1 className="text-3xl font-bold text-[#005acd] mb-8">Admin Dashboard</h1> */}
 
             {dashboardData ? (
                 <>

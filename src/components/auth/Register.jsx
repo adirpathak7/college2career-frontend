@@ -6,6 +6,7 @@ import PasswordInput from './PasswordInput'
 import { useLoader } from '../../LoaderContext'
 import PageTitle from '../../PageTitle'
 import Footer from '../Footer'
+import { registerUser } from '../../api/authApi'
 
 export default function Register() {
     const navigate = useNavigate()
@@ -21,7 +22,7 @@ export default function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 2
+        roleId: 2
     })
 
     const [inputError, setInputError] = useState({
@@ -40,7 +41,7 @@ export default function Register() {
         const { name, value } = e.target
         setInputData((prevValue) => ({
             ...prevValue,
-            [name]: name === 'role' ? Number(value) : value
+            [name]: name === 'roleId' ? Number(value) : value
         }))
 
         setInputError((prevValue) => ({
@@ -51,11 +52,7 @@ export default function Register() {
         setApiResponse({ message: '', type: '' })
     }
 
-    // const handleClose = () => {
-    //     setApiResponse({ message: '', type: '' })
-    // }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         const errors = {}
@@ -65,7 +62,8 @@ export default function Register() {
         formData.append('email', inputData.email)
         formData.append('password', inputData.password)
         formData.append('roleId', inputData.role)
-
+        console.log(inputData.role);
+        
         if (!inputData.email) {
             errors.email = message.empty + 'email'
         } else if (!inputData.email.match(emailRegex)) {
@@ -94,35 +92,22 @@ export default function Register() {
             return
         }
 
-        setLoading(true)
-
-        axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData)
-            .then((response) => {
-                console.log("api response:", response.data)
-                if (response.data.status === false) {
-                    setApiResponse({
-                        message: response.data.message,
-                        type: 'error',
-                    })
-                } else {
-                    navigate('/login')
-                }
-            })
-            .catch((error) => {
-                console.log("Error occurred: ", error)
-                setApiResponse({
-                    message: "Something went wrong.",
-                    type: 'error',
-                })
-                setInputData({
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    role: 2
-                })
-            }).finally(() => {
-                setLoading(false)
-            })
+        try {
+            setLoading(true)
+            const response = await registerUser(inputData)
+            console.log(response);
+            
+            if (!response.data.status) {
+                setApiResponse({ message: response.data.message, type: "error" })
+            } else {
+                setInputData({ email: "", password: "" })
+                setTimeout(() => navigate("/user/dashboard"), 200)
+            }
+        } catch {
+            setApiResponse({ message: "Something went wrong.", type: "error" })
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -191,7 +176,7 @@ export default function Register() {
                                 <label className="flex items-center">
                                     <input
                                         type="radio"
-                                        name="role"
+                                        name="roleId"
                                         value={2}
                                         checked={inputData.role === 2}
                                         onChange={handleInputChange}
@@ -203,7 +188,7 @@ export default function Register() {
                                 <label className="flex items-center">
                                     <input
                                         type="radio"
-                                        name="role"
+                                        name="roleId"
                                         value={1}
                                         checked={inputData.role === 1}
                                         onChange={handleInputChange}

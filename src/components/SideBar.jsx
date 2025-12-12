@@ -95,7 +95,7 @@ export default function SideBar() {
                             <p className="text-xs text-[#bef0ff]"></p>
                         </div>
                     </div>
-                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer text-red-300 hover:text-red-500" />
+                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer" title='Logout' />
                 </div>
             </div>
 
