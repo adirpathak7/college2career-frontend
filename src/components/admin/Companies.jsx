@@ -129,7 +129,7 @@ export default function Companies() {
             >
                 <p>Are you sure you want to <b>{dialogData.newStatus}</b> <b>{dialogData.companyName}</b>?</p>
                 {(dialogData.newStatus === 'rejected' || dialogData.newStatus === 'deactivated') && (
-                    <textarea
+                    <textaddress
                         rows={3}
                         className="w-full mt-3 border rounded p-2"
                         placeholder="Enter reason..."
@@ -196,7 +196,7 @@ export default function Companies() {
                             </div>
 
                             <div className="text-sm space-y-1">
-                                <p><span className="font-semibold text-gray-600">Address:</span> {company.area}</p>
+                                <p><span className="font-semibold text-gray-600">Address:</span> {company.address}</p>
                                 <p><span className="font-semibold text-gray-600">Contact:</span> {company.contactNumber}</p>
                                 <p><span className="font-semibold text-gray-600">Established:</span> {company.establishedDate}</p>
                                 <p><span className="font-semibold text-gray-600">Employees:</span> {company.employeeSize}</p>

@@ -21,7 +21,7 @@ export default function SideBar() {
         { to: "/admin/dashboard", label: "Dashboard", icon: <MdDashboard /> },
         { to: "/admin/dashboard/companies", label: "Companies", icon: <BsCardList /> },
         { to: "/admin/dashboard/students", label: "Students", icon: <RiPagesLine /> },
-        // { to: "/admin/dashboard/", label: "Messages", icon: <BiMessage /> },
+        { to: "/admin/dashboard/inbox", label: "Inbox", icon: <BiMessage /> },
         { to: "/admin/dashboard/profile", label: "Profile", icon: <ImProfile /> }
     ];
 

@@ -16,7 +16,7 @@ export default function Profile() {
         contactNumber: "0264-1234567",
         profilePictureURL: null,
         industry: "N/A",
-        area: "N/A",
+        address: "N/A",
         city: "N/A",
         state: "N/A",
         employeeSize: "N/A",
@@ -121,7 +121,7 @@ export default function Profile() {
                                 </div>
 
                                 <p className="mt-4 text-gray-700 text-sm">
-                                    Based in {data.area}, {data.city}, {data.state}.
+                                    Based in {data.address}, {data.city}, {data.state}.
                                 </p>
                             </div>
                         </div>

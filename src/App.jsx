@@ -24,6 +24,7 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Interviews from './components/user/Interviews';
 import Offers from './components/user/Offers';
+import Inbox from './pages/Inbox';
 import Cookies from 'js-cookie';
 
 function App() {
@@ -103,6 +104,7 @@ function AppContent() {
           <Route path='vacancies' element={<Vacancies />} />
           <Route path='applications' element={<Applications />} />
           <Route path='interviews' element={<Interviews />} />
+          <Route path='inbox' element={<Inbox />} />
           <Route path='offers' element={<Offers />} />
         </Route>
 
@@ -110,6 +112,7 @@ function AppContent() {
           <Route index element={<AdminDashboardHome />} />
           <Route path='companies' element={<Companies />} />
           <Route path='students' element={<StudentsApplications />} />
+          <Route path='inbox' element={<Inbox />} />
           <Route path='profile' element={<AdminProfile />} />
         </Route>
       </Routes>

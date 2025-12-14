@@ -14,7 +14,7 @@ const menuItems = [
     { label: "Applications", path: "/user/dashboard/applications", icon: <LuFileText /> },
     { label: "Interviews", path: "/user/dashboard/interviews", icon: <LuMic /> },
     { label: "Offers", path: "/user/dashboard/offers", icon: <LuBadgeCheck /> },
-    // { label: "Messages", path: "/user/dashboard/messages", icon: <LuMessageSquareText /> },
+    { label: "Inbox", path: "/user/dashboard/inbox", icon: <LuMessageSquareText /> },
     { label: "Profile", path: "/user/dashboard/profile", icon: <LuUser /> },
 ];
 

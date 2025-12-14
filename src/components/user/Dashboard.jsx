@@ -1,28 +1,22 @@
-import React from 'react'
-import SideBar from '../SideBar'
-import { Outlet } from 'react-router-dom'
-import PageTitle from '../../PageTitle'
+import React from "react";
+import SideBar from "../SideBar";
+import { Outlet } from "react-router-dom";
+import PageTitle from "../../PageTitle";
 
 export default function Dashboard() {
     return (
-        <div className="max-h-screen flex" style={{ height: '100vh' }}>
-            {/* Sidebar */}
-            <div className="w-64 bg-gray-900 text-white">
-                <SideBar />
-            </div>
+        <div className="h-screen flex bg-gray-100">
+            <SideBar />
 
-            {/* Main content */}
-            <div className="flex-1 flex flex-col bg-gray-50" style={{ height: '100vh' }}>
-                {/* Header */}
-                <div className="shadow-sm bg-white">
+            <div className="flex-1 flex flex-col">
+                <div className="bg-white shadow-sm px-6 py-4">
                     <PageTitle title="Dashboard" />
                 </div>
 
-                {/* Scrollable outlet content with hidden scrollbar */}
-                <div className="flex-1 overflow-y-scroll h-screen hide-scrollbar">
+                <div className="flex-1 overflow-y-auto">
                     <Outlet />
                 </div>
             </div>
         </div>
-    )
+    );
 }

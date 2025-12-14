@@ -22,7 +22,7 @@ export default function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        roleId: 2
+        roleId: null
     })
 
     const [inputError, setInputError] = useState({
@@ -63,7 +63,7 @@ export default function Register() {
         formData.append('password', inputData.password)
         formData.append('roleId', inputData.role)
         console.log(inputData.role);
-        
+
         if (!inputData.email) {
             errors.email = message.empty + 'email'
         } else if (!inputData.email.match(emailRegex)) {
@@ -77,6 +77,9 @@ export default function Register() {
         }
         if (inputData.confirmPassword !== inputData.password) {
             errors.confirmPassword = message.mismatch
+        }
+        if (!inputData.roleId || inputData.roleId === null) {
+            errors.role = message.defaultOption + 'role'
         }
 
         setInputError(errors)
@@ -96,7 +99,7 @@ export default function Register() {
             setLoading(true)
             const response = await registerUser(inputData)
             console.log(response);
-            
+
             if (!response.data.status) {
                 setApiResponse({ message: response.data.message, type: "error" })
             } else {
@@ -123,7 +126,7 @@ export default function Register() {
     return (
         <>
             <PageTitle title="Register" />
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4">
+            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4 mt-10">
                 <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-blue-100">
                     {apiResponse.message && (
                         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
@@ -178,9 +181,8 @@ export default function Register() {
                                         type="radio"
                                         name="roleId"
                                         value={2}
-                                        checked={inputData.role === 2}
+                                        checked={inputData.roleId === 2}
                                         onChange={handleInputChange}
-                                        ref={roleRef}
                                         className="mr-2 accent-blue-600"
                                     />
                                     Company
@@ -190,13 +192,16 @@ export default function Register() {
                                         type="radio"
                                         name="roleId"
                                         value={1}
-                                        checked={inputData.role === 1}
+                                        checked={inputData.roleId === 1}
                                         onChange={handleInputChange}
                                         className="mr-2 accent-blue-600"
                                     />
                                     Student
                                 </label>
                             </div>
+                            {inputError.role && (
+                                <span className="text-red-600 text-sm">{inputError.role}</span>
+                            )}
                         </div>
 
                         <button
