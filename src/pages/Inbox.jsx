@@ -198,7 +198,7 @@ export default function Inbox() {
       setTypingMap((prev) => ({ ...prev, [usersId]: true }));
       setTimeout(() => {
         setTypingMap((prev) => ({ ...prev, [usersId]: false }));
-      }, 2000);
+      }, 1200);
     };
 
     socket.on("receiveMessage", onReceive);
@@ -385,7 +385,7 @@ export default function Inbox() {
                   rel="noreferrer"
                   className="text-blue-600 underline text-xs mt-1"
                 >
-                  📥 Download
+                  Download
                 </a>
               )}
             </div>
@@ -470,7 +470,7 @@ export default function Inbox() {
                 <div>
                   <div className="font-semibold">{c.username}</div>
                   <div className="text-xs text-gray-500">
-                    {c.isTyping ? (
+                    {typingMap[c.usersId] ? (
                       <span className="text-blue-600">typing...</span>
                     ) : (
                       c.lastMessage || c.email
@@ -587,7 +587,14 @@ export default function Inbox() {
 
               <input
                 value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
+                onChange={(e) => {
+                  setInputMessage(e.target.value);
+
+                  socket.emit("typing", {
+                    groupId: selectedChat.groupId,
+                    usersId: currentUser.usersId,
+                  });
+                }}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Type a message..."
                 className="flex-1 px-4 py-2 border rounded-full"

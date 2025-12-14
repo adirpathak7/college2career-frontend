@@ -1,79 +1,110 @@
-import React, { useState } from 'react'
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import { BiLogOut, BiMessage } from 'react-icons/bi'
-import { ImProfile } from 'react-icons/im'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { BsCardList } from 'react-icons/bs'
-import { MdDashboard } from 'react-icons/md'
-import { RiPagesLine } from "react-icons/ri";
-import C2CLogo from '../../assets/C2CLogo.png'
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { MdDashboard } from 'react-icons/md';
+import { BsCardList } from 'react-icons/bs';
+import { RiPagesLine } from 'react-icons/ri';
+import { BiMessage, BiLogOut } from 'react-icons/bi';
+import { ImProfile } from 'react-icons/im';
+import C2CLogo from '../../assets/C2CLogo.png';
 
-export default function SideBar() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+const baseClass =
+    "flex items-center space-x-4 py-3 px-4 rounded-md font-medium text-sm transition-colors duration-200 w-full";
+
+const menuItems = [
+    { label: "Dashboard", path: "/admin/dashboard", icon: <MdDashboard /> },
+    { label: "Companies", path: "/admin/dashboard/companies", icon: <BsCardList /> },
+    { label: "Students", path: "/admin/dashboard/students", icon: <RiPagesLine /> },
+    { label: "Inbox", path: "/admin/dashboard/inbox", icon: <BiMessage /> },
+    { label: "Profile", path: "/admin/dashboard/profile", icon: <ImProfile /> },
+];
+
+export default function AdminSideBar() {
+    const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
-    const handelLogout = () => {
-        navigate("../login")
-    }
-
-    const navLinks = [
-        { to: "/admin/dashboard", label: "Dashboard", icon: <MdDashboard /> },
-        { to: "/admin/dashboard/companies", label: "Companies", icon: <BsCardList /> },
-        { to: "/admin/dashboard/students", label: "Students", icon: <RiPagesLine /> },
-        { to: "/admin/dashboard/inbox", label: "Inbox", icon: <BiMessage /> },
-        { to: "/admin/dashboard/profile", label: "Profile", icon: <ImProfile /> }
-    ];
-
+    const toggleSidebar = () => setIsOpen(!isOpen);
     const isActive = (path) => location.pathname === path;
 
-    const baseClass = "flex justify-start items-center space-x-6 mt-3 mb-2 font-semibold rounded px-3 py-3 w-full md:w-52 transition-all duration-150";
-    const activeClass = "bg-[#0093cb] text-[#f5ffff]";
-    const inactiveClass = "text-[#f5ffff] hover:bg-[#bef0ff] hover:text-[#005acd]";
+    const handleLogout = () => {
+        document.cookie = `userToken=; path=/; max-age=0`;
+        navigate("/login");
+    };
+
+    useEffect(() => {
+        if (location.pathname === "/admin/dashboard/") {
+            navigate("/admin/dashboard");
+        }
+    }, [location.pathname, navigate]);
 
     return (
-        <div id="mainSideBar" className="xl:rounded-r h-screen w-full sm:w-64 bg-[#005acd] shadow-lg flex flex-col justify-start">
-            {/* Logo section */}
-            <div className="flex justify-start p-6 items-center space-x-3 border-b border-[#6dd7fd]">
-                <img src={C2CLogo}
-                    alt="College2Career-Logo"
-                    className="h-11 w-11 object-cover rounded-full shadow-md"
-                />
-                <p className="text-2xl font-bold text-[#f5ffff]">College2Career</p>
-            </div>
-
-            {/* Nav Links */}
-            <div className="flex flex-col justify-start items-center px-6 border-b border-[#6dd7fd] w-full">
-                <div className="flex flex-col w-full pb-1 mt-8">
-                    {navLinks.map((link, idx) => (
-                        <Link
-                            key={idx}
-                            to={link.to}
-                            className={`${baseClass} ${isActive(link.to) ? activeClass : inactiveClass}`}
-                        >
-                            {link.icon}
-                            <p className="text-base">{link.label}</p>
-                        </Link>
-                    ))}
+        <>
+            {/* Mobile toggle button */}
+            <div className="text-white p-4 md:hidden flex justify-between items-center bg-[#005acd]">
+                <div className="flex items-center space-x-2">
+                    <img src={C2CLogo} alt="Logo" className="h-10 w-10 rounded-full" />
+                    <span className="text-lg font-semibold text-white">College2Career</span>
                 </div>
+                <button onClick={toggleSidebar} className="text-xl focus:outline-none text-white">
+                    ☰
+                </button>
             </div>
 
-            {/* Footer */}
-            <div className="flex flex-col justify-between items-center h-full pb-6 px-6 w-full mt-[120%]">
-                <div className="flex justify-between items-center w-full">
-                    <div className="flex items-center space-x-2 mt-4 text-md">
-                        {/* <img className="rounded-full h-12 mt-2" src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg" alt="avatar" /> */}
-                        {/* <div className="flex flex-col items-start"> */}
-                            {/* <p className="text-sm text-[#f5ffff] font-semibold">J.P Dawer Institute (VNSGU)</p>
-                            <p className="text-xs text-[#bef0ff]">info@vnsgu.ac.in</p> */}
-                            Logout
-                        {/* </div> */}
+            {/* Sidebar */}
+            <div className={`fixed md:static z-50 top-0 left-0 h-full bg-[#005acd] text-white transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out w-64 flex flex-col`}>
+                {/* Logo and close button */}
+                <div className="flex items-center justify-between p-6 border-b border-[#6dd7fd]">
+                    <div className="flex items-center space-x-3">
+                        <img src={C2CLogo} alt="Logo" className="h-11 w-11 rounded-full" />
+                        <p className="text-2xl font-semibold text-white">College2Career</p>
                     </div>
-                    <button onClick={handelLogout}>
-                        <BiLogOut className='text-white cursor-pointer w-8 h-6 mt-6' title='Logout' />
+                    <button onClick={toggleSidebar} className="md:hidden text-xl text-white">
+                        ✕
                     </button>
                 </div>
+
+                {/* Navigation */}
+                <nav className="flex-1 justify-center px-4 space-y-2 mt-8">
+                    {menuItems.map((item) => (
+                        <Link
+                            key={item.label}
+                            to={item.path}
+                            className={`${baseClass} ${isActive(item.path)
+                                ? "bg-[#0093cb] text-[#f5ffff]"
+                                : "text-[#f5ffff] hover:bg-[#bef0ff] hover:text-[#005acd]"
+                                }`}
+                            onClick={() => setIsOpen(false)}
+                        >
+                            {item.icon}
+                            <span>{item.label}</span>
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* User Info + Logout */}
+                <div className="p-4 border-t border-[#6dd7fd] flex items-center justify-between">
+                    <div className="flex items-center space-x-2 text-xl">
+                        {/* <img
+                                  src="https://res.cloudinary.com/druzdz5zn/image/upload/v1734700064/qoftuli2spstfjt2kosz.jpg"
+                                  alt="avatar"
+                                  className="h-10 w-10 rounded-full"
+                              /> */}
+                        <div>
+                            <p className="text-sm font-medium text-[#f5ffff]">Logout</p>
+                            <p className="text-xs text-[#bef0ff]"></p>
+                        </div>
+                    </div>
+                    <BiLogOut onClick={handleLogout} className="w-6 h-6 cursor-pointer" title='Logout' />
+                </div>
             </div>
-        </div>
-    )
+
+            {/* Overlay for mobile */}
+            {isOpen && (
+                <div
+                    onClick={toggleSidebar}
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                ></div>
+            )}
+        </>
+    );
 }

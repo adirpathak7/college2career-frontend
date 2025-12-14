@@ -149,6 +149,7 @@ export default function CreateProfileModel() {
                     setApiResponse({ message: response.data.message, type: 'error' })
                 } else {
                     setApiResponse({ message: response.data.message, type: 'success' })
+                    navigate("/user/dashboard/profile")
                 }
 
                 setInputData({

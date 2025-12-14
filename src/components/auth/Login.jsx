@@ -7,6 +7,8 @@ import { useLoader } from '../../LoaderContext'
 import PageTitle from '../../PageTitle'
 import Footer from '../Footer'
 import { loginUser } from '../../api/authApi.js'
+import Cookies from "js-cookie";
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login() {
 
@@ -60,7 +62,20 @@ export default function Login() {
             } else {
                 setApiResponse({ message: response.data.message, type: "success" })
                 document.cookie = `userToken=${response.data.data}; path=/; max-age=${60 * 60 * 24 * 7}; Secure; SameSite=Strict`;
-                setTimeout(() => navigate('/user/Dashboard'), 150)
+                const token = Cookies.get("userToken");
+                // if (!token) return null;
+
+                const decoded = jwtDecode(token);
+                const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+                if (role === "company") {
+                    setTimeout(() => navigate('/user/dashboard'), 150)
+                } else if (role === "college") {
+                    setTimeout(() => navigate('/admin/dashboard'), 150)
+                } else {
+                    document.cookie = `userToken=; path=/; max-age=0`;
+                    setApiResponse({ message: "Invalid user!", type: "error" })
+                }
             }
         } catch (err) {
             console.log("Error occurred: ", err)

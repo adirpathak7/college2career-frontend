@@ -9,6 +9,7 @@ app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
 }));
+
 app.use(express.json());
 
 const db = await mysql.createConnection({
@@ -32,7 +33,7 @@ const io = new Server(httpServer, {
 // SOCKET.IO LOGIC
 // ----------------------------------------------------------------------
 io.on("connection", (socket) => {
-    console.log("⚡ User connected:", socket.id);
+    console.log("User connected:", socket.id);
 
     // JOIN A GROUP
     socket.on("joinGroup", (groupId) => {

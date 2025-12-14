@@ -1,30 +1,33 @@
-import React from 'react'
-import SideBar from '../admin/SideBar'
-import { Outlet } from 'react-router-dom'
-import PageTitle from '../../PageTitle'
+import React, { useEffect } from "react";
+import SideBar from "../admin/SideBar";
+import { Outlet, useNavigate } from "react-router-dom";
+import PageTitle from "../../PageTitle";
+import Cookies from "js-cookie";
 
-export default function AdminDashboard() {
+export default function Dashboard() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = Cookies.get("userToken");
+
+        if (!token) {
+            navigate("/login", { replace: true });
+        }
+    }, [navigate]);
+
     return (
-        <>
-            <PageTitle title="Admin Dashboard" />
-            <div className="max-h-screen flex" style={{ height: '100vh' }}>
-                {/* Sidebar */}
-                <div className="w-64 bg-gray-800 text-white">
-                    <SideBar />
+        <div className="h-screen flex bg-gray-100">
+            <SideBar />
+
+            <div className="flex-1 flex flex-col">
+                <div className="bg-white shadow-sm px-6 py-4">
+                    <PageTitle title="Dashboard" />
                 </div>
 
-                {/* Main content */}
-                <div className="flex-1 flex flex-col bg-gray-50" style={{ height: '100vh' }}>
-                    {/* Header */}
-                    <div className="shadow-sm bg-white">
-                    </div>
-
-                    {/* Scrollable outlet content with hidden scrollbar */}
-                    <div className="flex-1 overflow-y-scroll h-screen hide-scrollbar">
-                        <Outlet />
-                    </div>
+                <div className="flex-1 overflow-y-auto">
+                    <Outlet />
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }

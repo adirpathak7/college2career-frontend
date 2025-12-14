@@ -180,8 +180,8 @@ export default function Register() {
                                     <input
                                         type="radio"
                                         name="roleId"
-                                        value={2}
-                                        checked={inputData.roleId === 2}
+                                        value={1}
+                                        checked={inputData.roleId === 1}
                                         onChange={handleInputChange}
                                         className="mr-2 accent-blue-600"
                                     />
@@ -191,8 +191,8 @@ export default function Register() {
                                     <input
                                         type="radio"
                                         name="roleId"
-                                        value={1}
-                                        checked={inputData.roleId === 1}
+                                        value={2}
+                                        checked={inputData.roleId === 2}
                                         onChange={handleInputChange}
                                         className="mr-2 accent-blue-600"
                                     />
