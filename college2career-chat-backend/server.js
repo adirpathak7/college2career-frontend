@@ -6,7 +6,10 @@ import mysql from "mysql2/promise";
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        null
+    ],
     credentials: true,
 }));
 
@@ -23,7 +26,7 @@ const db = await mysql.createConnection({
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
         credentials: true,
         methods: ["GET", "POST"]
     }
