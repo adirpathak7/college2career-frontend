@@ -140,7 +140,10 @@ export default function ResetPassword() {
     return (
         <>
             <PageTitle title="Reset Password" />
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4">
+            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br text-gray-800 px-4"
+            style={{ 
+                    backgroundImage: "url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1470&q=80')" 
+                }}>
                 <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-blue-100">
                     {apiResponse.message && (
                         <div

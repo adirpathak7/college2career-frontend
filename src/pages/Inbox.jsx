@@ -432,7 +432,8 @@ export default function Inbox() {
   // UI
   // =====================================================
   return (
-    <div className="w-full h-full flex bg-gray-50">
+    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+      <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">Messages</h2>
 
       {/* SIDEBAR */}
       <aside

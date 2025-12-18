@@ -351,7 +351,8 @@ const Vacancies = () => {
                     {apiError}
                 </div>
             )}
-            <div className="min-h-screen bg-gray-100 py-6 px-4 md:px-10 text-gray-800">
+            <div className="bg-gray-50 min-h-screen">
+                <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">Posted Vacancies</h2>
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold"></h2>
                     <button
@@ -362,29 +363,38 @@ const Vacancies = () => {
                         + Add New Vacancy
                     </button>
                 </div>
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="grid gap-6 md:grid-cols-3">
                     {vacancies.length === 0 ? (
                         <p className="text-gray-500">No vacancies posted yet.</p>
                     ) : (
                         vacancies.map((v, idx) => (
-                            < div
+                            <div
                                 key={idx}
-                                className="bg-white border rounded-lg p-6 shadow hover:shadow-md transition-shadow duration-300"
+                                className="bg-white overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:bg-gray-10 p-2  transition-shadow duration-300"
                             >
-                                <div className='flex justify-end text-blue-700'>
+                                {/* Edit Button */}
+                                <div className="flex justify-end text-white opacity-80 hover:opacity-100">
                                     <BiEdit title='Edit Vacancy' className='w-8 h-6 cursor-pointer' onClick={() => handleEditClick(v)} />
                                 </div>
-                                <h3 className="text-xl font-semibold text-blue-800">{v.title}</h3>
-                                <p className="text-sm text-gray-700 mt-2">{v.description}</p>
+
+                                {/* Job Title */}
+                                <h3 className="text-2xl font-semibold mb-2">{v.title}</h3>
+
+                                {/* Job Description */}
+                                <p className="text-sm mb-4">{v.description}</p>
+
+                                {/* Eligibility Criteria */}
                                 <div className="mt-4">
-                                    <h4 className="text-sm font-medium text-gray-900 mb-1">Eligibility Criteria:</h4>
-                                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                    <h4 className="text-sm font-medium mb-2">Eligibility Criteria:</h4>
+                                    <ul className="list-disc list-inside text-sm space-y-1">
                                         {v.eligibility_criteria?.split('\n').map((item, i) => (
                                             <li key={i}>{item.trim()}</li>
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="mt-4 space-y-1 text-sm text-gray-700">
+
+                                {/* Job Details */}
+                                <div className="mt-4">
                                     <p><strong>Type:</strong> {v.type}</p>
                                     <p><strong>Location:</strong> {v.locationType}</p>
                                     <p><strong>Annual Package:</strong> {v.annualPackage}</p>
@@ -393,14 +403,26 @@ const Vacancies = () => {
                         ))
                     )}
                 </div>
+
                 <Dialog open={isOpen} onClose={handleCloseModal} className="relative z-50">
                     <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
                     <div className="fixed inset-0 flex items-center justify-center p-4 overflow-y-auto">
-                        <Dialog.Panel className="relative w-full max-w-2xl bg-white rounded-xl p-6 shadow-lg my-10">
+                        <Dialog.Panel className="relative w-full max-w-4xl h-auto bg-white rounded-xl p-6 shadow-lg my-10 flex flex-col">
+                            {/* Close Icon */}
+                            <button
+                                onClick={handleCloseModal}
+                                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+                                aria-label="Close"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
                             <Dialog.Title className="text-xl font-bold mb-4 text-center">Add New Vacancy</Dialog.Title>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <form onSubmit={handleSubmit} className="space-y-6 overflow-y-auto flex-1 bg-blue-50 p-4 rounded-lg">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     {/* Job Title */}
                                     <div>
                                         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
@@ -448,7 +470,9 @@ const Vacancies = () => {
                                         />
                                         {inputError.annualPackage && <p className="text-sm text-red-600 mt-1">{inputError.annualPackage}</p>}
                                     </div>
+                                </div>
 
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                                     {/* Job Type */}
                                     <div>
                                         <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
@@ -489,7 +513,7 @@ const Vacancies = () => {
                                 </div>
 
                                 {/* Eligibility Criteria */}
-                                <div>
+                                <div className="mt-4">
                                     <label htmlFor="eligibility_criteria" className="block text-sm font-medium text-gray-700 mb-1">Eligibility Criteria</label>
                                     <textarea
                                         name="eligibility_criteria"
@@ -505,7 +529,7 @@ const Vacancies = () => {
                                 </div>
 
                                 {/* Job Description */}
-                                <div>
+                                <div className="mt-4">
                                     <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
                                     <textarea
                                         name="description"
@@ -521,7 +545,7 @@ const Vacancies = () => {
                                 </div>
 
                                 {/* Buttons */}
-                                <div className="flex justify-end gap-2">
+                                <div className="flex justify-end gap-2 mt-6">
                                     <button
                                         type="button"
                                         onClick={handleCloseModal}
@@ -541,149 +565,170 @@ const Vacancies = () => {
                         </Dialog.Panel>
                     </div>
                 </Dialog>
+
+
                 {editingVacancy &&
                     (
-                        <Dialog open={isEditDialogOpen} onClose={handleEditCloseModal} className="relative z-50 ">
-                            <div className="fixed inset-0 bg-black/75 " aria-hidden="true" />
-                            <div className="fixed inset-0 top-10 w-full h-[100vh] hide-scrollbar  flex items-center justify-center p-4 overflow-y-auto">
-                                <Dialog.Panel className="relative w-full max-w-2xl bg-white rounded-xl p-6 shadow-lg my-10">
-                                    <Dialog.Title className="text-xl font-bold mb-4 text-center">Edit Vacancy</Dialog.Title>
+                        <Dialog open={isEditDialogOpen} onClose={handleEditCloseModal} className="relative z-50">
+                            {/* Overlay */}
+                            <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
+
+                            {/* Modal Wrapper */}
+                            <div className="fixed inset-0 flex items-center justify-center p-4 overflow-y-auto">
+                                <Dialog.Panel className="relative w-full max-w-3xl bg-blue-200 text-gray-800 rounded-2xl p-8 shadow-2xl">
+
+                                    {/* Title */}
+                                    <Dialog.Title className="text-2xl font-bold mb-6 text-center text-blue-900">
+                                        Edit Vacancy
+                                    </Dialog.Title>
+
                                     <form onSubmit={handleEditVacancy} className="space-y-6">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                        {/* Grid Fields */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                                             {/* Job Title */}
                                             <div>
-                                                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                                                <label className="block text-sm font-semibold mb-1">Job Title</label>
                                                 <input
                                                     type="text"
                                                     name="title"
                                                     value={editingVacancy.title}
                                                     onChange={handleEditInputChange}
                                                     ref={timingRef}
-                                                    className="input-field"
+                                                    className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                                 />
-                                                {inputError.title && <p className="text-sm text-red-600 mt-1">{inputError.title}</p>}
+                                                {inputError.title && <p className="text-sm text-red-600">{inputError.title}</p>}
                                             </div>
+
                                             {/* Total Vacancies */}
                                             <div>
-                                                <label htmlFor="totalVacancy" className="block text-sm font-medium text-gray-700 mb-1">Total Vacancies</label>
+                                                <label className="block text-sm font-semibold mb-1">Total Vacancies</label>
                                                 <input
                                                     type="number"
                                                     name="totalVacancy"
                                                     value={editingVacancy.totalVacancy}
                                                     onChange={handleEditInputChange}
                                                     ref={totalVacancyRef}
-                                                    className="input-field"
+                                                    className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                                 />
-                                                {inputError.totalVacancy && <p className="text-sm text-red-600 mt-1">{inputError.totalVacancy}</p>}
+                                                {inputError.totalVacancy && <p className="text-sm text-red-600">{inputError.totalVacancy}</p>}
                                             </div>
+
                                             {/* Annual Package */}
                                             <div>
-                                                <label htmlFor="annualPackage" className="block text-sm font-medium text-gray-700 mb-1">Annual Package</label>
+                                                <label className="block text-sm font-semibold mb-1">Annual Package</label>
                                                 <input
                                                     type="text"
                                                     name="annualPackage"
                                                     value={editingVacancy.annualPackage}
                                                     onChange={handleEditInputChange}
                                                     ref={annualPackageRef}
-                                                    className="input-field"
+                                                    className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                                 />
-                                                {inputError.annualPackage && <p className="text-sm text-red-600 mt-1">{inputError.annualPackage}</p>}
+                                                {inputError.annualPackage && <p className="text-sm text-red-600">{inputError.annualPackage}</p>}
                                             </div>
+
                                             {/* Job Type */}
                                             <div>
-                                                <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                                                <label className="block text-sm font-semibold mb-1">Job Type</label>
                                                 <select
                                                     name="type"
                                                     value={editingVacancy.type}
                                                     onChange={handleEditInputChange}
                                                     ref={typeRef}
-                                                    className="input-field"
+                                                    className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                                 >
                                                     <option value="">Select Job Type</option>
                                                     <option value="fulltime">Full-Time</option>
                                                     <option value="parttime">Part-Time</option>
                                                     <option value="internship">Internship</option>
                                                 </select>
-                                                {inputError.type && <p className="text-sm text-red-600 mt-1">{inputError.type}</p>}
+                                                {inputError.type && <p className="text-sm text-red-600">{inputError.type}</p>}
                                             </div>
+
                                             {/* Location Type */}
                                             <div>
-                                                <label htmlFor="locationType" className="block text-sm font-medium text-gray-700 mb-1">Location Type</label>
+                                                <label className="block text-sm font-semibold mb-1">Location Type</label>
                                                 <select
                                                     name="locationType"
                                                     value={editingVacancy.locationType}
                                                     onChange={handleEditInputChange}
                                                     ref={locationTypeRef}
-                                                    className="input-field"
+                                                    className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                                 >
-                                                    <option value="">Select Location Type</option>
+                                                    <option value="">Select Location</option>
                                                     <option value="onsite">Onsite</option>
                                                     <option value="remote">Remote</option>
                                                     <option value="hybrid">Hybrid</option>
                                                 </select>
-                                                {inputError.locationType && <p className="text-sm text-red-600 mt-1">{inputError.locationType}</p>}
+                                                {inputError.locationType && <p className="text-sm text-red-600">{inputError.locationType}</p>}
                                             </div>
                                         </div>
-                                        {/* Eligibility Criteria */}
+
+                                        {/* Eligibility */}
                                         <div>
-                                            <label htmlFor="eligibility_criteria" className="block text-sm font-medium text-gray-700 mb-1">Eligibility Criteria</label>
+                                            <label className="block text-sm font-semibold mb-1">Eligibility Criteria</label>
                                             <textarea
                                                 name="eligibility_criteria"
                                                 value={editingVacancy.eligibility_criteria}
                                                 onChange={handleEditInputChange}
                                                 ref={eligibility_criteriaRef}
-                                                rows={4}
-                                                className="input-field w-full"
+                                                rows={3}
+                                                className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                             />
-                                            {inputError.eligibility_criteria && <p className="text-sm text-red-600 mt-1">{inputError.eligibility_criteria}</p>}
                                         </div>
-                                        {/* Job Description */}
+
+                                        {/* Description */}
                                         <div>
-                                            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
+                                            <label className="block text-sm font-semibold mb-1">Job Description</label>
                                             <textarea
                                                 name="description"
                                                 value={editingVacancy.description}
                                                 onChange={handleEditInputChange}
                                                 ref={descriptionRef}
-                                                rows={5}
-                                                className="input-field w-full"
+                                                rows={4}
+                                                className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                             />
-                                            {inputError.description && <p className="text-sm text-red-600 mt-1">{inputError.description}</p>}
                                         </div>
+
                                         {/* Status */}
                                         <div>
-                                            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                            <label className="block text-sm font-semibold mb-1">Status</label>
                                             <select
                                                 name="status"
                                                 value={editingVacancy.status}
                                                 onChange={handleEditInputChange}
-                                                className="input-field"
+                                                className="w-full rounded-lg p-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
                                             >
                                                 <option value="hiring">Hiring</option>
                                                 <option value="hired">Hired</option>
                                             </select>
                                         </div>
+
                                         {/* Buttons */}
-                                        <div className="flex justify-end gap-2">
+                                        <div className="flex justify-end gap-3 pt-4">
                                             <button
                                                 type="button"
                                                 onClick={() => setIsEditDialogOpen(false)}
-                                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded"
+                                                className="px-5 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
                                             >
                                                 Cancel
                                             </button>
 
                                             <button
                                                 type="submit"
-                                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                                className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
                                             >
-                                                Add Vacancy
+                                                Save Changes
                                             </button>
                                         </div>
                                     </form>
                                 </Dialog.Panel>
                             </div>
                         </Dialog>
+
+
                     )}
             </div >
         </>

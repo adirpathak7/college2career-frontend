@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../SideBar";
+import SideBar from "./SideBar";
 import { Outlet } from "react-router-dom";
 import { Sliders } from "lucide-react";
 import Cookies from 'js-cookie';
-import PageTitle from "../../PageTitle";
+import PageTitle from "../../../PageTitle";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -17,15 +17,6 @@ export default function Dashboard() {
         }
     }, [navigate]);
 
-    const createMeeting = async () => {
-        const res = await fetch("http://localhost:5000/api/meet/create-meeting");
-        const data = await res.json();
-
-        if (data.status) {
-            navigate(`/meet/${data.meetingId}`);
-        }
-    };
-
     return (
         <div className="h-screen flex bg-gray-100">
             <SideBar />
@@ -37,22 +28,10 @@ export default function Dashboard() {
 
                 {/* Main Content Area with Blue Card */}
                 <div className="flex-1 overflow-y-auto p-6">
-                    {/* <p className="text-gray-500 text-sm">
-                        Create an instant meeting and share the link
-                    </p>
-
-                    <button
-                        onClick={createMeeting}
-                        className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700
-                       text-white rounded-lg font-medium transition"
-                    >
-                        + Create Meeting
-                    </button> */}
-                    <div className="bg-blue-100">
+                    <div className="bg-blue-100 p-6 rounded-lg shadow-lg border border-blue-300">
                         {/* You can style the card content further if needed */}
                         <Outlet />
                     </div>
-
                 </div>
             </div>
         </div>

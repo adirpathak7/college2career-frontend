@@ -73,7 +73,8 @@ export default function Profile() {
     return (
         <>
             <PageTitle title="Profile" />
-            <div className="w-full min-h-screen bg-white text-gray-900 py-10 px-4 md:px-10">
+            <div className="min-h-screen bg-gray-50">
+                <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Profile</h1>
                 {apiError && (
                     <div className="mb-6 bg-red-100 text-red-600 border border-red-400 px-4 py-3 rounded-lg text-sm font-medium">
                         {apiError}

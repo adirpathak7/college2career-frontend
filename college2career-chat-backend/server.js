@@ -4,16 +4,19 @@ import { Server } from "socket.io";
 import cors from "cors";
 import mysql from "mysql2/promise";
 
+import videoSignaling from "./meet/videoSignaling.js"
+import meetRoutes from "./routes/meetRoutes.js"
+
 const app = express();
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        null
+        "http://10.241.80.208:5173",
     ],
     credentials: true,
 }));
-
 app.use(express.json());
+app.use("/api/meet", meetRoutes);
 
 const db = await mysql.createConnection({
     host: "localhost",
@@ -22,20 +25,26 @@ const db = await mysql.createConnection({
     database: "college2career",
 });
 
+
 // HTTP + SOCKET SERVER
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: "*",
+        origin: [
+            "http://localhost:5173",
+            "http://10.241.80.208:5173",
+        ],
         credentials: true,
-        methods: ["GET", "POST"]
-    }
+    },
+    transports: ["websocket"], // 🔥 IMPORTANT
 });
+const chatIO = io.of("/chat");
+const meetIO = io.of("/meet");
 
 // ----------------------------------------------------------------------
 // SOCKET.IO LOGIC
 // ----------------------------------------------------------------------
-io.on("connection", (socket) => {
+chatIO.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     // JOIN A GROUP
@@ -350,6 +359,8 @@ app.get("/api/searchUsers", async (req, res) => {
         return res.status(500).json({ status: false, message: "DB error" });
     }
 });
+
+videoSignaling(meetIO)
 
 httpServer.listen(5000, () => {
     console.log("Chat server running on port 5000");

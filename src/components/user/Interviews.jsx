@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import PageTitle from '../../PageTitle';
 import { useLoader } from '../../LoaderContext';
 import { Dialog } from '@headlessui/react';
-
+import { useNavigate } from 'react-router-dom';
 
 const TABS = ['All', 'Scheduled', 'Rescheduled', 'Completed', 'Cancelled'];
 
@@ -32,6 +32,8 @@ export default function Interviews() {
     });
 
     const token = Cookies.get('userToken');
+
+    const navigate = useNavigate()
 
     const fetchInterviews = async () => {
         setLoading(true);
@@ -72,6 +74,16 @@ export default function Interviews() {
             );
         }
     }, [activeTab, interviews]);
+
+
+    const createMeeting = async () => {
+        const res = await fetch("http://localhost:5000/api/meet/create-meeting");
+        const data = await res.json();
+
+        if (data.status) {
+            navigate(`/meet/${data.meetingId}`);
+        }
+    };
 
     const handleSubmit = async () => {
         const id = openDialog;
@@ -160,24 +172,50 @@ export default function Interviews() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
+        <div className="min-h-screen bg-gray-50">
             <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Scheduled Interviews</h1>
 
             <PageTitle title="Interviews" />
 
-            <div className="flex flex-wrap justify-center gap-3 mb-6">
-                {TABS.map(tab => (
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+                {/* Tabs */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                    {TABS.map(tab => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 
+                    ${activeTab === tab
+                                    ? 'bg-blue-600 text-white shadow-md'
+                                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-100'}`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Create Meeting */}
+                <div className="flex flex-col items-center md:items-end gap-1">
                     <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 
-                            ${activeTab === tab
-                                ? 'bg-blue-600 text-white shadow-md'
-                                : 'bg-white border border-gray-300 text-gray-700 hover:bg-blue-100'}`}
+                        target="_blank"
+                        title='Create an instant meeting.'
+                        onClick={createMeeting}
+                        className="
+                flex items-center gap-2
+                px-6 py-3
+                rounded-xl
+                bg-gradient-to-r from-indigo-600 to-blue-600
+                text-white font-semibold
+                shadow-lg
+                hover:from-indigo-700 hover:to-blue-700
+                hover:scale-105
+                transition-all duration-200
+            "
                     >
-                        {tab}
+                        Create Meeting
                     </button>
-                ))}
+                </div>
             </div>
 
             {apiError && (
@@ -187,7 +225,7 @@ export default function Interviews() {
                     {apiError}
                 </div>
             )}
-            
+
             {filteredInterviews.length === 0 ? (
                 <p className="text-center text-gray-500">No Interviews found.</p>
             ) : (

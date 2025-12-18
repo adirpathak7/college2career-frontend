@@ -198,7 +198,7 @@ export default function Applications() {
         : [];
 
     return (
-        <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+        <div className="bg-gray-50 min-h-screen">
 
             <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">Student Applications</h2>
             {/* Tabs */}

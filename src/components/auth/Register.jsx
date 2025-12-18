@@ -126,7 +126,10 @@ export default function Register() {
     return (
         <>
             <PageTitle title="Register" />
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4 mt-10">
+            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-600 via-sky-500 to-blue-700 text-gray-800 px-4 mt-10"
+            style={{ 
+                    backgroundImage: "url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1470&q=80')" 
+                }}>
                 <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-blue-100">
                     {apiResponse.message && (
                         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">

@@ -10,7 +10,7 @@ const PasswordInput = ({ value, onChange, error, label, name, ref }) => {
 
     return (
         <div className="mb-4 relative">
-            <label className="block text-sm font-medium text-blue-700 mb-1">
+            <label className="block text-sm font-medium text-blue-800 mb-1">
                 {label} <span className="text-red-600">*</span>
             </label>
             <input
